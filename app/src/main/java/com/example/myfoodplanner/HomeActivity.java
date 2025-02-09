@@ -77,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                     MealCategoryResponse result = response.body();
                     int sizeOfData = result.getCategories().size();
                     //productsList = result.getProducts();
+                    //comment
                     //Toast.makeText(HomeActivity.this,"I received "+sizeOfData + "meal category", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onSuccess: " + result.getCategories());
                 }else{
