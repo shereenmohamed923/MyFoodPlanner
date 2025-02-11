@@ -1,74 +1,61 @@
-package com.example.myfoodplanner.Registeration;
+package com.example.myfoodplanner;
 
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.example.myfoodplanner.HomeActivity;
-import com.example.myfoodplanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class SignUpActivity extends AppCompatActivity {
-    private static final String TAG = "SignUpActivity";
+public class SignupFragment extends Fragment {
+    private static final String TAG = "SignUpFragment";
     EditText name;
     EditText email;
     EditText password;
     EditText confirmPassword;
     Button signupBtn;
-    Button loginBtn;
     FirebaseAuth mAuth;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
-            //reload();
-        }
+    public SignupFragment() {
+        // Required empty public constructor
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_sign_up);
-        name = findViewById(R.id.et_name);
-        email = findViewById(R.id.et_email);
-        password = findViewById(R.id.et_password);
-        confirmPassword = findViewById(R.id.et_confirm_password);
-        signupBtn = findViewById(R.id.btn_signup);
-        loginBtn = findViewById(R.id.btn_skip_signup);
-        mAuth = FirebaseAuth.getInstance();
+    }
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_signup, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        name = view.findViewById(R.id.et_name);
+        email = view.findViewById(R.id.et_email);
+        password = view.findViewById(R.id.et_password);
+        confirmPassword = view.findViewById(R.id.et_confirm_password);
+        signupBtn = view.findViewById(R.id.btn_signup);
+        mAuth = FirebaseAuth.getInstance();
 
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,24 +67,24 @@ public class SignUpActivity extends AppCompatActivity {
                 confirmPasswordInput = confirmPassword.getText().toString();
 
                 if(TextUtils.isEmpty(nameInput)){
-                    Toast.makeText(SignUpActivity.this, "Enter Name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Enter Name", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(TextUtils.isEmpty(emailInput)){
-                    Toast.makeText(SignUpActivity.this, "Enter Email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Enter Email", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(TextUtils.isEmpty(passwordInput)){
-                    Toast.makeText(SignUpActivity.this, "Enter Password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Enter Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(TextUtils.isEmpty(confirmPasswordInput)){
-                    Toast.makeText(SignUpActivity.this, "Confirm Password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Confirm Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(!passwordInput.equals(confirmPasswordInput)){
-                    Toast.makeText(SignUpActivity.this, "Your passwords didn't match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Your passwords didn't match", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mAuth.createUserWithEmailAndPassword(emailInput, passwordInput)
@@ -107,17 +94,15 @@ public class SignUpActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.i(TAG, "createUserWithEmail:success");
-                                    Toast.makeText(SignUpActivity.this, "Authentication success.",
+                                    Toast.makeText(getContext(), "Authentication success.",
                                             Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_homeFragment);
                                     //FirebaseUser user = mAuth.getCurrentUser();
                                     //updateUI(user);
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.i(TAG, "createUserWithEmail:failure");
-                                    Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                    Toast.makeText(getContext(), "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
                                     //updateUI(null);
                                 }
@@ -126,4 +111,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-    }}
+
+    }
+}

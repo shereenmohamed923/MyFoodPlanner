@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -48,4 +49,6 @@ dependencies {
     implementation(libs.firebase.auth.v2310)
     implementation(libs.play.services.auth)
     implementation(libs.google.services)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
 }

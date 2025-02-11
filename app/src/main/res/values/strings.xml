@@ -10,4 +10,10 @@
     <string name="btn_logout">Logout</string>
     <string name="btn_google_login">Continue Using Google</string>
     <string name="tv_name">Name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="do_not_have_account">Don\'t have an account?</string>
+    <string name="or">Or</string>
+    <string name="guest_continue">Countinue as a guest</string>
+    <string name="registeration">Registeration</string>
 </resources>
