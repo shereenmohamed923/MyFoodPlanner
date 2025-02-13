@@ -51,4 +51,5 @@ dependencies {
     implementation(libs.google.services)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.circleimageview)
 }

@@ -12,12 +12,5 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//                        startActivity(intent);
-//            }
-//        }, 3000);
     }
 }

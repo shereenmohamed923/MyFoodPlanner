@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Custom Elevated Button with Rounded Corners -->
+    <style name="Widget.Custom.ElevatedButton.Primary" parent="Widget.Material3.Button.ElevatedButton">
+        <item name="android:padding">8dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Widget.Button.Colored</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Custom.RoundedButton</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="rippleColor">@color/colorPrimaryVariant</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Shape for Rectangular Button with Rounded Corners -->
+    <style name="ShapeAppearance.Custom.RoundedButton" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">15dp</item>  <!-- Adjust the corner size as needed -->
+    </style>
+
+    <style name="Widget.App.EditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:background">@drawable/edit_text_style</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">12dp</item>
+        <item name="hintTextColor">@color/colorSecondaryVariant</item>
+        <item name="android:textColorHint">@color/colorSecondaryVariant</item>
+    </style>
+
+</resources>

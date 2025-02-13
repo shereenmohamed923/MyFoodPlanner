@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -49,7 +51,6 @@ public class MealCategoriesListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         fetchProducts();
         recyclerView = view.findViewById(R.id.rv_meal_categories);
-
     }
 
     private void fetchProducts(){
@@ -57,8 +58,8 @@ public class MealCategoriesListFragment extends Fragment {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        MealCategoryService mealCategoryService = retrofit.create(MealCategoryService.class);
-        Call<MealCategoryResponse> call = mealCategoryService.getMealsCategories();
+        MealService mealService = retrofit.create(MealService.class);
+        Call<MealCategoryResponse> call = mealService.getMealsCategories();
         call.enqueue(new Callback<MealCategoryResponse>() {
             @Override
             public void onResponse(Call<MealCategoryResponse> call, Response<MealCategoryResponse> response) {

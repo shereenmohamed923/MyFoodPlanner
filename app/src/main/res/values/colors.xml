@@ -2,4 +2,29 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#732C03</color>
+    <color name="colorPrimaryVariant">#5A2202</color> <!-- A slightly darker shade of primary -->
+    <color name="colorOnPrimary">#FFFFFF</color> <!-- Text/icon color on primary background -->
+
+    <!-- Secondary Color -->
+    <color name="colorSecondary">#FF7C71</color>
+    <color name="colorSecondaryVariant">#E56A60</color> <!-- A slightly darker shade of secondary -->
+    <color name="colorOnSecondary">#FFFFFF</color>
+
+    <!-- Tertiary Color -->
+    <color name="colorTertiary">#FFB337</color>
+    <color name="colorOnTertiary">#000000</color> <!-- Text/icon color on tertiary background -->
+
+    <!-- Background Color -->
+    <color name="colorBackground">#FCD6AE</color>
+    <color name="colorOnBackground">#000000</color> <!-- Text/icon color on background -->
+
+    <!-- Additional Colors -->
+    <color name="colorSurface">#FFFFFF</color> <!-- Default surface color for cards, dialogs, etc. -->
+    <color name="colorOnSurface">#000000</color> <!-- Text/icon color on surface -->
+
+    <!-- Error Color -->
+    <color name="colorError">#B00020</color>
+    <color name="colorOnError">#FFFFFF</color>
 </resources>

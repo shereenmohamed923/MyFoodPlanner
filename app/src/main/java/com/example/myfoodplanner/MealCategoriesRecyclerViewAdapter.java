@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +20,7 @@ import java.util.List;
 public class MealCategoriesRecyclerViewAdapter extends RecyclerView.Adapter<MealCategoriesRecyclerViewHolder> {
     Context context;
     List<MealCategory> mealCategories;
+    CardView card;
 
     public MealCategoriesRecyclerViewAdapter(Context context, List<MealCategory> mealCategories) {
         this.context = context;
@@ -46,6 +48,14 @@ public class MealCategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Meal
                 .into(holder.thumbnail);
 
         //event handling
+        holder.mealCategoryCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment3 action
+                        = HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment3(mealCategories.get(holder.getAdapterPosition()).getIdCategory());
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
 
     }
 

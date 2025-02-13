@@ -4,73 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgroundimg"
     tools:context=".WelcomeFragment">
 
     <Button
         android:id="@+id/btn_welcome_login"
-        android:layout_width="380dp"
+        style="@style/Widget.Custom.ElevatedButton.Primary"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/colorSecondary"
+        android:fontFamily="@font/poppins_light"
         android:text="@string/btn_login"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_continue_google"
-        android:layout_width="380dp"
+        style="@style/Widget.Custom.ElevatedButton.Primary"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/colorPrimary"
         android:text="@string/btn_google_login"
-        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_continue_guest"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="120dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/poppins_bold"
         android:text="@string/do_not_have_account"
+        android:textColor="@color/colorOnSurface"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btn_welcome_login"
-        app:layout_constraintTop_toBottomOf="@+id/btn_welcome_login" />
+        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintEnd_toEndOf="@+id/btn_welcome_login" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:fontFamily="@font/poppins_bold"
         android:text="@string/or"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_continue_google"
         app:layout_constraintEnd_toEndOf="@+id/btn_welcome_register"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/textView" />
 
     <Button
         android:id="@+id/btn_continue_guest"
-        android:layout_width="380dp"
+        style="@style/Widget.Custom.ElevatedButton.Primary"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="220dp"
+        android:backgroundTint="@color/colorPrimary"
         android:text="@string/guest_continue"
-        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_continue_google" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_welcome_register"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:padding="8dp"
         android:text="@string/registeration"
-        android:textColor="#009688"
+        android:textColor="#6F7ABD"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@+id/btn_welcome_login"
         app:layout_constraintStart_toEndOf="@+id/textView"

@@ -16,4 +16,13 @@
     <string name="or">Or</string>
     <string name="guest_continue">Countinue as a guest</string>
     <string name="registeration">Registeration</string>
+    <string name="category">Category</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="country">Country</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter Your Password</string>
+    <string name="enter_pass">Enter your password</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="confirm_pass">Confirm your password</string>
 </resources>
