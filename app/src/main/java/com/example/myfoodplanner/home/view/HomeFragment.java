@@ -18,10 +18,12 @@ import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.home.presenter.HomePresenter;
 import com.example.myfoodplanner.home.presenter.HomePresenterImpl;
-import com.example.myfoodplanner.model.Category;
+import com.example.myfoodplanner.model.category.Category;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
+import com.example.myfoodplanner.model.ingredient.Ingredient;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -33,7 +35,9 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
     FirebaseAuth mAuth;
 //    FirebaseUser user;
     RecyclerView categoriesRecyclerView;
-    CategoriesRecyclerViewAdapter adapter;
+    RecyclerView ingredientsRecyclerView;
+    CategoriesAdapter categoriesAdapter;
+    IngredientsAdapter ingredientsAdapter;
     HomePresenter presenter;
 
     public HomeFragment() {
@@ -57,10 +61,13 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeUI(view);
-        adapter = new CategoriesRecyclerViewAdapter(view.getContext(), this);
-        categoriesRecyclerView.setAdapter(adapter);
+        categoriesAdapter = new CategoriesAdapter(view.getContext(), this);
+        ingredientsAdapter = new IngredientsAdapter(view.getContext(), this);
+        categoriesRecyclerView.setAdapter(categoriesAdapter);
+        ingredientsRecyclerView.setAdapter(ingredientsAdapter);
         setupPresenter();
         presenter.getCategories();
+        presenter.getIngredients();
         //will be moved from here
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,11 +90,14 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
         logoutBtn = view.findViewById(R.id.btn_logout);
         filterBtn = view.findViewById(R.id.btn_filter);
         categoriesRecyclerView = view.findViewById(R.id.rv_meal_categories);
+        ingredientsRecyclerView = view.findViewById(R.id.rv_ingredients);
     }
     public void setupPresenter(){
         Repository repository = RepositoryImpl.getInstance(
                 CategoriesRemoteDataSourceImpl.getInstance(),
-                AuthServiceImpl.getInstance());
+                AuthServiceImpl.getInstance(),
+                IngredientsRemoteDataSourceImpl.getInstance()
+                );
         presenter = new HomePresenterImpl(this, repository);
     }
 
@@ -97,10 +107,22 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
     }
 
     @Override
+    public void onIngredientClick(Ingredient ingredient) {
+        //pass the name to get ingredients meals
+    }
+
+    @Override
     public void showCategoriesList(List<Category> categories) {
         Log.i(TAG, "onSuccess: categories list Received " + categories.size());
-        adapter.setCategoriesList(categories);
-        adapter.notifyDataSetChanged();
+        categoriesAdapter.setCategoriesList(categories);
+        categoriesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showIngredientsList(List<Ingredient> ingredients) {
+        Log.i(TAG, "onSuccess: ingredients list Received " + ingredients.get(0).getStrIngredient());
+        ingredientsAdapter.setIngredientsList(ingredients);
+        ingredientsAdapter.notifyDataSetChanged();
     }
 
     @Override

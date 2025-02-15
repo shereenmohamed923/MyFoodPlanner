@@ -1,7 +1,9 @@
 package com.example.myfoodplanner.network;
 
-import com.example.myfoodplanner.model.CategoryResponse;
-import com.example.myfoodplanner.model.MealDetailsResponse;
+import com.example.myfoodplanner.model.category.CategoryResponse;
+import com.example.myfoodplanner.model.ingredient.Ingredient;
+import com.example.myfoodplanner.model.ingredient.IngredientResponse;
+import com.example.myfoodplanner.model.mealdetails.MealDetailsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,4 +18,6 @@ public interface MealService {
 
     @GET("filter.php")// idMeal - strMeal - strMealThumb (based on category)
     Call<MealDetailsResponse> getMealsByCategory(@Query("c") String category);
+    @GET("list.php?i=list") // idIngredient - strIngredient
+    Call<IngredientResponse> getIngredient();
 }

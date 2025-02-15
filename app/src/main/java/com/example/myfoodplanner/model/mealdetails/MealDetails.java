@@ -1,4 +1,4 @@
-package com.example.myfoodplanner.model;
+package com.example.myfoodplanner.model.mealdetails;
 
 public class MealDetails {
     String idMeal;  //id

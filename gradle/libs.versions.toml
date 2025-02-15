@@ -19,6 +19,7 @@ navigationFragment = "2.8.6"
 navigationSafeArgsGradlePlugin = "2.8.6"
 navigationUi = "2.8.6"
 playServicesAuth = "21.3.0"
+legacySupportV4 = "1.0.0"
 
 [libraries]
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
@@ -41,6 +42,7 @@ navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-
 navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigationUi" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "converterGson" }
+legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

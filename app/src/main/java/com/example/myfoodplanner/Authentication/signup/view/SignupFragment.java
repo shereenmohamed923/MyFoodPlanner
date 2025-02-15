@@ -23,6 +23,7 @@ import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupFragment extends Fragment implements SignupView {
@@ -103,7 +104,8 @@ public class SignupFragment extends Fragment implements SignupView {
     public void setupPresenter(){
         Repository repository = RepositoryImpl.getInstance(
                 CategoriesRemoteDataSourceImpl.getInstance(),
-                AuthServiceImpl.getInstance()
+                AuthServiceImpl.getInstance(),
+                IngredientsRemoteDataSourceImpl.getInstance()
         );
         presenter = new SignupPresenterImpl(this, repository);
     }

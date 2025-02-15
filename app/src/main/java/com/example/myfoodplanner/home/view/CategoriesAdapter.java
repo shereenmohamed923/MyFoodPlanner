@@ -13,38 +13,38 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myfoodplanner.R;
-import com.example.myfoodplanner.model.Category;
+import com.example.myfoodplanner.model.category.Category;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewHolder> {
+public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesHolder> {
     Context context;
-    List<Category> Categories = new ArrayList<>();
+    List<Category> categories = new ArrayList<>();
     private OnMealClickListener listener;
-    public CategoriesRecyclerViewAdapter(Context context, OnMealClickListener listener) {
+    public CategoriesAdapter(Context context, OnMealClickListener listener) {
         this.context = context;
         this.listener = listener;
     }
 
    public void setCategoriesList(List<Category> categories){
-        this.Categories = categories;
+        this.categories = categories;
         notifyDataSetChanged();
    }
     @NonNull
     @Override
-    public CategoriesRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CategoriesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //layout inflater & create recycler view holder
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.meal_categories_item_list, parent, false);
-        CategoriesRecyclerViewHolder holder = new CategoriesRecyclerViewHolder(view);
+        CategoriesHolder holder = new CategoriesHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoriesRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoriesHolder holder, int position) {
         //populate data
-        Category category = Categories.get(position);
+        Category category = categories.get(position);
         holder.title.setText(category.getStrCategory());
         String url = category.getStrCategoryThumb();
         Glide.with(context).load(url)
@@ -67,16 +67,16 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
     @Override
     public int getItemCount() {
-        return Categories.size();
+        return categories.size();
     }
 }
-    class CategoriesRecyclerViewHolder extends RecyclerView.ViewHolder{
+    class CategoriesHolder extends RecyclerView.ViewHolder{
         View convertView;
         CardView mealCategoryCard;
         ImageView thumbnail;
         TextView title;
 
-     public CategoriesRecyclerViewHolder(@NonNull View itemView) {
+     public CategoriesHolder(@NonNull View itemView) {
          super(itemView);
          convertView = itemView;
          mealCategoryCard = itemView.findViewById(R.id.cv_meal_category_item);

@@ -1,4 +1,4 @@
-package com.example.myfoodplanner.model;
+package com.example.myfoodplanner.model.category;
 
 public class Category {
     private String idCategory;

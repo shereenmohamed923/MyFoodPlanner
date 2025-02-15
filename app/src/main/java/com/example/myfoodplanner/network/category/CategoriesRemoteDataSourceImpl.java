@@ -1,6 +1,6 @@
 package com.example.myfoodplanner.network.category;
 
-import com.example.myfoodplanner.model.CategoryResponse;
+import com.example.myfoodplanner.model.category.CategoryResponse;
 import com.example.myfoodplanner.network.MealService;
 
 import retrofit2.Call;
@@ -44,7 +44,7 @@ public class CategoriesRemoteDataSourceImpl implements CategoriesRemoteDataSourc
                 //the presenter will implement what happens onSuccess
                 if (response.isSuccessful() && response.body() != null) {
                     // Ensure response body is valid before accessing
-                    categoryNetworkCallBack.onSuccessfulResult(response.body().getCategories());
+                    categoryNetworkCallBack.onRetrievedCategory(response.body().getCategories());
                 } else {
                     categoryNetworkCallBack.onFailureResult("Response unsuccessful or empty");
                 }
