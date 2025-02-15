@@ -11,7 +11,7 @@
     <!-- Rounded Corners -->
     <corners android:radius="12dp" />
     <size android:height="50dp"
-        android:width="250dp"
+        android:width="220dp"
         />
 
     <!-- Padding -->

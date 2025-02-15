@@ -1,4 +1,4 @@
-package com.example.myfoodplanner;
+package com.example.myfoodplanner.Authentication.signup.view;
 
 import android.os.Bundle;
 
@@ -16,12 +16,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
+import com.example.myfoodplanner.Authentication.signup.presenter.SignupPresenter;
+import com.example.myfoodplanner.Authentication.signup.presenter.SignupPresenterImpl;
+import com.example.myfoodplanner.R;
+import com.example.myfoodplanner.model.Repository;
+import com.example.myfoodplanner.model.RepositoryImpl;
+import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignupFragment extends Fragment {
+public class SignupFragment extends Fragment implements SignupView {
     private static final String TAG = "SignUpFragment";
     EditText name;
     EditText email;
@@ -29,6 +33,7 @@ public class SignupFragment extends Fragment {
     EditText confirmPassword;
     Button signupBtn;
     FirebaseAuth mAuth;
+    SignupPresenter presenter;
 
     public SignupFragment() {
         // Required empty public constructor
@@ -49,14 +54,8 @@ public class SignupFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        name = view.findViewById(R.id.et_name);
-        email = view.findViewById(R.id.et_email);
-        password = view.findViewById(R.id.et_password);
-        confirmPassword = view.findViewById(R.id.et_confirm_password);
-        signupBtn = view.findViewById(R.id.btn_signup);
-        mAuth = FirebaseAuth.getInstance();
-
+        initializeUI(view);
+        setupPresenter();
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,30 +86,40 @@ public class SignupFragment extends Fragment {
                     Toast.makeText(getContext(), "Your passwords didn't match", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mAuth.createUserWithEmailAndPassword(emailInput, passwordInput)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.i(TAG, "createUserWithEmail:success");
-                                    Toast.makeText(getContext(), "Authentication success.",
-                                            Toast.LENGTH_SHORT).show();
-                                    Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_homeFragment);
-                                    //FirebaseUser user = mAuth.getCurrentUser();
-                                    //updateUI(user);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.i(TAG, "createUserWithEmail:failure");
-                                    Toast.makeText(getContext(), "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                    //updateUI(null);
-                                }
-                            }
-                        });
+                presenter.signup(emailInput, passwordInput);
             }
         });
 
 
+    }
+    public void initializeUI(View view){
+        mAuth = FirebaseAuth.getInstance();
+        name = view.findViewById(R.id.et_name);
+        email = view.findViewById(R.id.et_email);
+        password = view.findViewById(R.id.signupPassword);
+        confirmPassword = view.findViewById(R.id.confirmPassword);
+        signupBtn = view.findViewById(R.id.btn_signup);
+    }
+    public void setupPresenter(){
+        Repository repository = RepositoryImpl.getInstance(
+                CategoriesRemoteDataSourceImpl.getInstance(),
+                AuthServiceImpl.getInstance()
+        );
+        presenter = new SignupPresenterImpl(this, repository);
+    }
+
+    @Override
+    public void navigateToLogin() {
+        Log.i(TAG, "createUserWithEmail:success");
+        Toast.makeText(getContext(), "Authentication success.",
+                Toast.LENGTH_SHORT).show();
+        Navigation.findNavController(email).navigate(R.id.action_signupFragment_to_homeFragment);
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        Log.i(TAG, "createUserWithEmail:failure");
+        Toast.makeText(getContext(), msg,
+                Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.myfoodplanner;
+package com.example.myfoodplanner.Authentication.login.view;
 
 import android.os.Bundle;
 
@@ -16,18 +16,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.myfoodplanner.Authentication.login.presenter.LoginPresenter;
+import com.example.myfoodplanner.Authentication.login.presenter.LoginPresenterImpl;
+import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
+import com.example.myfoodplanner.R;
+import com.example.myfoodplanner.model.Repository;
+import com.example.myfoodplanner.model.RepositoryImpl;
+import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginView {
     private static final String TAG = "LoginFragment";
     EditText email;
     EditText password;
     Button loginBtn;
     FirebaseAuth mAuth;
+    LoginPresenter presenter;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -45,15 +50,11 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        email = view.findViewById(R.id.et_email_login);
-        password = view.findViewById(R.id.et_password_login);
-        loginBtn = view.findViewById(R.id.btn_login);
-        mAuth = FirebaseAuth.getInstance();
-
+        initializeUI(view);
+        setupPresenter();
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,30 +70,38 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getContext(), "Enter Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                presenter.login(emailInput, passwordInput);
 
-                mAuth.signInWithEmailAndPassword(emailInput, passwordInput)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.i(TAG, "signInWithEmail:success");
-                                    Toast.makeText(getContext(), "login success.",
-                                            Toast.LENGTH_SHORT).show();
-                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment2);
-                                    FirebaseUser user = mAuth.getCurrentUser();
-//                                    FirebaseUser user = mAuth.getCurrentUser();
-//                                    updateUI(user);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.i(TAG, "signInWithEmail:failure");
-                                    Toast.makeText(getContext(), "login failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                    //updateUI(null);
-                                }
-                            }
-                        });
             }
         });
+    }
+    private void initializeUI(View view){
+        mAuth = FirebaseAuth.getInstance();
+        email = view.findViewById(R.id.et_email_login);
+        password = view.findViewById(R.id.passwordLogin);
+        loginBtn = view.findViewById(R.id.btn_login);
+    }
+    public void setupPresenter(){
+        Repository repository = RepositoryImpl.getInstance(
+                CategoriesRemoteDataSourceImpl.getInstance(),
+                AuthServiceImpl.getInstance()
+        );
+        presenter = new LoginPresenterImpl(this, repository);
+    }
+
+    @Override
+    public void navigateToHome() {
+        Log.i(TAG, "signInWithEmail:success");
+        Toast.makeText(getContext(), "login success.",
+                Toast.LENGTH_SHORT).show();
+        Navigation.findNavController(email).navigate(R.id.action_loginFragment_to_homeFragment2);
+        FirebaseUser user = mAuth.getCurrentUser();
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        Log.i(TAG, "signInWithEmail:failure");
+        Toast.makeText(getContext(), msg,
+                Toast.LENGTH_SHORT).show();
     }
 }

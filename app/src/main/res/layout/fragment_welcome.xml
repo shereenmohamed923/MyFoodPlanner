@@ -65,7 +65,7 @@
         style="@style/Widget.Custom.ElevatedButton.Primary"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="130dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/guest_continue"
         app:layout_constraintBottom_toBottomOf="parent"

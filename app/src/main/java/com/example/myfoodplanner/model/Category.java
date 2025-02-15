@@ -1,12 +1,12 @@
-package com.example.myfoodplanner;
+package com.example.myfoodplanner.model;
 
-public class MealCategory {
+public class Category {
     private String idCategory;
     private String strCategory;
     private String strCategoryThumb;
     private String strCategoryDescription;
 
-    public MealCategory(String idCategory, String strCategory, String strCategoryThumb, String strCategoryDescription) {
+    public Category(String idCategory, String strCategory, String strCategoryThumb, String strCategoryDescription) {
         this.idCategory = idCategory;
         this.strCategory = strCategory;
         this.strCategoryThumb = strCategoryThumb;

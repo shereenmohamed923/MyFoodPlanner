@@ -1,4 +1,7 @@
-package com.example.myfoodplanner;
+package com.example.myfoodplanner.network;
+
+import com.example.myfoodplanner.model.CategoryResponse;
+import com.example.myfoodplanner.model.MealDetailsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -6,7 +9,7 @@ import retrofit2.http.Query;
 
 public interface MealService {
     @GET("categories.php")
-    Call<MealCategoryResponse> getMealsCategories();
+    Call<CategoryResponse> getMealsCategories();
 
     @GET("random.php") //recipe of the day
     Call<MealDetailsResponse> getRandomMeal();

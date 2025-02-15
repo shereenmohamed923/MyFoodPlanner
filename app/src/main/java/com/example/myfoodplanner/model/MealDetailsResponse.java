@@ -1,4 +1,4 @@
-package com.example.myfoodplanner;
+package com.example.myfoodplanner.model;
 
 import java.util.List;
 
