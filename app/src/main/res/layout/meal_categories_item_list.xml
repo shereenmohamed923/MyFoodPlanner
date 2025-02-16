@@ -12,8 +12,8 @@
         android:layout_height="200dp"
         android:layout_margin="8dp"
         android:layout_marginTop="108dp"
-        android:backgroundTint="#E6E6E6"
-        app:cardElevation="8dp"
+        android:backgroundTint="@color/colorBackground"
+        app:cardElevation="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

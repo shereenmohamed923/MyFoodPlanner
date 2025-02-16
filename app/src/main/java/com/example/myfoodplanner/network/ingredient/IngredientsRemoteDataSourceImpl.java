@@ -36,7 +36,7 @@ public class IngredientsRemoteDataSourceImpl implements IngredientsRemoteDataSou
             return;
         }
         //call and enqueue
-        Call<IngredientResponse> call = mealService.getIngredient();
+        Call<IngredientResponse> call = mealService.getIngredients();
         call.enqueue(new Callback<IngredientResponse>() {
             @Override
             public void onResponse(Call<IngredientResponse> call, Response<IngredientResponse> response) {

@@ -18,10 +18,12 @@ import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.home.presenter.HomePresenter;
 import com.example.myfoodplanner.home.presenter.HomePresenterImpl;
+import com.example.myfoodplanner.model.area.Area;
 import com.example.myfoodplanner.model.category.Category;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.model.ingredient.Ingredient;
+import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,8 +38,10 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
 //    FirebaseUser user;
     RecyclerView categoriesRecyclerView;
     RecyclerView ingredientsRecyclerView;
+    RecyclerView areasRecyclerView;
     CategoriesAdapter categoriesAdapter;
     IngredientsAdapter ingredientsAdapter;
+    AreasAdapter areasAdapter;
     HomePresenter presenter;
 
     public HomeFragment() {
@@ -63,11 +67,14 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
         initializeUI(view);
         categoriesAdapter = new CategoriesAdapter(view.getContext(), this);
         ingredientsAdapter = new IngredientsAdapter(view.getContext(), this);
+        areasAdapter = new AreasAdapter(view.getContext(), this);
         categoriesRecyclerView.setAdapter(categoriesAdapter);
         ingredientsRecyclerView.setAdapter(ingredientsAdapter);
+        areasRecyclerView.setAdapter(areasAdapter);
         setupPresenter();
         presenter.getCategories();
         presenter.getIngredients();
+        presenter.getAreas();
         //will be moved from here
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,12 +98,14 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
         filterBtn = view.findViewById(R.id.btn_filter);
         categoriesRecyclerView = view.findViewById(R.id.rv_meal_categories);
         ingredientsRecyclerView = view.findViewById(R.id.rv_ingredients);
+        areasRecyclerView = view.findViewById(R.id.rv_countries);
     }
     public void setupPresenter(){
         Repository repository = RepositoryImpl.getInstance(
                 CategoriesRemoteDataSourceImpl.getInstance(),
                 AuthServiceImpl.getInstance(),
-                IngredientsRemoteDataSourceImpl.getInstance()
+                IngredientsRemoteDataSourceImpl.getInstance(),
+                AreaRemoteDataSourceImpl.getInstance()
                 );
         presenter = new HomePresenterImpl(this, repository);
     }
@@ -112,6 +121,11 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
     }
 
     @Override
+    public void onAreaClick(Area area) {
+        //pass name to get all the meals in that area
+    }
+
+    @Override
     public void showCategoriesList(List<Category> categories) {
         Log.i(TAG, "onSuccess: categories list Received " + categories.size());
         categoriesAdapter.setCategoriesList(categories);
@@ -120,9 +134,16 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
 
     @Override
     public void showIngredientsList(List<Ingredient> ingredients) {
-        Log.i(TAG, "onSuccess: ingredients list Received " + ingredients.get(0).getStrIngredient());
+        Log.i(TAG, "onSuccess: ingredients list Received " + ingredients.size());
         ingredientsAdapter.setIngredientsList(ingredients);
         ingredientsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showAreasList(List<Area> areas) {
+        Log.i(TAG, "onSuccess: areas list Received " + areas.size());
+        areasAdapter.setAreasList(areas);
+        areasAdapter.notifyDataSetChanged();
     }
 
     @Override
