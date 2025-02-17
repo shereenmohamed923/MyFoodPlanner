@@ -4,4 +4,5 @@ public interface HomePresenter {
     void getCategories();
     void getIngredients();
     void getAreas();
+    void getMealDetails();
 }

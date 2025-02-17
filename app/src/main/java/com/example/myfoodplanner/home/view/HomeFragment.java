@@ -12,8 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.home.presenter.HomePresenter;
@@ -23,19 +26,22 @@ import com.example.myfoodplanner.model.category.Category;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.model.ingredient.Ingredient;
+import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSource;
+import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OnMealClickListener, HomeView {
     private static final String TAG = "HomeFragment";
-    Button logoutBtn;
-    Button filterBtn;
     FirebaseAuth mAuth;
 //    FirebaseUser user;
+    TextView tv_meal_name;
+    ImageView iv_meal_image;
     RecyclerView categoriesRecyclerView;
     RecyclerView ingredientsRecyclerView;
     RecyclerView areasRecyclerView;
@@ -75,14 +81,7 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
         presenter.getCategories();
         presenter.getIngredients();
         presenter.getAreas();
-        //will be moved from here
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                requireActivity().finishAffinity();
-            }
-        });
+        presenter.getMealDetails();
 
 //        filterBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -94,18 +93,19 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
     }
     private void initializeUI(View view){
         mAuth = FirebaseAuth.getInstance();
-        logoutBtn = view.findViewById(R.id.btn_logout);
-        filterBtn = view.findViewById(R.id.btn_filter);
         categoriesRecyclerView = view.findViewById(R.id.rv_meal_categories);
         ingredientsRecyclerView = view.findViewById(R.id.rv_ingredients);
         areasRecyclerView = view.findViewById(R.id.rv_countries);
+        tv_meal_name = view.findViewById(R.id.tv_meal_name);
+        iv_meal_image = view.findViewById(R.id.iv_details_img);
     }
     public void setupPresenter(){
         Repository repository = RepositoryImpl.getInstance(
                 CategoriesRemoteDataSourceImpl.getInstance(),
                 AuthServiceImpl.getInstance(),
                 IngredientsRemoteDataSourceImpl.getInstance(),
-                AreaRemoteDataSourceImpl.getInstance()
+                AreaRemoteDataSourceImpl.getInstance(),
+                DetailsRemoteDataSourceImpl.getInstance()
                 );
         presenter = new HomePresenterImpl(this, repository);
     }
@@ -123,6 +123,11 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
     @Override
     public void onAreaClick(Area area) {
         //pass name to get all the meals in that area
+    }
+
+    @Override
+    public void onMealClick(MealDetails meal) {
+        //pass meal id to get meal details or pass object to the next fragment
     }
 
     @Override
@@ -144,6 +149,16 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
         Log.i(TAG, "onSuccess: areas list Received " + areas.size());
         areasAdapter.setAreasList(areas);
         areasAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showMealDetails(List<MealDetails> mealDetails) {
+        String mealName = mealDetails.get(0).getStrMeal();
+        String mealImg = mealDetails.get(0).getStrMealThumb();
+        tv_meal_name.setText(mealName);
+        Glide.with(getContext()).load(mealImg)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .into(iv_meal_image);
     }
 
     @Override

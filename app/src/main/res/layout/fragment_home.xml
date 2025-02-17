@@ -7,22 +7,10 @@
     android:background="@color/colorBackground"
     tools:context=".home.view.HomeFragment">
 
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_logout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_meal_categories"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,20 +20,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.23" />
 
-    <Button
-        android:id="@+id/btn_filter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="filter"
-        app:layout_constraintStart_toStartOf="@+id/btn_logout"
-        app:layout_constraintTop_toBottomOf="@+id/btn_logout" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ingredients"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,12 +34,45 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_countries"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_ingredients" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/colorBackground"
+        android:outlineAmbientShadowColor="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/rv_meal_categories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_details_img"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <TextView
+            android:id="@+id/tv_meal_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:layout_margin="70dp"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/colorPrimary"
+            android:textSize="34sp" />
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

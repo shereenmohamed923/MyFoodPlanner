@@ -12,7 +12,6 @@ public class MealDetailsResponse {
     public List<MealDetails> getMeals() {
         return meals;
     }
-
     public void setMeals(List<MealDetails> meals) {
         this.meals = meals;
     }

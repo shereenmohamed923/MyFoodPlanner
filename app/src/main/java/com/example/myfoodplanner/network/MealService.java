@@ -18,9 +18,6 @@ public interface MealService {
     Call<IngredientResponse> getIngredients();
     @GET("list.php?a=list") // strArea
     Call<AreaResponse> getAreas();
-
-
-
     @GET("filter.php")// idMeal - strMeal - strMealThumb (based on category)
     Call<MealDetailsResponse> getMealsByCategory(@Query("c") String category);
 

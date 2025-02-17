@@ -47,11 +47,6 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_homeFragment_to_mealDetailsFragment3"
             app:destination="@id/mealDetailsFragment" />
     </fragment>
@@ -81,6 +76,15 @@
         <argument
             android:name="meal_id"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myfoodplanner.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
 
 </navigation>

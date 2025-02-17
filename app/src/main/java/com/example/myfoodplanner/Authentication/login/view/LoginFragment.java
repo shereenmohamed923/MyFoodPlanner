@@ -25,6 +25,7 @@ import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -88,7 +89,8 @@ public class LoginFragment extends Fragment implements LoginView {
                 CategoriesRemoteDataSourceImpl.getInstance(),
                 AuthServiceImpl.getInstance(),
                 IngredientsRemoteDataSourceImpl.getInstance(),
-                AreaRemoteDataSourceImpl.getInstance()
+                AreaRemoteDataSourceImpl.getInstance(),
+                DetailsRemoteDataSourceImpl.getInstance()
         );
         presenter = new LoginPresenterImpl(this, repository);
     }

@@ -8,36 +8,43 @@ import com.example.myfoodplanner.network.category.CategoriesRemoteDataSource;
 import com.example.myfoodplanner.network.category.CategoryNetworkCallBack;
 import com.example.myfoodplanner.network.ingredient.IngredientNetworkCallBack;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSource;
+import com.example.myfoodplanner.network.mealdetails.DetailsNetworkCallBack;
+import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSource;
 
 public class RepositoryImpl implements Repository {
     CategoriesRemoteDataSource categoriesRemoteDataSource;
     AuthService authService;
     IngredientsRemoteDataSource ingredientsRemoteDataSource;
     AreaRemoteDataSource areasRemoteDataSource;
+    DetailsRemoteDataSource detailsRemoteDataSource;
     private static RepositoryImpl repo = null;
     private RepositoryImpl(
             CategoriesRemoteDataSource categoriesRemoteDataSource,
             AuthService authService,
             IngredientsRemoteDataSource ingredientsRemoteDataSource,
-            AreaRemoteDataSource areasRemoteDataSource
+            AreaRemoteDataSource areasRemoteDataSource,
+            DetailsRemoteDataSource detailsRemoteDataSource
     ) {
         this.categoriesRemoteDataSource = categoriesRemoteDataSource;
         this.authService = authService;
         this.ingredientsRemoteDataSource = ingredientsRemoteDataSource;
         this.areasRemoteDataSource = areasRemoteDataSource;
+        this.detailsRemoteDataSource = detailsRemoteDataSource;
     }
     public static RepositoryImpl getInstance(
             CategoriesRemoteDataSource categoriesRemoteDataSource,
             AuthService authService,
             IngredientsRemoteDataSource ingredientsRemoteDataSource,
-            AreaRemoteDataSource areaRemoteDataSource
+            AreaRemoteDataSource areaRemoteDataSource,
+            DetailsRemoteDataSource detailsRemoteDataSource
     ){
         if(repo == null){
             repo = new RepositoryImpl(
                     categoriesRemoteDataSource,
                     authService,
                     ingredientsRemoteDataSource,
-                    areaRemoteDataSource
+                    areaRemoteDataSource,
+                    detailsRemoteDataSource
             );
         }
         return repo;
@@ -53,6 +60,11 @@ public class RepositoryImpl implements Repository {
 
     public void getAreas(AreaNetworkCallBack areaNetworkCallBack){
         areasRemoteDataSource.makeNetworkCall(areaNetworkCallBack);
+    }
+
+    @Override
+    public void getMealDetails(DetailsNetworkCallBack detailsNetworkCallBack) {
+        detailsRemoteDataSource.makeNetworkCall(detailsNetworkCallBack);
     }
 
     @Override
