@@ -24,6 +24,9 @@ import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.CategoryFilterRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +54,7 @@ public class LoginFragment extends Fragment implements LoginView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_login1, container, false);
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -90,7 +93,10 @@ public class LoginFragment extends Fragment implements LoginView {
                 AuthServiceImpl.getInstance(),
                 IngredientsRemoteDataSourceImpl.getInstance(),
                 AreaRemoteDataSourceImpl.getInstance(),
-                DetailsRemoteDataSourceImpl.getInstance()
+                DetailsRemoteDataSourceImpl.getInstance(),
+                CategoryFilterRemoteDataSourceImpl.getInstance(),
+                IngredientFilterRemoteDataSourceImpl.getInstance(),
+                AreaFilterRemoteDataSourceImpl.getInstance()
         );
         presenter = new LoginPresenterImpl(this, repository);
     }
@@ -100,7 +106,7 @@ public class LoginFragment extends Fragment implements LoginView {
         Log.i(TAG, "signInWithEmail:success");
         Toast.makeText(getContext(), "login success.",
                 Toast.LENGTH_SHORT).show();
-        Navigation.findNavController(email).navigate(R.id.action_loginFragment_to_homeFragment2);
+        Navigation.findNavController(email).navigate(R.id.action_loginFragment_to_homeFragment);
         FirebaseUser user = mAuth.getCurrentUser();
     }
 

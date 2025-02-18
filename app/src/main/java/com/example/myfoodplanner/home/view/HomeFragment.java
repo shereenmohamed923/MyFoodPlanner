@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,12 +24,15 @@ import com.example.myfoodplanner.model.area.Area;
 import com.example.myfoodplanner.model.category.Category;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
+import com.example.myfoodplanner.model.filter.Filter;
 import com.example.myfoodplanner.model.ingredient.Ingredient;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.CategoryFilterRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
-import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSource;
 import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -105,24 +107,30 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
                 AuthServiceImpl.getInstance(),
                 IngredientsRemoteDataSourceImpl.getInstance(),
                 AreaRemoteDataSourceImpl.getInstance(),
-                DetailsRemoteDataSourceImpl.getInstance()
+                DetailsRemoteDataSourceImpl.getInstance(),
+                CategoryFilterRemoteDataSourceImpl.getInstance(),
+                IngredientFilterRemoteDataSourceImpl.getInstance(),
+                AreaFilterRemoteDataSourceImpl.getInstance()
                 );
         presenter = new HomePresenterImpl(this, repository);
     }
 
     @Override
     public void onCategoryClick(Category category) {
-        //pass the id to get category meals
+        presenter.getMealsByCategory(category.getStrCategory());
+        Log.i(TAG, "onCategoryClick: "+ category.getStrCategory());
     }
 
     @Override
     public void onIngredientClick(Ingredient ingredient) {
-        //pass the name to get ingredients meals
+        presenter.getMealsByIngredient(ingredient.getStrIngredient());
+        Log.i(TAG, "onIngredientClick: "+ ingredient.getStrIngredient());
     }
 
     @Override
     public void onAreaClick(Area area) {
-        //pass name to get all the meals in that area
+        Log.i(TAG, "onAreaClick: "+ area.getStrArea());
+        presenter.getMealsByArea(area.getStrArea());
     }
 
     @Override
@@ -159,6 +167,12 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
         Glide.with(getContext()).load(mealImg)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(iv_meal_image);
+    }
+
+    @Override
+    public void showFilteredList(List<Filter> filteredMeals) {
+        Log.i(TAG, "showFilteredList: "+filteredMeals.size());
+        Log.i(TAG, "showFilteredList: " + filteredMeals.get(0).getStrMeal());
     }
 
     @Override

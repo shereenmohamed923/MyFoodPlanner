@@ -2,11 +2,8 @@ package com.example.myfoodplanner.network.mealdetails;
 
 import android.util.Log;
 
-import com.example.myfoodplanner.model.ingredient.IngredientResponse;
 import com.example.myfoodplanner.model.mealdetails.MealDetailsResponse;
 import com.example.myfoodplanner.network.MealService;
-import com.example.myfoodplanner.network.ingredient.IngredientNetworkCallBack;
-import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
 
 import retrofit2.Call;
 import retrofit2.Callback;

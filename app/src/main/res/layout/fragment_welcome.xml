@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundimg"
+    android:background="@color/colorBackground"
     tools:context=".WelcomeFragment">
 
     <Button
@@ -13,7 +13,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/colorSecondary"
+        android:backgroundTint="@color/colorPrimary"
         android:fontFamily="@font/poppins_light"
         android:text="@string/btn_login"
         app:layout_constraintBottom_toTopOf="@+id/textView"
@@ -26,7 +26,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorSecondary"
         android:text="@string/btn_google_login"
         app:layout_constraintBottom_toTopOf="@+id/btn_continue_guest"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,16 +4,18 @@ import com.example.myfoodplanner.home.view.HomeView;
 import com.example.myfoodplanner.model.area.Area;
 import com.example.myfoodplanner.model.category.Category;
 import com.example.myfoodplanner.model.Repository;
+import com.example.myfoodplanner.model.filter.Filter;
 import com.example.myfoodplanner.model.ingredient.Ingredient;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaNetworkCallBack;
 import com.example.myfoodplanner.network.category.CategoryNetworkCallBack;
+import com.example.myfoodplanner.network.filter.FilterNetworkCallBack;
 import com.example.myfoodplanner.network.ingredient.IngredientNetworkCallBack;
 import com.example.myfoodplanner.network.mealdetails.DetailsNetworkCallBack;
 
 import java.util.List;
 
-public class HomePresenterImpl implements HomePresenter, CategoryNetworkCallBack, IngredientNetworkCallBack, AreaNetworkCallBack, DetailsNetworkCallBack {
+public class HomePresenterImpl implements HomePresenter, CategoryNetworkCallBack, IngredientNetworkCallBack, AreaNetworkCallBack, DetailsNetworkCallBack, FilterNetworkCallBack {
    private HomeView view;
    private Repository repo;
    public HomePresenterImpl(HomeView view, Repository repo){
@@ -41,6 +43,20 @@ public class HomePresenterImpl implements HomePresenter, CategoryNetworkCallBack
     }
 
     @Override
+    public void getMealsByCategory(String category) {
+        repo.getMealsByCategory(this, category);
+    }
+
+    @Override
+    public void getMealsByIngredient(String ingredient) {
+        repo.getMealsByIngredient(this, ingredient);
+    }
+
+    @Override
+    public void getMealsByArea(String area) {
+        repo.getMealsByArea(this, area);
+    }
+    @Override
     public void onRetrievedCategory(List<Category> categories) {
         view.showCategoriesList(categories);
     }
@@ -58,6 +74,11 @@ public class HomePresenterImpl implements HomePresenter, CategoryNetworkCallBack
     @Override
     public void onRetrievedDetails(List<MealDetails> mealDetails) {
         view.showMealDetails(mealDetails);
+    }
+
+    @Override
+    public void onRetrievedFilter(List<Filter> filters) {
+        view.showFilteredList(filters);
     }
 
     @Override

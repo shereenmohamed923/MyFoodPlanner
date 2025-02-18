@@ -1,4 +1,4 @@
-package com.example.myfoodplanner.model.categoryfilter;
+package com.example.myfoodplanner.model.filter;
 
 public class Filter {
     private String idMeal;

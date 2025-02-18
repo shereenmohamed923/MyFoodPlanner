@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.model.area.Area;
 
@@ -81,10 +80,6 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasHolder> {
         Area area = areas.get(position);
         holder.title.setText(area.getStrArea());
         holder.thumbnail.setImageResource(thumbnails.get(position));
-//        String url = "https://www.themealdb.com/images/media/meals/ssrrrs1503664277.jpg";
-//        Glide.with(context).load(url)
-//                .placeholder(R.drawable.ic_launcher_foreground)
-//                .into(holder.thumbnail);
 
         holder.mealCategoryCard.setOnClickListener(new View.OnClickListener() {
             @Override

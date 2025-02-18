@@ -5,4 +5,7 @@ public interface HomePresenter {
     void getIngredients();
     void getAreas();
     void getMealDetails();
+    void getMealsByCategory(String category);
+    void getMealsByIngredient(String ingredient);
+    void getMealsByArea(String area);
 }

@@ -45,7 +45,7 @@ public class AreaRemoteDataSourceImpl implements AreaRemoteDataSource {
                 //the presenter will implement what happens onSuccess
                 if (response.isSuccessful() && response.body() != null) {
                     // Ensure response body is valid before accessing
-                    Log.d("tag", "onResponse: "+response.body().getAreas().size());
+                    Log.d("tag", "onResponsea area: "+response.body().getAreas().size());
                     areaNetworkCallBack.onRetrievedArea(response.body().getAreas());
                 } else {
                     areaNetworkCallBack.onFailureResult("Response unsuccessful or empty");

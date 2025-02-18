@@ -2,6 +2,7 @@ package com.example.myfoodplanner.network;
 
 import com.example.myfoodplanner.model.area.AreaResponse;
 import com.example.myfoodplanner.model.category.CategoryResponse;
+import com.example.myfoodplanner.model.filter.FilterResponse;
 import com.example.myfoodplanner.model.ingredient.IngredientResponse;
 import com.example.myfoodplanner.model.mealdetails.MealDetailsResponse;
 
@@ -19,6 +20,10 @@ public interface MealService {
     @GET("list.php?a=list") // strArea
     Call<AreaResponse> getAreas();
     @GET("filter.php")// idMeal - strMeal - strMealThumb (based on category)
-    Call<MealDetailsResponse> getMealsByCategory(@Query("c") String category);
+    Call<FilterResponse> getMealsByCategory(@Query("c") String category);
+    @GET("filter.php")// idMeal - strMeal - strMealThumb (based on ingredient)
+    Call<FilterResponse> getMealsByIngredient(@Query("i") String ingredient);
+    @GET("filter.php")// idMeal - strMeal - strMealThumb (based on area)
+    Call<FilterResponse> getMealsByArea(@Query("a") String area);
 
 }

@@ -24,6 +24,9 @@ import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.CategoryFilterRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
@@ -109,7 +112,10 @@ public class SignupFragment extends Fragment implements SignupView {
                 AuthServiceImpl.getInstance(),
                 IngredientsRemoteDataSourceImpl.getInstance(),
                 AreaRemoteDataSourceImpl.getInstance(),
-                DetailsRemoteDataSourceImpl.getInstance()
+                DetailsRemoteDataSourceImpl.getInstance(),
+                CategoryFilterRemoteDataSourceImpl.getInstance(),
+                IngredientFilterRemoteDataSourceImpl.getInstance(),
+                AreaFilterRemoteDataSourceImpl.getInstance()
         );
         presenter = new SignupPresenterImpl(this, repository);
     }
