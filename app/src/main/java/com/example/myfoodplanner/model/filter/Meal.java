@@ -1,11 +1,11 @@
 package com.example.myfoodplanner.model.filter;
 
-public class Filter {
+public class Meal {
     private String idMeal;
     private String strMeal;
     private String strMealThumb;
 
-    public Filter(String idMeal, String strMeal, String strMealThumb) {
+    public Meal(String idMeal, String strMeal, String strMealThumb) {
         this.idMeal = idMeal;
         this.strMeal = strMeal;
         this.strMealThumb = strMealThumb;

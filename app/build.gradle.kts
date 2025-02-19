@@ -53,4 +53,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.circleimageview)
+    implementation (libs.adapter.rxjava2)
+    implementation (libs.rxjava)
+    implementation (libs.rxandroid)
 }

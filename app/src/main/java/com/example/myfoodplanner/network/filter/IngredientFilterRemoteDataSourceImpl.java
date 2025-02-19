@@ -2,7 +2,7 @@ package com.example.myfoodplanner.network.filter;
 
 import android.util.Log;
 
-import com.example.myfoodplanner.model.filter.FilterResponse;
+import com.example.myfoodplanner.model.filter.MealResponse;
 import com.example.myfoodplanner.network.MealService;
 
 import retrofit2.Call;
@@ -34,10 +34,10 @@ public class IngredientFilterRemoteDataSourceImpl implements IngredientFilterRem
             filterNetworkCallBack.onFailureResult("MealService not initialized");
             return;
         }
-        Call<FilterResponse> call = mealService.getMealsByIngredient(ingredient);
-        call.enqueue(new Callback<FilterResponse>() {
+        Call<MealResponse> call = mealService.getMealsByIngredient(ingredient);
+        call.enqueue(new Callback<MealResponse>() {
             @Override
-            public void onResponse(Call<FilterResponse> call, Response<FilterResponse> response) {
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d("jj", "onResponse: "+response.body().getMeals().size());
                     filterNetworkCallBack.onRetrievedFilter(response.body().getMeals());
@@ -47,7 +47,7 @@ public class IngredientFilterRemoteDataSourceImpl implements IngredientFilterRem
                 }
             }
             @Override
-            public void onFailure(Call<FilterResponse> call, Throwable throwable) {
+            public void onFailure(Call<MealResponse> call, Throwable throwable) {
                 Log.d("jj", "onResponse: "+throwable.getMessage());
                 filterNetworkCallBack.onFailureResult(throwable.getMessage());
                 throwable.printStackTrace();

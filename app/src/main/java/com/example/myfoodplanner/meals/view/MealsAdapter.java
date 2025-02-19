@@ -1,4 +1,4 @@
-package com.example.myfoodplanner.home.view;
+package com.example.myfoodplanner.meals.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,48 +13,47 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myfoodplanner.R;
-import com.example.myfoodplanner.model.ingredient.Ingredient;
+import com.example.myfoodplanner.model.filter.Meal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsHolder> {
+public class MealsAdapter extends RecyclerView.Adapter<MealsHolder> {
     Context context;
-    List<Ingredient> ingredients = new ArrayList<>();
-    private OnListClickListener listener;
+    List<Meal> meals = new ArrayList<>();
+    private OnMealClickListener listener;
 
-    public IngredientsAdapter(Context context, OnListClickListener listener) {
+    public MealsAdapter(Context context, OnMealClickListener listener) {
         this.context = context;
         this.listener = listener;
     }
-    public void setIngredientsList(List<Ingredient> ingredients){
-        this.ingredients = ingredients;
+    public void setMealsList(List<Meal> meals){
+        this.meals = meals;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public IngredientsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MealsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.meal_categories_item_list, parent, false);
-        IngredientsHolder holder = new IngredientsHolder(view);
+        MealsHolder holder = new MealsHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull IngredientsHolder holder, int position) {
-        Ingredient ingredient = ingredients.get(position);
-        holder.title.setText(ingredient.getStrIngredient());
-        String url = "https://www.themealdb.com/images/ingredients/"+ingredient.getStrIngredient()+".png";
+    public void onBindViewHolder(@NonNull MealsHolder holder, int position) {
+        Meal meal = meals.get(position);
+        holder.title.setText(meal.getStrMeal());
+        String url = meal.getStrMealThumb();
         Glide.with(context).load(url)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.thumbnail);
 
-        //event handling
         holder.mealCategoryCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onIngredientClick(ingredient.getStrIngredient(), "i");
+                //listener.onMealClick(meal);
                 //home fragment will implement this
 //                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment3 action
 //                        = HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment3(mealCategories.get(holder.getAdapterPosition()).getIdCategory());
@@ -65,15 +64,15 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsHolder> 
 
     @Override
     public int getItemCount() {
-        return ingredients.size();
+        return meals.size();
     }
 }
-class IngredientsHolder extends  RecyclerView.ViewHolder{
+class MealsHolder extends RecyclerView.ViewHolder{
     View convertView;
     CardView mealCategoryCard;
     ImageView thumbnail;
     TextView title;
-    public IngredientsHolder(@NonNull View itemView) {
+    public MealsHolder(@NonNull View itemView) {
         super(itemView);
         convertView = itemView;
         mealCategoryCard = itemView.findViewById(R.id.cv_meal_category_item);

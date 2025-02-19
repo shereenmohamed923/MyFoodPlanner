@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -24,7 +25,7 @@ import com.example.myfoodplanner.model.area.Area;
 import com.example.myfoodplanner.model.category.Category;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
-import com.example.myfoodplanner.model.filter.Filter;
+import com.example.myfoodplanner.model.filter.Meal;
 import com.example.myfoodplanner.model.ingredient.Ingredient;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
@@ -38,7 +39,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnMealClickListener, HomeView {
+public class HomeFragment extends Fragment implements OnListClickListener, HomeView {
     private static final String TAG = "HomeFragment";
     FirebaseAuth mAuth;
 //    FirebaseUser user;
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
     CategoriesAdapter categoriesAdapter;
     IngredientsAdapter ingredientsAdapter;
     AreasAdapter areasAdapter;
+    View view;
     HomePresenter presenter;
 
     public HomeFragment() {
@@ -73,6 +75,7 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeUI(view);
+        this.view = view;
         categoriesAdapter = new CategoriesAdapter(view.getContext(), this);
         ingredientsAdapter = new IngredientsAdapter(view.getContext(), this);
         areasAdapter = new AreasAdapter(view.getContext(), this);
@@ -116,25 +119,28 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
     }
 
     @Override
-    public void onCategoryClick(Category category) {
-        presenter.getMealsByCategory(category.getStrCategory());
-        Log.i(TAG, "onCategoryClick: "+ category.getStrCategory());
+    public void onCategoryClick(String category, String type) {
+        HomeFragmentDirections.ActionHomeFragmentToMealsFragment action
+                = HomeFragmentDirections.actionHomeFragmentToMealsFragment(category, type);
+        Navigation.findNavController(view).navigate(action);
     }
 
     @Override
-    public void onIngredientClick(Ingredient ingredient) {
-        presenter.getMealsByIngredient(ingredient.getStrIngredient());
-        Log.i(TAG, "onIngredientClick: "+ ingredient.getStrIngredient());
+    public void onIngredientClick(String ingredient, String type) {
+        HomeFragmentDirections.ActionHomeFragmentToMealsFragment action
+                = HomeFragmentDirections.actionHomeFragmentToMealsFragment(ingredient, type);
+        Navigation.findNavController(view).navigate(action);
     }
 
     @Override
-    public void onAreaClick(Area area) {
-        Log.i(TAG, "onAreaClick: "+ area.getStrArea());
-        presenter.getMealsByArea(area.getStrArea());
+    public void onAreaClick(String area, String type) {
+        HomeFragmentDirections.ActionHomeFragmentToMealsFragment action
+                = HomeFragmentDirections.actionHomeFragmentToMealsFragment(area, type);
+        Navigation.findNavController(view).navigate(action);
     }
 
     @Override
-    public void onMealClick(MealDetails meal) {
+    public void onMealClick(Meal meal) {
         //pass meal id to get meal details or pass object to the next fragment
     }
 
@@ -167,12 +173,6 @@ public class HomeFragment extends Fragment implements OnMealClickListener, HomeV
         Glide.with(getContext()).load(mealImg)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(iv_meal_image);
-    }
-
-    @Override
-    public void showFilteredList(List<Filter> filteredMeals) {
-        Log.i(TAG, "showFilteredList: "+filteredMeals.size());
-        Log.i(TAG, "showFilteredList: " + filteredMeals.get(0).getStrMeal());
     }
 
     @Override

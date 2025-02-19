@@ -21,8 +21,8 @@ import java.util.List;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesHolder> {
     Context context;
     List<Category> categories = new ArrayList<>();
-    private OnMealClickListener listener;
-    public CategoriesAdapter(Context context, OnMealClickListener listener) {
+    private OnListClickListener listener;
+    public CategoriesAdapter(Context context, OnListClickListener listener) {
         this.context = context;
         this.listener = listener;
     }
@@ -55,7 +55,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesHolder> {
         holder.mealCategoryCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onCategoryClick(category);
+                listener.onCategoryClick(category.getStrCategory(), "c");
                 //home fragment will implement this
 //                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment3 action
 //                        = HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment3(mealCategories.get(holder.getAdapterPosition()).getIdCategory());

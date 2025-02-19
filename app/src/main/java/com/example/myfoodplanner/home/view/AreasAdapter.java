@@ -21,8 +21,8 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasHolder> {
     Context context;
     List<Area> areas = new ArrayList<>();
     List<Integer> thumbnails = new ArrayList<>();
-    private OnMealClickListener listener;
-    public AreasAdapter(Context context, OnMealClickListener listener) {
+    private OnListClickListener listener;
+    public AreasAdapter(Context context, OnListClickListener listener) {
         this.context = context;
         this.listener = listener;
         initializeThumbnails();
@@ -67,7 +67,6 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasHolder> {
     @NonNull
     @Override
     public AreasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //layout inflater & create recycler view holder
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.meal_categories_item_list, parent, false);
         AreasHolder holder = new AreasHolder(view);
@@ -84,7 +83,7 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasHolder> {
         holder.mealCategoryCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onAreaClick(area);
+                listener.onAreaClick(area.getStrArea(), "a");
                 //home fragment will implement this
 //                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment3 action
 //                        = HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment3(mealCategories.get(holder.getAdapterPosition()).getIdCategory());
