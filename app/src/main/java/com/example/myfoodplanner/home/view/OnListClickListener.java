@@ -11,5 +11,4 @@ public interface OnListClickListener {
     void onCategoryClick(String category, String type);
     void onIngredientClick(String ingredient, String type);
     void onAreaClick(String area, String type);
-    void onMealClick(Meal meal);
 }

@@ -140,11 +140,6 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
     }
 
     @Override
-    public void onMealClick(Meal meal) {
-        //pass meal id to get meal details or pass object to the next fragment
-    }
-
-    @Override
     public void showCategoriesList(List<Category> categories) {
         Log.i(TAG, "onSuccess: categories list Received " + categories.size());
         categoriesAdapter.setCategoriesList(categories);
@@ -167,6 +162,7 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
 
     @Override
     public void showMealDetails(List<MealDetails> mealDetails) {
+        Log.i(TAG, "onSuccess: random meal Received " + mealDetails.get(0).getStrMeal());
         String mealName = mealDetails.get(0).getStrMeal();
         String mealImg = mealDetails.get(0).getStrMealThumb();
         tv_meal_name.setText(mealName);

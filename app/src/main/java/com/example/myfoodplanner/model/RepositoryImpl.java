@@ -2,19 +2,20 @@ package com.example.myfoodplanner.model;
 
 import com.example.myfoodplanner.Authentication.network.AuthService;
 import com.example.myfoodplanner.Authentication.network.FirebaseCallback;
-import com.example.myfoodplanner.model.area.Area;
-import com.example.myfoodplanner.network.area.AreaNetworkCallBack;
+import com.example.myfoodplanner.model.area.AreaResponse;
+import com.example.myfoodplanner.model.category.CategoryResponse;
+import com.example.myfoodplanner.model.filter.MealResponse;
+import com.example.myfoodplanner.model.ingredient.IngredientResponse;
+import com.example.myfoodplanner.model.mealdetails.MealDetailsResponse;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSource;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSource;
-import com.example.myfoodplanner.network.category.CategoryNetworkCallBack;
 import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSource;
-import com.example.myfoodplanner.network.filter.FilterNetworkCallBack;
 import com.example.myfoodplanner.network.filter.CategoryFilterRemoteDataSource;
 import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSource;
-import com.example.myfoodplanner.network.ingredient.IngredientNetworkCallBack;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSource;
-import com.example.myfoodplanner.network.mealdetails.DetailsNetworkCallBack;
 import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSource;
+
+import io.reactivex.rxjava3.core.Observable;
 
 public class RepositoryImpl implements Repository {
     CategoriesRemoteDataSource categoriesRemoteDataSource;
@@ -69,36 +70,40 @@ public class RepositoryImpl implements Repository {
         }
         return repo;
     }
-    @Override
-    public void getCategories(CategoryNetworkCallBack categoryNetworkCallBack) {
-        categoriesRemoteDataSource.makeNetworkCall(categoryNetworkCallBack);
-    }
-    public void getIngredients(IngredientNetworkCallBack ingredientNetworkCallBack) {
-        ingredientsRemoteDataSource.makeNetworkCall(ingredientNetworkCallBack);
-    }
 
-    public void getAreas(AreaNetworkCallBack areaNetworkCallBack){
-        areasRemoteDataSource.makeNetworkCall(areaNetworkCallBack);
+    @Override
+    public Observable<CategoryResponse> getCategories() {
+        return categoriesRemoteDataSource.getCategories();
     }
 
     @Override
-    public void getMealDetails(DetailsNetworkCallBack detailsNetworkCallBack) {
-        detailsRemoteDataSource.makeNetworkCall(detailsNetworkCallBack);
+    public Observable<IngredientResponse> getIngredients() {
+        return ingredientsRemoteDataSource.getIngredients();
     }
 
     @Override
-    public void getMealsByCategory(FilterNetworkCallBack filterNetworkCallBack, String category) {
-        categoryFilterRemoteDataSource.categoryMakeNetworkCall(filterNetworkCallBack, category);
+    public Observable<AreaResponse> getAreas() {
+        return areasRemoteDataSource.getAreas();
     }
 
     @Override
-    public void getMealsByIngredient(FilterNetworkCallBack filterNetworkCallBack, String ingredient) {
-        ingredientFilterRemoteDataSource.ingredientMakeNetworkCall(filterNetworkCallBack, ingredient);
+    public Observable<MealDetailsResponse> getMealDetails() {
+        return detailsRemoteDataSource.getMealDetails();
     }
 
     @Override
-    public void getMealsByArea(FilterNetworkCallBack filterNetworkCallBack, String area) {
-        areaFilterRemoteDataSource.areaMakeNetworkCall(filterNetworkCallBack, area);
+    public Observable<MealResponse> getMealsByCategory(String category) {
+        return categoryFilterRemoteDataSource.getMealsByCategory(category);
+    }
+
+    @Override
+    public Observable<MealResponse> getMealsByIngredient(String ingredient) {
+        return ingredientFilterRemoteDataSource.getMealsByIngredient(ingredient);
+    }
+
+    @Override
+    public Observable<MealResponse> getMealsByArea(String area) {
+        return areaFilterRemoteDataSource.getMealsByArea(area);
     }
 
     @Override

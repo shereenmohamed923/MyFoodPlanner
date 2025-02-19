@@ -6,24 +6,25 @@ import com.example.myfoodplanner.model.filter.MealResponse;
 import com.example.myfoodplanner.model.ingredient.IngredientResponse;
 import com.example.myfoodplanner.model.mealdetails.MealDetailsResponse;
 
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface MealService {
     @GET("random.php") //recipe of the day
-    Call<MealDetailsResponse> getRandomMeal();
+    Observable<MealDetailsResponse> getRandomMeal();
     @GET("categories.php")
-    Call<CategoryResponse> getCategories();
+    Observable<CategoryResponse> getCategories();
     @GET("list.php?i=list") // idIngredient - strIngredient
-    Call<IngredientResponse> getIngredients();
+    Observable<IngredientResponse> getIngredients();
     @GET("list.php?a=list") // strArea
-    Call<AreaResponse> getAreas();
+    Observable<AreaResponse> getAreas();
     @GET("filter.php")// idMeal - strMeal - strMealThumb (based on category)
-    Call<MealResponse> getMealsByCategory(@Query("c") String category);
+    Observable<MealResponse> getMealsByCategory(@Query("c") String category);
     @GET("filter.php")// idMeal - strMeal - strMealThumb (based on ingredient)
-    Call<MealResponse> getMealsByIngredient(@Query("i") String ingredient);
+    Observable<MealResponse> getMealsByIngredient(@Query("i") String ingredient);
     @GET("filter.php")// idMeal - strMeal - strMealThumb (based on area)
-    Call<MealResponse> getMealsByArea(@Query("a") String area);
+    Observable<MealResponse> getMealsByArea(@Query("a") String area);
 
 }

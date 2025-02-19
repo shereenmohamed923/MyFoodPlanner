@@ -98,21 +98,9 @@ public class MealsFragment extends Fragment implements OnMealClickListener, Meal
         Log.i(TAG, "onFailure: " + msg);
         Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
     }
-//    @Override
-//    public void onCategoryClick(Category category) {
-//        presenter.getMealsByCategory(category.getStrCategory());
-//        Log.i(TAG, "onCategoryClick: "+ category.getStrCategory());
-//    }
-//
-//    @Override
-//    public void onIngredientClick(Ingredient ingredient) {
-//        presenter.getMealsByIngredient(ingredient.getStrIngredient());
-//        Log.i(TAG, "onIngredientClick: "+ ingredient.getStrIngredient());
-//    }
-//
-//    @Override
-//    public void onAreaClick(Area area) {
-//        Log.i(TAG, "onAreaClick: "+ area.getStrArea());
-//        presenter.getMealsByArea(area.getStrArea());
-//    }
+
+    @Override
+    public void onMealClick(Meal meal) {
+
+    }
 }

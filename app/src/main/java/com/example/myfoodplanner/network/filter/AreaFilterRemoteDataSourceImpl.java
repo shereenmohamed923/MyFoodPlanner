@@ -5,6 +5,9 @@ import android.util.Log;
 import com.example.myfoodplanner.model.filter.MealResponse;
 import com.example.myfoodplanner.network.MealService;
 
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,6 +22,7 @@ public class AreaFilterRemoteDataSourceImpl implements AreaFilterRemoteDataSourc
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         mealService = retrofit.create(MealService.class);
     }
@@ -29,29 +33,8 @@ public class AreaFilterRemoteDataSourceImpl implements AreaFilterRemoteDataSourc
         return client;
     }
     @Override
-    public void areaMakeNetworkCall(FilterNetworkCallBack filterNetworkCallBack, String area) {
-        if (mealService == null) {
-            filterNetworkCallBack.onFailureResult("MealService not initialized");
-            return;
-        }
-        Call<MealResponse> call = mealService.getMealsByArea(area);
-        call.enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d("jj", "onResponse: "+response.body().getMeals().size());
-                    filterNetworkCallBack.onRetrievedFilter(response.body().getMeals());
-                } else {
-                    Log.d("jj", "onResponse: "+response.body());
-                    filterNetworkCallBack.onFailureResult("Response unsuccessful or empty");
-                }
-            }
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable throwable) {
-                Log.d("jj", "onResponse: "+throwable.getMessage());
-                filterNetworkCallBack.onFailureResult(throwable.getMessage());
-                throwable.printStackTrace();
-            }
-        });
+    public Observable<MealResponse> getMealsByArea(String area) {
+        return mealService.getMealsByArea(area)
+                .subscribeOn(Schedulers.io());
     }
 }

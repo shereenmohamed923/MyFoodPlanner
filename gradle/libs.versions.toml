@@ -21,8 +21,12 @@ navigationSafeArgsGradlePlugin = "2.8.6"
 navigationUi = "2.8.6"
 playServicesAuth = "21.3.0"
 legacySupportV4 = "1.0.0"
+roomRxjava3 = "2.6.1"
 rxandroid = "2.1.1"
+rxandroidVersion = "3.0.2"
 rxjava = "2.2.21"
+rxjava3RetrofitAdapter = "3.0.0"
+rxjavaVersion = "3.1.6"
 
 [libraries]
 adapter-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version.ref = "adapterRxjava2" }
@@ -47,8 +51,12 @@ navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "n
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "converterGson" }
 legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
+room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomRxjava3" }
 rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroid" }
 rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" }
+rxjava3-retrofit-adapter = { module = "com.github.akarnokd:rxjava3-retrofit-adapter", version.ref = "rxjava3RetrofitAdapter" }
+rxjava3-rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroidVersion" }
+rxjava3-rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjavaVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
