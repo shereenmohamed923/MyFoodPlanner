@@ -28,7 +28,9 @@ import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.filter.CategoryFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
-import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSource;
+import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -93,10 +95,11 @@ public class LoginFragment extends Fragment implements LoginView {
                 AuthServiceImpl.getInstance(),
                 IngredientsRemoteDataSourceImpl.getInstance(),
                 AreaRemoteDataSourceImpl.getInstance(),
-                DetailsRemoteDataSourceImpl.getInstance(),
+                RandomMealRemoteDataSourceImpl.getInstance(),
                 CategoryFilterRemoteDataSourceImpl.getInstance(),
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
-                AreaFilterRemoteDataSourceImpl.getInstance()
+                AreaFilterRemoteDataSourceImpl.getInstance(),
+                MealDetailsRemoteDataSourceImpl.getInstance()
         );
         presenter = new LoginPresenterImpl(this, repository);
     }

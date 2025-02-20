@@ -1,26 +1,26 @@
-package com.example.myfoodplanner.meals.view;
+package com.example.myfoodplanner.mealdetails.view;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
 import com.example.myfoodplanner.R;
-import com.example.myfoodplanner.meals.presenter.MealPresenter;
-import com.example.myfoodplanner.meals.presenter.MealPresenterImpl;
+import com.example.myfoodplanner.mealdetails.presenter.MealDetailsPresenter;
+import com.example.myfoodplanner.mealdetails.presenter.MealDetailsPresenterImpl;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
-import com.example.myfoodplanner.model.filter.Meal;
+import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
@@ -32,14 +32,15 @@ import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceIm
 
 import java.util.List;
 
-public class MealsFragment extends Fragment implements OnMealClickListener, MealView {
-    private static final String TAG = "MealsFragment";
-    RecyclerView mealsRecycler;
-    MealsAdapter mealsAdapter;
-    MealPresenter presenter;
-    View view;
+public class MealDetailsFragment extends Fragment implements MealDetailsView {
+    private static final String TAG = "MealDetailsFragment";
+    MealDetailsPresenter presenter;
+    ImageView mealImg;
+    TextView mealTitle;
+    TextView mealArea;
 
-    public MealsFragment() {
+
+    public MealDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -53,29 +54,21 @@ public class MealsFragment extends Fragment implements OnMealClickListener, Meal
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_meals, container, false);
+        return inflater.inflate(R.layout.fragment_meal_details, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        String id = MealDetailsFragmentArgs.fromBundle(getArguments()).getMealId();
         initializeUI(view);
-        this.view = view;
-        String filter = MealsFragmentArgs.fromBundle(getArguments()).getFilterType();
-        String type = MealsFragmentArgs.fromBundle(getArguments()).getType();
-        mealsAdapter = new MealsAdapter(view.getContext(), this);
-        mealsRecycler.setAdapter(mealsAdapter);
         setupPresenter();
-        if(type.equals("c")){
-            presenter.getMealsByCategory(filter);
-        }else if(type.equals("i")){
-            presenter.getMealsByIngredient(filter);
-        }else{
-            presenter.getMealsByArea(filter);
-        }
+        presenter.getMealById(id);
     }
     private void initializeUI(View view){
-        mealsRecycler = view.findViewById(R.id.rv_meals);
+        mealTitle = view.findViewById(R.id.tv_meal_title);
+        mealArea = view.findViewById(R.id.tv_meal_area);
+        mealImg = view.findViewById(R.id.iv_meal_thumbnail);
     }
     public void setupPresenter() {
         Repository repository = RepositoryImpl.getInstance(
@@ -89,25 +82,22 @@ public class MealsFragment extends Fragment implements OnMealClickListener, Meal
                 AreaFilterRemoteDataSourceImpl.getInstance(),
                 MealDetailsRemoteDataSourceImpl.getInstance()
         );
-        presenter = new MealPresenterImpl(this, repository);
+        presenter = new MealDetailsPresenterImpl(this, repository);
     }
+
     @Override
-    public void showFilteredList(List<Meal> filteredMeals) {
-        Log.i(TAG, "onSuccess: list Received " + filteredMeals.get(0).getStrMeal());
-        mealsAdapter.setMealsList(filteredMeals);
-        mealsAdapter.notifyDataSetChanged();
+    public void showMealDetails(List<MealDetails> mealDetails) {
+        Log.i(TAG, "showMealDetails: "+mealDetails.get(0).getStrMeal());
+        mealTitle.setText(mealDetails.get(0).getStrMeal());
+        mealArea.setText(mealDetails.get(0).getStrArea() + " Cuisine");
+        String url = mealDetails.get(0).getStrMealThumb();
+        Glide.with(getContext()).load(url)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .into(mealImg);
     }
 
     @Override
     public void showErrorMsg(String msg) {
-        Log.i(TAG, "onFailure: " + msg);
-        Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onMealClick(Meal meal) {
-        MealsFragmentDirections.ActionMealsFragmentToMealDetailsFragment action
-                = MealsFragmentDirections.actionMealsFragmentToMealDetailsFragment(meal.getIdMeal());
-        Navigation.findNavController(view).navigate(action);
+        Log.i(TAG, "showErrorMsg: "+msg);
     }
 }

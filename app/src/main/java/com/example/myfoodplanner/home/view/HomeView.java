@@ -2,7 +2,6 @@ package com.example.myfoodplanner.home.view;
 
 import com.example.myfoodplanner.model.area.Area;
 import com.example.myfoodplanner.model.category.Category;
-import com.example.myfoodplanner.model.filter.Meal;
 import com.example.myfoodplanner.model.ingredient.Ingredient;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
 
@@ -12,6 +11,6 @@ public interface HomeView {
     void showCategoriesList(List<Category> categories);
     void showIngredientsList(List<Ingredient> ingredients);
     void showAreasList(List<Area> areas);
-    void showMealDetails(List<MealDetails> mealDetails);
+    void showRandomMeal(List<MealDetails> mealDetails);
     void showErrorMsg(String msg);
 }

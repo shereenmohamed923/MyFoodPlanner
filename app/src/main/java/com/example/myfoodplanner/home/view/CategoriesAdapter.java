@@ -56,10 +56,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesHolder> {
             @Override
             public void onClick(View v) {
                 listener.onCategoryClick(category.getStrCategory(), "c");
-                //home fragment will implement this
-//                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment3 action
-//                        = HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment3(mealCategories.get(holder.getAdapterPosition()).getIdCategory());
-//                Navigation.findNavController(v).navigate(action);
             }
         });
 

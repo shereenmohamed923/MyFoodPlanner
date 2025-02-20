@@ -53,11 +53,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsHolder> {
         holder.mealCategoryCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //listener.onMealClick(meal);
-                //home fragment will implement this
-//                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment3 action
-//                        = HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment3(mealCategories.get(holder.getAdapterPosition()).getIdCategory());
-//                Navigation.findNavController(v).navigate(action);
+                listener.onMealClick(meal);
             }
         });
     }

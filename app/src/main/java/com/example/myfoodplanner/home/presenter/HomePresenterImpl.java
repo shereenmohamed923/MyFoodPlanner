@@ -99,15 +99,15 @@ public class HomePresenterImpl implements HomePresenter {
                 }));
     }
     @Override
-    public void getMealDetails() {
-        compositeDisposable.add(repo.getMealDetails()
+    public void getRandomMeal() {
+        compositeDisposable.add(repo.getRandomMeal()
                 .subscribeOn(Schedulers.io())
                 .map(MealDetailsResponse::getMeals)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<List<MealDetails>>() {
                     @Override
                     public void onNext(@NonNull List<MealDetails> mealDetails) {
-                        view.showMealDetails(mealDetails);
+                        view.showRandomMeal(mealDetails);
                     }
 
                     @Override

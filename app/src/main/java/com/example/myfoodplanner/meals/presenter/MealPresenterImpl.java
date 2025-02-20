@@ -4,6 +4,8 @@ import com.example.myfoodplanner.meals.view.MealView;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.filter.Meal;
 import com.example.myfoodplanner.model.filter.MealResponse;
+import com.example.myfoodplanner.model.mealdetails.MealDetails;
+import com.example.myfoodplanner.model.mealdetails.MealDetailsResponse;
 
 import java.util.List;
 

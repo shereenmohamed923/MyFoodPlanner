@@ -25,7 +25,6 @@ import com.example.myfoodplanner.model.area.Area;
 import com.example.myfoodplanner.model.category.Category;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
-import com.example.myfoodplanner.model.filter.Meal;
 import com.example.myfoodplanner.model.ingredient.Ingredient;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
@@ -34,7 +33,8 @@ import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.filter.CategoryFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
-import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
         presenter.getCategories();
         presenter.getIngredients();
         presenter.getAreas();
-        presenter.getMealDetails();
+        presenter.getRandomMeal();
 
 //        filterBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -110,10 +110,11 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
                 AuthServiceImpl.getInstance(),
                 IngredientsRemoteDataSourceImpl.getInstance(),
                 AreaRemoteDataSourceImpl.getInstance(),
-                DetailsRemoteDataSourceImpl.getInstance(),
+                RandomMealRemoteDataSourceImpl.getInstance(),
                 CategoryFilterRemoteDataSourceImpl.getInstance(),
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
-                AreaFilterRemoteDataSourceImpl.getInstance()
+                AreaFilterRemoteDataSourceImpl.getInstance(),
+                MealDetailsRemoteDataSourceImpl.getInstance()
                 );
         presenter = new HomePresenterImpl(this, repository);
     }
@@ -161,7 +162,7 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
     }
 
     @Override
-    public void showMealDetails(List<MealDetails> mealDetails) {
+    public void showRandomMeal(List<MealDetails> mealDetails) {
         Log.i(TAG, "onSuccess: random meal Received " + mealDetails.get(0).getStrMeal());
         String mealName = mealDetails.get(0).getStrMeal();
         String mealImg = mealDetails.get(0).getStrMealThumb();

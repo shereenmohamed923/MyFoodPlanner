@@ -13,10 +13,11 @@ public interface Repository {
     Observable<CategoryResponse> getCategories();
     Observable<IngredientResponse> getIngredients();
     Observable<AreaResponse> getAreas();
-    Observable<MealDetailsResponse> getMealDetails();
+    Observable<MealDetailsResponse> getRandomMeal();
     Observable<MealResponse> getMealsByCategory(String category);
     Observable<MealResponse> getMealsByIngredient(String ingredient);
     Observable<MealResponse> getMealsByArea(String area);
+    Observable<MealDetailsResponse> getMealById(String id);
     void signup(String email, String password, FirebaseCallback firebaseCallback);
     void login(String email, String password, FirebaseCallback firebaseCallback);
 }

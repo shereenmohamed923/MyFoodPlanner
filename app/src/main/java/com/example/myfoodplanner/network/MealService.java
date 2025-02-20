@@ -26,5 +26,7 @@ public interface MealService {
     Observable<MealResponse> getMealsByIngredient(@Query("i") String ingredient);
     @GET("filter.php")// idMeal - strMeal - strMealThumb (based on area)
     Observable<MealResponse> getMealsByArea(@Query("a") String area);
+    @GET("lookup.php")
+    Observable<MealDetailsResponse> getMealById(@Query("i") String id);
 
 }

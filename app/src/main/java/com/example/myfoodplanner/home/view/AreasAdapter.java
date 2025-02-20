@@ -84,10 +84,6 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasHolder> {
             @Override
             public void onClick(View v) {
                 listener.onAreaClick(area.getStrArea(), "a");
-                //home fragment will implement this
-//                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment3 action
-//                        = HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment3(mealCategories.get(holder.getAdapterPosition()).getIdCategory());
-//                Navigation.findNavController(v).navigate(action);
             }
         });
     }

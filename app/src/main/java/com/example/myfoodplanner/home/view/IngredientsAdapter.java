@@ -55,10 +55,6 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsHolder> 
             @Override
             public void onClick(View v) {
                 listener.onIngredientClick(ingredient.getStrIngredient(), "i");
-                //home fragment will implement this
-//                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment3 action
-//                        = HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment3(mealCategories.get(holder.getAdapterPosition()).getIdCategory());
-//                Navigation.findNavController(v).navigate(action);
             }
         });
     }

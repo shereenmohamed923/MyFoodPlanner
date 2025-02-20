@@ -13,7 +13,8 @@ import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSource;
 import com.example.myfoodplanner.network.filter.CategoryFilterRemoteDataSource;
 import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSource;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSource;
-import com.example.myfoodplanner.network.mealdetails.DetailsRemoteDataSource;
+import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSource;
+import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSource;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -22,39 +23,43 @@ public class RepositoryImpl implements Repository {
     AuthService authService;
     IngredientsRemoteDataSource ingredientsRemoteDataSource;
     AreaRemoteDataSource areasRemoteDataSource;
-    DetailsRemoteDataSource detailsRemoteDataSource;
+    RandomMealRemoteDataSource randomMealRemoteDataSource;
     CategoryFilterRemoteDataSource categoryFilterRemoteDataSource;
     IngredientFilterRemoteDataSource ingredientFilterRemoteDataSource;
     AreaFilterRemoteDataSource areaFilterRemoteDataSource;
+    MealDetailsRemoteDataSource mealDetailsRemoteDataSource;
     private static RepositoryImpl repo = null;
     private RepositoryImpl(
             CategoriesRemoteDataSource categoriesRemoteDataSource,
             AuthService authService,
             IngredientsRemoteDataSource ingredientsRemoteDataSource,
             AreaRemoteDataSource areasRemoteDataSource,
-            DetailsRemoteDataSource detailsRemoteDataSource,
+            RandomMealRemoteDataSource randomMealRemoteDataSource,
             CategoryFilterRemoteDataSource categoryFilterRemoteDataSource,
             IngredientFilterRemoteDataSource ingredientFilterRemoteDataSource,
-                    AreaFilterRemoteDataSource areaFilterRemoteDataSource
+            AreaFilterRemoteDataSource areaFilterRemoteDataSource,
+            MealDetailsRemoteDataSource mealDetailsRemoteDataSource
     ) {
         this.categoriesRemoteDataSource = categoriesRemoteDataSource;
         this.authService = authService;
         this.ingredientsRemoteDataSource = ingredientsRemoteDataSource;
         this.areasRemoteDataSource = areasRemoteDataSource;
-        this.detailsRemoteDataSource = detailsRemoteDataSource;
+        this.randomMealRemoteDataSource = randomMealRemoteDataSource;
         this.categoryFilterRemoteDataSource = categoryFilterRemoteDataSource;
         this.ingredientFilterRemoteDataSource = ingredientFilterRemoteDataSource;
         this.areaFilterRemoteDataSource = areaFilterRemoteDataSource;
+        this.mealDetailsRemoteDataSource = mealDetailsRemoteDataSource;
     }
     public static RepositoryImpl getInstance(
             CategoriesRemoteDataSource categoriesRemoteDataSource,
             AuthService authService,
             IngredientsRemoteDataSource ingredientsRemoteDataSource,
             AreaRemoteDataSource areaRemoteDataSource,
-            DetailsRemoteDataSource detailsRemoteDataSource,
+            RandomMealRemoteDataSource randomMealRemoteDataSource,
             CategoryFilterRemoteDataSource categoryFilterRemoteDataSource,
             IngredientFilterRemoteDataSource ingredientFilterRemoteDataSource,
-            AreaFilterRemoteDataSource areaFilterRemoteDataSource
+            AreaFilterRemoteDataSource areaFilterRemoteDataSource,
+            MealDetailsRemoteDataSource mealDetailsRemoteDataSource
     ){
         if(repo == null){
             repo = new RepositoryImpl(
@@ -62,10 +67,11 @@ public class RepositoryImpl implements Repository {
                     authService,
                     ingredientsRemoteDataSource,
                     areaRemoteDataSource,
-                    detailsRemoteDataSource,
+                    randomMealRemoteDataSource,
                     categoryFilterRemoteDataSource,
                     ingredientFilterRemoteDataSource,
-                    areaFilterRemoteDataSource
+                    areaFilterRemoteDataSource,
+                    mealDetailsRemoteDataSource
             );
         }
         return repo;
@@ -87,8 +93,8 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public Observable<MealDetailsResponse> getMealDetails() {
-        return detailsRemoteDataSource.getMealDetails();
+    public Observable<MealDetailsResponse> getRandomMeal() {
+        return randomMealRemoteDataSource.getRandomMeal();
     }
 
     @Override
@@ -104,6 +110,11 @@ public class RepositoryImpl implements Repository {
     @Override
     public Observable<MealResponse> getMealsByArea(String area) {
         return areaFilterRemoteDataSource.getMealsByArea(area);
+    }
+
+    @Override
+    public Observable<MealDetailsResponse> getMealById(String id) {
+        return mealDetailsRemoteDataSource.getMealById(id);
     }
 
     @Override

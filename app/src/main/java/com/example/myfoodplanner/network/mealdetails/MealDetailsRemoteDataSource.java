@@ -4,7 +4,6 @@ import com.example.myfoodplanner.model.mealdetails.MealDetailsResponse;
 
 import io.reactivex.rxjava3.core.Observable;
 
-public interface DetailsRemoteDataSource {
-//    void makeNetworkCall(DetailsNetworkCallBack detailsNetworkCallBack);
-    Observable<MealDetailsResponse> getMealDetails();
+public interface MealDetailsRemoteDataSource {
+    Observable<MealDetailsResponse> getMealById(String id);
 }

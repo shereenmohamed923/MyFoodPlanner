@@ -1,6 +1,11 @@
 package com.example.myfoodplanner.model.filter;
 
-public class Meal {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Meal implements Parcelable {
     private String idMeal;
     private String strMeal;
     private String strMealThumb;
@@ -10,6 +15,24 @@ public class Meal {
         this.strMeal = strMeal;
         this.strMealThumb = strMealThumb;
     }
+
+    protected Meal(Parcel in) {
+        idMeal = in.readString();
+        strMeal = in.readString();
+        strMealThumb = in.readString();
+    }
+
+    public static final Creator<Meal> CREATOR = new Creator<Meal>() {
+        @Override
+        public Meal createFromParcel(Parcel in) {
+            return new Meal(in);
+        }
+
+        @Override
+        public Meal[] newArray(int size) {
+            return new Meal[size];
+        }
+    };
 
     public String getIdMeal() {
         return idMeal;
@@ -33,5 +56,17 @@ public class Meal {
 
     public void setStrMealThumb(String strMealThumb) {
         this.strMealThumb = strMealThumb;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(idMeal);
+        dest.writeString(strMeal);
+        dest.writeString(strMealThumb);
     }
 }
