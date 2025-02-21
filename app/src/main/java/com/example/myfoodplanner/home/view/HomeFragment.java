@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +22,13 @@ import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.home.presenter.HomePresenter;
 import com.example.myfoodplanner.home.presenter.HomePresenterImpl;
+import com.example.myfoodplanner.meals.view.MealsFragmentDirections;
+import com.example.myfoodplanner.meals.view.OnMealClickListener;
 import com.example.myfoodplanner.model.area.Area;
 import com.example.myfoodplanner.model.category.Category;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
+import com.example.myfoodplanner.model.filter.Meal;
 import com.example.myfoodplanner.model.ingredient.Ingredient;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
@@ -39,12 +43,14 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnListClickListener, HomeView {
+public class HomeFragment extends Fragment implements OnListClickListener, OnMealClickListener, HomeView {
     private static final String TAG = "HomeFragment";
     FirebaseAuth mAuth;
 //    FirebaseUser user;
     TextView tv_meal_name;
     ImageView iv_meal_image;
+    MealDetails randomMealDetails;
+    CardView randomMeal;
     RecyclerView categoriesRecyclerView;
     RecyclerView ingredientsRecyclerView;
     RecyclerView areasRecyclerView;
@@ -53,6 +59,7 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
     AreasAdapter areasAdapter;
     View view;
     HomePresenter presenter;
+    private OnMealClickListener listener;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -87,6 +94,14 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
         presenter.getIngredients();
         presenter.getAreas();
         presenter.getRandomMeal();
+        randomMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment action
+                        = HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(randomMealDetails.getIdMeal());
+                Navigation.findNavController(view).navigate(action);
+            }
+        });
 
 //        filterBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -103,6 +118,7 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
         areasRecyclerView = view.findViewById(R.id.rv_countries);
         tv_meal_name = view.findViewById(R.id.tv_meal_name);
         iv_meal_image = view.findViewById(R.id.iv_details_img);
+        randomMeal = view.findViewById(R.id.cv_random_meal);
     }
     public void setupPresenter(){
         Repository repository = RepositoryImpl.getInstance(
@@ -163,6 +179,7 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
 
     @Override
     public void showRandomMeal(List<MealDetails> mealDetails) {
+        randomMealDetails = mealDetails.get(0);
         Log.i(TAG, "onSuccess: random meal Received " + mealDetails.get(0).getStrMeal());
         String mealName = mealDetails.get(0).getStrMeal();
         String mealImg = mealDetails.get(0).getStrMealThumb();
@@ -176,6 +193,11 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
     public void showErrorMsg(String msg) {
         Log.i(TAG, "onFailure: " + msg);
         Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMealClick(Meal meal) {
+
     }
 }
 

@@ -1,5 +1,7 @@
 package com.example.myfoodplanner.mealdetails.presenter;
 
+import android.util.Log;
+
 import com.example.myfoodplanner.mealdetails.view.MealDetailsView;
 import com.example.myfoodplanner.meals.view.MealView;
 import com.example.myfoodplanner.model.Repository;
@@ -33,6 +35,7 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter{
                 .subscribeWith(new DisposableObserver<List<MealDetails>>() {
                     @Override
                     public void onNext(@NonNull List<MealDetails> mealDetails) {
+                        Log.d("sh", "onNext: ");
                         view.showMealDetails(mealDetails);
                     }
 

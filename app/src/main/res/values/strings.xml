@@ -25,4 +25,6 @@
     <string name="enter_pass">Enter your password</string>
     <string name="enter_name">Enter your name</string>
     <string name="confirm_pass">Confirm your password</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instructions">Instructions</string>
 </resources>
