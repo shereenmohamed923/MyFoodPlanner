@@ -1,6 +1,8 @@
 package com.example.myfoodplanner.home.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +33,20 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsHolder> 
         this.ingredients = ingredients;
         notifyDataSetChanged();
     }
+    private static final int[] COLORS = {
+            Color.parseColor("#F5D6CE"),
+            Color.parseColor("#FEF8E5"),
+            Color.parseColor("#D3EBC7"),
+            Color.parseColor("#F4EBF7"),
+            Color.parseColor("#FFF6EE"),
+            Color.parseColor("#D8E3F4")
+    };
 
     @NonNull
     @Override
     public IngredientsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.meal_categories_item_list, parent, false);
+        View view = inflater.inflate(R.layout.circle_card_item, parent, false);
         IngredientsHolder holder = new IngredientsHolder(view);
         return holder;
     }
@@ -44,6 +54,8 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsHolder> 
     @Override
     public void onBindViewHolder(@NonNull IngredientsHolder holder, int position) {
         Ingredient ingredient = ingredients.get(position);
+        int color = COLORS[position % COLORS.length];
+        holder.mealCategoryCard.setBackgroundTintList(ColorStateList.valueOf(color));
         holder.title.setText(ingredient.getStrIngredient());
         String url = "https://www.themealdb.com/images/ingredients/"+ingredient.getStrIngredient()+".png";
         Glide.with(context).load(url)
@@ -72,8 +84,8 @@ class IngredientsHolder extends  RecyclerView.ViewHolder{
     public IngredientsHolder(@NonNull View itemView) {
         super(itemView);
         convertView = itemView;
-        mealCategoryCard = itemView.findViewById(R.id.cv_meal_category_item);
-        thumbnail = itemView.findViewById(R.id.iv_meal_category);
-        title = itemView.findViewById(R.id.tv_meal_category_name);
+        mealCategoryCard = itemView.findViewById(R.id.cv_circular_card);
+        thumbnail = itemView.findViewById(R.id.iv_circle_img);
+        title = itemView.findViewById(R.id.tv_circle_title);
     }
 }

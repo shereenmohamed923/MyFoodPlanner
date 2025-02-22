@@ -16,11 +16,13 @@ import android.widget.Toast;
 
 import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
 import com.example.myfoodplanner.R;
+import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
 import com.example.myfoodplanner.meals.presenter.MealPresenter;
 import com.example.myfoodplanner.meals.presenter.MealPresenterImpl;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.model.filter.Meal;
+import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
@@ -87,7 +89,8 @@ public class MealsFragment extends Fragment implements OnMealClickListener, Meal
                 CategoryFilterRemoteDataSourceImpl.getInstance(),
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
                 AreaFilterRemoteDataSourceImpl.getInstance(),
-                MealDetailsRemoteDataSourceImpl.getInstance()
+                MealDetailsRemoteDataSourceImpl.getInstance(),
+                MealDetailsLocalDataSourceImpl.getInstance(getContext())
         );
         presenter = new MealPresenterImpl(this, repository);
     }
@@ -107,7 +110,7 @@ public class MealsFragment extends Fragment implements OnMealClickListener, Meal
     @Override
     public void onMealClick(Meal meal) {
         MealsFragmentDirections.ActionMealsFragmentToMealDetailsFragment action
-                = MealsFragmentDirections.actionMealsFragmentToMealDetailsFragment(meal.getIdMeal());
+                = MealsFragmentDirections.actionMealsFragmentToMealDetailsFragment(meal.getIdMeal(), new MealDetails());
         Navigation.findNavController(view).navigate(action);
     }
 }

@@ -3,7 +3,6 @@ package com.example.myfoodplanner.mealdetails.presenter;
 import android.util.Log;
 
 import com.example.myfoodplanner.mealdetails.view.MealDetailsView;
-import com.example.myfoodplanner.meals.view.MealView;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.model.mealdetails.MealDetailsResponse;
@@ -50,4 +49,24 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter{
                     }
                 }));
     }
+
+    @Override
+    public void AddToFav(MealDetails mealDetails) {
+        repo.insertFavouriteMealDetails(mealDetails)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
+    @Override
+    public void checkIfMealIsFavourite(String mealId) {
+        compositeDisposable.add(repo.isMealFavourite(mealId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        isFav -> view.updateFavouriteIcon(isFav),
+                        throwable -> Log.i("isFav", "checkIfMealIsFavourite: " + throwable)
+                ));
+    }
+
 }

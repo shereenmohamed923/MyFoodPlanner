@@ -8,4 +8,5 @@ import java.util.List;
 public interface MealDetailsView {
     void showMealDetails(List<MealDetails> mealDetails);
     void showErrorMsg(String msg);
+    void updateFavouriteIcon(boolean isFavourite);
 }

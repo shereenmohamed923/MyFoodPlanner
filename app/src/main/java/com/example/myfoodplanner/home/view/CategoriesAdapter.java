@@ -31,12 +31,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesHolder> {
         this.categories = categories;
         notifyDataSetChanged();
    }
+
     @NonNull
     @Override
     public CategoriesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //layout inflater & create recycler view holder
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.meal_categories_item_list, parent, false);
+        View view = inflater.inflate(R.layout.square_card_item, parent, false);
         CategoriesHolder holder = new CategoriesHolder(view);
         return holder;
     }
@@ -75,8 +76,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesHolder> {
      public CategoriesHolder(@NonNull View itemView) {
          super(itemView);
          convertView = itemView;
-         mealCategoryCard = itemView.findViewById(R.id.cv_meal_category_item);
-         thumbnail = itemView.findViewById(R.id.iv_meal_category);
-         title = itemView.findViewById(R.id.tv_meal_category_name);
+         mealCategoryCard = itemView.findViewById(R.id.cv_square_card);
+         thumbnail = itemView.findViewById(R.id.iv_square_img);
+         title = itemView.findViewById(R.id.tv_square_title);
      }
  }

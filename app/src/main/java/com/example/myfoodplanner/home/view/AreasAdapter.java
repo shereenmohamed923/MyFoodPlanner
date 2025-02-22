@@ -68,7 +68,7 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasHolder> {
     @Override
     public AreasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.meal_categories_item_list, parent, false);
+        View view = inflater.inflate(R.layout.flag_card_item, parent, false);
         AreasHolder holder = new AreasHolder(view);
         return holder;
     }
@@ -102,8 +102,8 @@ class AreasHolder extends RecyclerView.ViewHolder{
     public AreasHolder(@NonNull View itemView) {
         super(itemView);
         convertView = itemView;
-        mealCategoryCard = itemView.findViewById(R.id.cv_meal_category_item);
-        thumbnail = itemView.findViewById(R.id.iv_meal_category);
-        title = itemView.findViewById(R.id.tv_meal_category_name);
+        mealCategoryCard = itemView.findViewById(R.id.cv_flag_card);
+        thumbnail = itemView.findViewById(R.id.iv_flag_img);
+        title = itemView.findViewById(R.id.tv_flag_title);
     }
 }

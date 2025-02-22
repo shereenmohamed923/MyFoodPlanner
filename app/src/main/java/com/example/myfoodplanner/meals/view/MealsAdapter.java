@@ -36,7 +36,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsHolder> {
     @Override
     public MealsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.meal_categories_item_list, parent, false);
+        View view = inflater.inflate(R.layout.square_card_item, parent, false);
         MealsHolder holder = new MealsHolder(view);
         return holder;
     }
@@ -71,8 +71,8 @@ class MealsHolder extends RecyclerView.ViewHolder{
     public MealsHolder(@NonNull View itemView) {
         super(itemView);
         convertView = itemView;
-        mealCategoryCard = itemView.findViewById(R.id.cv_meal_category_item);
-        thumbnail = itemView.findViewById(R.id.iv_meal_category);
-        title = itemView.findViewById(R.id.tv_meal_category_name);
+        mealCategoryCard = itemView.findViewById(R.id.cv_square_card);
+        thumbnail = itemView.findViewById(R.id.iv_square_img);
+        title = itemView.findViewById(R.id.tv_square_title);
     }
 }

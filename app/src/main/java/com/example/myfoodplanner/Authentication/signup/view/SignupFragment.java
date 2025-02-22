@@ -20,6 +20,7 @@ import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
 import com.example.myfoodplanner.Authentication.signup.presenter.SignupPresenter;
 import com.example.myfoodplanner.Authentication.signup.presenter.SignupPresenterImpl;
 import com.example.myfoodplanner.R;
+import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
@@ -117,7 +118,8 @@ public class SignupFragment extends Fragment implements SignupView {
                 CategoryFilterRemoteDataSourceImpl.getInstance(),
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
                 AreaFilterRemoteDataSourceImpl.getInstance(),
-                MealDetailsRemoteDataSourceImpl.getInstance()
+                MealDetailsRemoteDataSourceImpl.getInstance(),
+                MealDetailsLocalDataSourceImpl.getInstance(getContext())
         );
         presenter = new SignupPresenterImpl(this, repository);
     }

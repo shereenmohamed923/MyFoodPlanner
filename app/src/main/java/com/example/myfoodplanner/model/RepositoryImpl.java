@@ -2,10 +2,12 @@ package com.example.myfoodplanner.model;
 
 import com.example.myfoodplanner.Authentication.network.AuthService;
 import com.example.myfoodplanner.Authentication.network.FirebaseCallback;
+import com.example.myfoodplanner.database.MealDetailsLocalDataSource;
 import com.example.myfoodplanner.model.area.AreaResponse;
 import com.example.myfoodplanner.model.category.CategoryResponse;
 import com.example.myfoodplanner.model.filter.MealResponse;
 import com.example.myfoodplanner.model.ingredient.IngredientResponse;
+import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.model.mealdetails.MealDetailsResponse;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSource;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSource;
@@ -16,7 +18,12 @@ import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSource;
 import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSource;
 import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSource;
 
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 public class RepositoryImpl implements Repository {
     CategoriesRemoteDataSource categoriesRemoteDataSource;
@@ -28,6 +35,7 @@ public class RepositoryImpl implements Repository {
     IngredientFilterRemoteDataSource ingredientFilterRemoteDataSource;
     AreaFilterRemoteDataSource areaFilterRemoteDataSource;
     MealDetailsRemoteDataSource mealDetailsRemoteDataSource;
+    MealDetailsLocalDataSource mealDetailsLocalDataSource;
     private static RepositoryImpl repo = null;
     private RepositoryImpl(
             CategoriesRemoteDataSource categoriesRemoteDataSource,
@@ -38,7 +46,8 @@ public class RepositoryImpl implements Repository {
             CategoryFilterRemoteDataSource categoryFilterRemoteDataSource,
             IngredientFilterRemoteDataSource ingredientFilterRemoteDataSource,
             AreaFilterRemoteDataSource areaFilterRemoteDataSource,
-            MealDetailsRemoteDataSource mealDetailsRemoteDataSource
+            MealDetailsRemoteDataSource mealDetailsRemoteDataSource,
+            MealDetailsLocalDataSource mealDetailsLocalDataSource
     ) {
         this.categoriesRemoteDataSource = categoriesRemoteDataSource;
         this.authService = authService;
@@ -49,6 +58,7 @@ public class RepositoryImpl implements Repository {
         this.ingredientFilterRemoteDataSource = ingredientFilterRemoteDataSource;
         this.areaFilterRemoteDataSource = areaFilterRemoteDataSource;
         this.mealDetailsRemoteDataSource = mealDetailsRemoteDataSource;
+        this.mealDetailsLocalDataSource = mealDetailsLocalDataSource;
     }
     public static RepositoryImpl getInstance(
             CategoriesRemoteDataSource categoriesRemoteDataSource,
@@ -59,7 +69,8 @@ public class RepositoryImpl implements Repository {
             CategoryFilterRemoteDataSource categoryFilterRemoteDataSource,
             IngredientFilterRemoteDataSource ingredientFilterRemoteDataSource,
             AreaFilterRemoteDataSource areaFilterRemoteDataSource,
-            MealDetailsRemoteDataSource mealDetailsRemoteDataSource
+            MealDetailsRemoteDataSource mealDetailsRemoteDataSource,
+            MealDetailsLocalDataSource mealDetailsLocalDataSource
     ){
         if(repo == null){
             repo = new RepositoryImpl(
@@ -71,7 +82,8 @@ public class RepositoryImpl implements Repository {
                     categoryFilterRemoteDataSource,
                     ingredientFilterRemoteDataSource,
                     areaFilterRemoteDataSource,
-                    mealDetailsRemoteDataSource
+                    mealDetailsRemoteDataSource,
+                    mealDetailsLocalDataSource
             );
         }
         return repo;
@@ -125,5 +137,26 @@ public class RepositoryImpl implements Repository {
     @Override
     public void login(String email, String password, FirebaseCallback firebaseCallback) {
         authService.login(email, password, firebaseCallback);
+    }
+
+    @Override
+    public Completable insertFavouriteMealDetails(MealDetails mealDetails) {
+        return mealDetailsLocalDataSource.insertMealDetails(mealDetails);
+    }
+
+    @Override
+    public Completable deleteFavouriteMealDetails(MealDetails mealDetails) {
+        return mealDetailsLocalDataSource.deleteMealDetails(mealDetails);
+    }
+
+    @Override
+    public Flowable<List<MealDetails>> getFavouriteMealDetails() {
+        return mealDetailsLocalDataSource.getFavouriteMealDetails();
+    }
+
+    @Override
+    public Single<Boolean> isMealFavourite(String mealId) {
+        return mealDetailsLocalDataSource.isMealFavourite(mealId)
+                .map(count -> count > 0);
     }
 }

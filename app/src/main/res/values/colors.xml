@@ -13,7 +13,7 @@
     <color name="colorOnSecondary">#FFFFFF</color>
 
     <!-- Tertiary Color -->
-    <color name="colorTertiary">#DAD5C9</color>
+    <color name="colorTertiary">#F4EBF7</color>
     <color name="colorOnTertiary">#000000</color> <!-- Text/icon color on tertiary background -->
 
     <!-- Background Color -->
