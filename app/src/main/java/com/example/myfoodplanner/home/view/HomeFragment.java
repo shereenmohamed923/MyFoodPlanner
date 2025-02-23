@@ -63,7 +63,6 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
     AreasAdapter areasAdapter;
     View view;
     HomePresenter presenter;
-    private OnMealClickListener listener;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -167,21 +166,18 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
     public void showCategoriesList(List<Category> categories) {
         Log.i(TAG, "onSuccess: categories list Received " + categories.size());
         categoriesAdapter.setCategoriesList(categories);
-        categoriesAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showIngredientsList(List<Ingredient> ingredients) {
         Log.i(TAG, "onSuccess: ingredients list Received " + ingredients.size());
         ingredientsAdapter.setIngredientsList(ingredients);
-        ingredientsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showAreasList(List<Area> areas) {
         Log.i(TAG, "onSuccess: areas list Received " + areas.size());
         areasAdapter.setAreasList(areas);
-        areasAdapter.notifyDataSetChanged();
     }
 
     @Override

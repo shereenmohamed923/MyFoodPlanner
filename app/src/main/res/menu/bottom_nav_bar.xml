@@ -7,7 +7,7 @@
         android:icon="@drawable/home"
         android:title="@string/home" />
     <item android:title="Search"
-        android:id="@+id/search_nav"
+        android:id="@+id/searchFragment"
         android:enabled="true"
         android:icon="@drawable/search"/>
     <item
