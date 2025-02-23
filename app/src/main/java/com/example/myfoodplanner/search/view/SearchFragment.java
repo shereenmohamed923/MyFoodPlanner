@@ -9,10 +9,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
@@ -45,6 +48,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 
 public class SearchFragment extends Fragment implements SearchView, OnListClickListener {
     private static final String TAG = "SearchFragment";
@@ -55,6 +64,7 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
     IngredientsAdapter ingredientsAdapter;
     AreasAdapter areasAdapter;
     SearchPresenter presenter;
+    EditText searchBar;
     List<Category> categoryList = new ArrayList<>();
     List<Ingredient> ingredientList = new ArrayList<>();
     List<Area> areaList = new ArrayList<>();
@@ -115,6 +125,7 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
         chipGroup = view.findViewById(R.id.chip_group);
         searchRecycler = view.findViewById(R.id.rv_search);
         chipGroup.clearCheck();
+        searchBar = view.findViewById(R.id.et_search);
     }
     public void setupPresenter() {
         Repository repository = RepositoryImpl.getInstance(
@@ -137,8 +148,31 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
         Log.i(TAG, "onSuccess: categories list Received " + categories.size());
         categoryList = categories;
         Log.i(TAG, "onSuccess: categoryList " + categoryList.size());
-        categoriesAdapter.setCategoriesList(categories);
-        categoriesAdapter.notifyDataSetChanged();
+
+        categoriesAdapter.setCategoriesList(categoryList);
+        searchRecycler.setAdapter(categoriesAdapter);
+
+        Observable<String> categoryObservable = Observable.create(emitter -> searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emitter.onNext(s.toString());
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        })).debounce(500, TimeUnit.MILLISECONDS)
+                .map(query -> query.toString().toLowerCase())
+                .observeOn(AndroidSchedulers.mainThread());
+                categoryObservable
+                        .subscribe(query -> {
+           List<Category> filteredList = categoryList.stream()
+                           .filter(category -> category.getStrCategory().toLowerCase().contains(query))
+                                   .collect(Collectors.toList());
+            categoriesAdapter.setCategoriesList(filteredList);
+            categoriesAdapter.notifyDataSetChanged();
+        }, throwable -> Log.e(TAG, "Error in categories search filtering", throwable));
     }
 
     @Override
@@ -147,7 +181,29 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
         ingredientList = ingredients;
         Log.i(TAG, "onSuccess: ingredientList " + ingredientList.size());
         ingredientsAdapter.setIngredientsList(ingredients);
-        ingredientsAdapter.notifyDataSetChanged();
+        searchRecycler.setAdapter(ingredientsAdapter);
+
+        Observable<String> ingredientObservable = Observable.create(emitter -> searchBar.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        emitter.onNext(s.toString());
+                    }
+                    @Override
+                    public void afterTextChanged(Editable s) {}
+                })).debounce(500, TimeUnit.MILLISECONDS)
+                .map(query -> query.toString().toLowerCase())
+                .observeOn(AndroidSchedulers.mainThread());
+        ingredientObservable
+                .subscribe(query -> {
+                    List<Ingredient> filteredList = ingredientList.stream()
+                            .filter(ingredient -> ingredient.getStrIngredient().toLowerCase().contains(query))
+                            .collect(Collectors.toList());
+                    ingredientsAdapter.setIngredientsList(filteredList);
+                    ingredientsAdapter.notifyDataSetChanged();
+                }, throwable -> Log.e(TAG, "Error in ingredients search filtering", throwable));
     }
 
     @Override
@@ -156,7 +212,29 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
         areaList = areas;
         Log.i(TAG, "onSuccess: areaList " + areaList.size());
         areasAdapter.setAreasList(areas);
-        areasAdapter.notifyDataSetChanged();
+        searchRecycler.setAdapter(areasAdapter);
+
+        Observable<String> AreaObservable = Observable.create(emitter -> searchBar.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        emitter.onNext(s.toString());
+                    }
+                    @Override
+                    public void afterTextChanged(Editable s) {}
+                })).debounce(500, TimeUnit.MILLISECONDS)
+                .map(query -> query.toString().toLowerCase())
+                .observeOn(AndroidSchedulers.mainThread());
+        AreaObservable
+                .subscribe(query -> {
+                    List<Area> filteredList = areaList.stream()
+                            .filter(area -> area.getStrArea().toLowerCase().contains(query))
+                            .collect(Collectors.toList());
+                    areasAdapter.setAreasList(filteredList);
+                    areasAdapter.notifyDataSetChanged();
+                }, throwable -> Log.e(TAG, "Error in areas search filtering", throwable));
     }
 
     @Override

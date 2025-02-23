@@ -31,7 +31,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsHolder> 
     }
     public void setIngredientsList(List<Ingredient> ingredients){
         this.ingredients = ingredients;
-        //notifyDataSetChanged();
+        notifyDataSetChanged();
     }
     private static final int[] COLORS = {
             Color.parseColor("#F5D6CE"),
