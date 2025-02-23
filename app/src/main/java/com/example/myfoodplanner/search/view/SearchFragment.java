@@ -43,6 +43,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment implements SearchView, OnListClickListener {
@@ -54,6 +55,9 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
     IngredientsAdapter ingredientsAdapter;
     AreasAdapter areasAdapter;
     SearchPresenter presenter;
+    List<Category> categoryList = new ArrayList<>();
+    List<Ingredient> ingredientList = new ArrayList<>();
+    List<Area> areaList = new ArrayList<>();
 
     public SearchFragment() {
         // Required empty public constructor
@@ -131,6 +135,8 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
     @Override
     public void showCategoriesList(List<Category> categories) {
         Log.i(TAG, "onSuccess: categories list Received " + categories.size());
+        categoryList = categories;
+        Log.i(TAG, "onSuccess: categoryList " + categoryList.size());
         categoriesAdapter.setCategoriesList(categories);
         categoriesAdapter.notifyDataSetChanged();
     }
@@ -138,6 +144,8 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
     @Override
     public void showIngredientsList(List<Ingredient> ingredients) {
         Log.i(TAG, "onSuccess: ingredients list Received " + ingredients.size());
+        ingredientList = ingredients;
+        Log.i(TAG, "onSuccess: ingredientList " + ingredientList.size());
         ingredientsAdapter.setIngredientsList(ingredients);
         ingredientsAdapter.notifyDataSetChanged();
     }
@@ -145,6 +153,8 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
     @Override
     public void showAreasList(List<Area> areas) {
         Log.i(TAG, "onSuccess: areas list Received " + areas.size());
+        areaList = areas;
+        Log.i(TAG, "onSuccess: areaList " + areaList.size());
         areasAdapter.setAreasList(areas);
         areasAdapter.notifyDataSetChanged();
     }
