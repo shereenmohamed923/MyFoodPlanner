@@ -8,5 +8,5 @@ import io.reactivex.rxjava3.core.Flowable;
 
 public interface FavouritesPresenter {
     void getFavMeals();
-    void removeFromFav(MealDetails mealDetails);
+    void removeFromFav(String id);
 }

@@ -29,7 +29,6 @@ import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.filter.CategoryFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
-import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSource;
 import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,7 +56,7 @@ public class LoginFragment extends Fragment implements LoginView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login1, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

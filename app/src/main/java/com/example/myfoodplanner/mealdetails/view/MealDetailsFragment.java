@@ -5,7 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,25 +42,35 @@ import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSource
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceImpl;
+import com.example.myfoodplanner.plan.presenter.PlanPresenter;
+import com.example.myfoodplanner.plan.presenter.PlanPresenterImpl;
+import com.example.myfoodplanner.plan.view.OnPlanClickListener;
+import com.example.myfoodplanner.plan.view.PlanView;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class MealDetailsFragment extends Fragment implements MealDetailsView, FavouritesView {
+public class MealDetailsFragment extends Fragment implements MealDetailsView{
     private static final String TAG = "MealDetailsFragment";
     RecyclerView ingredientsRecycler;
     RecyclerView instructionsRecycler;
     IngredientDetailsAdapter ingredientDetailsAdapter;
     RecipeStepsAdapter recipeStepsAdapter;
     MealDetailsPresenter presenter;
-    FavouritesPresenter favPresenter;
     ImageView mealImg;
     TextView mealTitle;
     TextView mealArea;
     WebView youtubeVideo;
     ImageView favouriteBtn;
+    Button planBtn;
     String id;
-    private boolean isFavourite = false;
+    private boolean isFavourite;
+    private boolean isPlanned;
     List<MealDetails> mealDetailsList = new ArrayList<>();
 
     public MealDetailsFragment() {
@@ -87,32 +100,68 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView, Fa
         recipeStepsAdapter = new RecipeStepsAdapter(view.getContext());
         instructionsRecycler.setAdapter(recipeStepsAdapter);
         setupPresenter();
-        setupFavPresenter();
+
         if(!id.isEmpty()){
             presenter.checkIfMealIsFavourite(id);
+            presenter.checkIfMealIsPlanned(id);
             presenter.getMealById(id);
         }else{
             mealDetailsList.add(MealDetailsFragmentArgs.fromBundle(getArguments()).getMealDetails());
             presenter.checkIfMealIsFavourite(MealDetailsFragmentArgs.fromBundle(getArguments()).getMealDetails().getIdMeal());
+            presenter.checkIfMealIsPlanned(MealDetailsFragmentArgs.fromBundle(getArguments()).getMealDetails().getIdMeal());
             showMealDetails(mealDetailsList);
         }
         favouriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isFavourite) {
-                    favPresenter.removeFromFav(mealDetailsList.get(0));
+                    presenter.removeFromFav(mealDetailsList.get(0).getIdMeal());
                     favouriteBtn.setImageResource(R.drawable.heart);
-                    isFavourite = false; // Update state
+                    isFavourite = false;
                     Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from favourites", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from favourites");
                 } else {
-                    presenter.AddToFav(mealDetailsList.get(0));
+                    mealDetailsList.get(0).setFavourite(true);
+                    mealDetailsList.get(0).setDate("");
+                   presenter.AddToFav(mealDetailsList.get(0));
                     favouriteBtn.setImageResource(R.drawable.heart_fill);
-                    isFavourite = true; // Update state
+                    isFavourite = true;
                     Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " added to favourites", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " added to favourites");
                 }
 
+            }
+        });
+        planBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPlanned){
+                    presenter.removeFromPlan(mealDetailsList.get(0).getIdMeal());
+                    planBtn.setText(R.string.add_to_plan);
+                    isPlanned = false;
+                    Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from plan", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from plan");
+                }else{
+                    MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
+                            .setTitleText("Select Date")
+                            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                            .build();
+                    materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+                        @Override
+                        public void onPositiveButtonClick(Long selection) {
+                            String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date(selection));
+                            mealDetailsList.get(0).setFavourite(false);
+                            mealDetailsList.get(0).setDate(date);
+                            presenter.AddToPlan(mealDetailsList.get(0));
+                            planBtn.setText("Remove From Plan");
+                            isPlanned = true;
+                            Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " added to plan", Toast.LENGTH_SHORT).show();
+                            Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " added to plan");
+                        }
+                    });
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    materialDatePicker.show(fragmentManager, "DATE_PICKER");
+                }
             }
         });
     }
@@ -124,6 +173,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView, Fa
         instructionsRecycler = view.findViewById(R.id.rv_instructions);
         youtubeVideo = view.findViewById(R.id.wv_youtube);
         favouriteBtn = view.findViewById(R.id.iv_non_favourite);
+        planBtn = view.findViewById(R.id.iv_plan);
     }
     public void setupPresenter() {
         Repository repository = RepositoryImpl.getInstance(
@@ -140,22 +190,6 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView, Fa
         );
         presenter = new MealDetailsPresenterImpl(this, repository);
     }
-    public void setupFavPresenter() {
-        Repository repository = RepositoryImpl.getInstance(
-                CategoriesRemoteDataSourceImpl.getInstance(),
-                AuthServiceImpl.getInstance(),
-                IngredientsRemoteDataSourceImpl.getInstance(),
-                AreaRemoteDataSourceImpl.getInstance(),
-                RandomMealRemoteDataSourceImpl.getInstance(),
-                CategoryFilterRemoteDataSourceImpl.getInstance(),
-                IngredientFilterRemoteDataSourceImpl.getInstance(),
-                AreaFilterRemoteDataSourceImpl.getInstance(),
-                MealDetailsRemoteDataSourceImpl.getInstance(),
-                MealDetailsLocalDataSourceImpl.getInstance(getContext())
-        );
-        favPresenter = new FavouritesPresenterImpl(repository, this);
-    }
-
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void showMealDetails(List<MealDetails> mealDetails) {
@@ -199,7 +233,6 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView, Fa
     public void showErrorMsg(String msg) {
         Log.i(TAG, "showErrorMsg: "+msg);
     }
-
     @Override
     public void updateFavouriteIcon(boolean isFavourite) {
         this.isFavourite = isFavourite;
@@ -210,16 +243,20 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView, Fa
         }
     }
 
+    @Override
+    public void updatePlanIcon(boolean isPlanned) {
+        this.isPlanned = isPlanned;
+        if(isPlanned){
+            planBtn.setText(R.string.remove_from_plan);
+        }else{
+            planBtn.setText(R.string.add_to_plan);
+        }
+    }
+
     private String extractYouTubeVideoId(String url) {
         if (url != null && url.contains("v=")) {
             return url.substring(url.indexOf("v=") + 2);
         }
         return "";
     }
-
-    @Override
-    public void showFavourites(List<MealDetails> mealDetailsList) {}
-
-    @Override
-    public void showErrMsg(String msg) {}
 }

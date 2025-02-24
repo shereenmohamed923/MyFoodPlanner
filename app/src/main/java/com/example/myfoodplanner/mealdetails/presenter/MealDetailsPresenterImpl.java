@@ -69,4 +69,37 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter{
                 ));
     }
 
+    @Override
+    public void checkIfMealIsPlanned(String mealId) {
+        compositeDisposable.add(repo.isMealPlanned(mealId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        isPlanned -> view.updatePlanIcon(isPlanned),
+                        throwable -> Log.i("isPlanned", "checkIfMealIsPlanned: " + throwable)
+                ));
+    }
+
+    @Override
+    public void AddToPlan(MealDetails mealDetails) {
+        repo.insertMealToPlan(mealDetails)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
+    @Override
+    public void removeFromFav(String id) {
+        repo.deleteFavouriteMealDetails(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
+    @Override
+    public void removeFromPlan(String id) {
+        repo.deleteMealFromPlan(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
 }

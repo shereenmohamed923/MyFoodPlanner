@@ -145,8 +145,8 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public Completable deleteFavouriteMealDetails(MealDetails mealDetails) {
-        return mealDetailsLocalDataSource.deleteMealDetails(mealDetails);
+    public Completable deleteFavouriteMealDetails(String id) {
+        return mealDetailsLocalDataSource.deleteMealDetails(id);
     }
 
     @Override
@@ -158,5 +158,26 @@ public class RepositoryImpl implements Repository {
     public Single<Boolean> isMealFavourite(String mealId) {
         return mealDetailsLocalDataSource.isMealFavourite(mealId)
                 .map(count -> count > 0);
+    }
+
+    @Override
+    public Single<Boolean> isMealPlanned(String mealId) {
+        return mealDetailsLocalDataSource.isMealPlanned(mealId)
+                .map(count -> count > 0);
+    }
+
+    @Override
+    public Completable insertMealToPlan(MealDetails mealDetails) {
+        return mealDetailsLocalDataSource.insertMealToPlan(mealDetails);
+    }
+
+    @Override
+    public Completable deleteMealFromPlan(String id) {
+        return mealDetailsLocalDataSource.deleteMealFromPlan(id);
+    }
+
+    @Override
+    public Flowable<List<MealDetails>> getAllPlannedMeals() {
+        return mealDetailsLocalDataSource.getAllPlannedMeals();
     }
 }

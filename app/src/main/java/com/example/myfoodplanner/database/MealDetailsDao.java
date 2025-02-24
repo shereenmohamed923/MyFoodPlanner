@@ -19,12 +19,24 @@ public interface MealDetailsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertMealToFavourite(MealDetails mealDetails);
 
-    @Delete
-    Completable deleteMealFromFavourite(MealDetails mealDetails);
+    @Query("DELETE FROM meal_details_table WHERE idMeal = :mealId AND isFavourite = 1")
+    Completable deleteMealFromFavourite(String mealId);
 
-    @Query("select * from meal_details_table")
+    @Query("select * from meal_details_table WHERE isFavourite = 1")
     Flowable<List<MealDetails>> getAllFavouriteMeals();
 
-    @Query("SELECT COUNT(*) FROM meal_details_table WHERE idMeal = :mealId")
+    @Query("SELECT COUNT(*) FROM meal_details_table WHERE idMeal = :mealId AND isFavourite = 1 AND date = '' ")
     Single<Integer> isMealFavourite(String mealId);
+
+    @Query("SELECT COUNT(*) FROM meal_details_table WHERE idMeal = :mealId AND isFavourite = 0 AND date != '' ")
+    Single<Integer> isMealPlanned(String mealId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Completable insertMealToPlan(MealDetails mealDetails);
+
+    @Query("DELETE FROM meal_details_table WHERE idMeal = :mealId AND isFavourite = 0")
+    Completable deleteMealFromPlan(String mealId);
+
+    @Query("select * from meal_details_table WHERE date IS NOT NULL")
+    Flowable<List<MealDetails>> getAllPlannedMeals();
 }

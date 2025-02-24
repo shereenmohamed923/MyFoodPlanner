@@ -10,7 +10,11 @@ import io.reactivex.rxjava3.core.Single;
 
 public interface MealDetailsLocalDataSource {
     Completable insertMealDetails(MealDetails mealDetails);
-    Completable deleteMealDetails(MealDetails mealDetails);
+    Completable deleteMealDetails(String id);
     Flowable<List<MealDetails>> getFavouriteMealDetails();
     Single<Integer> isMealFavourite(String mealId);
+    Single<Integer> isMealPlanned(String mealId);
+    Completable insertMealToPlan(MealDetails mealDetails);
+    Completable deleteMealFromPlan(String id);
+    Flowable<List<MealDetails>> getAllPlannedMeals();
 }

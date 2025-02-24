@@ -105,14 +105,6 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
                 Navigation.findNavController(view).navigate(action);
             }
         });
-
-//        filterBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Navigation.findNavController(view).navigate(R.id.home);
-//            }
-//        });
-
     }
     private void initializeUI(View view){
         mAuth = FirebaseAuth.getInstance();

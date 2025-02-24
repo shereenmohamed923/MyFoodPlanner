@@ -27,7 +27,11 @@ public interface Repository {
     void signup(String email, String password, FirebaseCallback firebaseCallback);
     void login(String email, String password, FirebaseCallback firebaseCallback);
     Completable insertFavouriteMealDetails(MealDetails mealDetails);
-    Completable deleteFavouriteMealDetails(MealDetails mealDetails);
+    Completable deleteFavouriteMealDetails(String id);
     Flowable<List<MealDetails>> getFavouriteMealDetails();
     Single<Boolean> isMealFavourite(String mealId);
+    Single<Boolean> isMealPlanned(String mealId);
+    Completable insertMealToPlan(MealDetails mealDetails);
+    Completable deleteMealFromPlan(String id);
+    Flowable<List<MealDetails>> getAllPlannedMeals();
 }

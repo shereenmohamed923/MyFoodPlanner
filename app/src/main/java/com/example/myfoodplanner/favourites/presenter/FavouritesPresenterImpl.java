@@ -31,8 +31,8 @@ public class FavouritesPresenterImpl implements FavouritesPresenter{
     }
 
     @Override
-    public void removeFromFav(MealDetails mealDetails) {
-        repo.deleteFavouriteMealDetails(mealDetails).subscribeOn(Schedulers.io())
+    public void removeFromFav(String id) {
+        repo.deleteFavouriteMealDetails(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }

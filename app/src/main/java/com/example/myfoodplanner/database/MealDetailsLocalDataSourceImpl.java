@@ -30,8 +30,8 @@ public class MealDetailsLocalDataSourceImpl implements MealDetailsLocalDataSourc
     }
 
     @Override
-    public Completable deleteMealDetails(MealDetails mealDetails) {
-        return dao.deleteMealFromFavourite(mealDetails);
+    public Completable deleteMealDetails(String id) {
+        return dao.deleteMealFromFavourite(id);
     }
 
     @Override
@@ -42,5 +42,25 @@ public class MealDetailsLocalDataSourceImpl implements MealDetailsLocalDataSourc
     @Override
     public Single<Integer> isMealFavourite(String mealId) {
         return dao.isMealFavourite(mealId);
+    }
+
+    @Override
+    public Single<Integer> isMealPlanned(String mealId) {
+        return dao.isMealPlanned(mealId);
+    }
+
+    @Override
+    public Completable insertMealToPlan(MealDetails mealDetails) {
+        return dao.insertMealToPlan(mealDetails);
+    }
+
+    @Override
+    public Completable deleteMealFromPlan(String id) {
+        return dao.deleteMealFromPlan(id);
+    }
+
+    @Override
+    public Flowable<List<MealDetails>> getAllPlannedMeals() {
+        return dao.getAllPlannedMeals();
     }
 }
