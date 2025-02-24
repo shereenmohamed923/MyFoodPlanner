@@ -37,6 +37,6 @@ public interface MealDetailsDao {
     @Query("DELETE FROM meal_details_table WHERE idMeal = :mealId AND isFavourite = 0")
     Completable deleteMealFromPlan(String mealId);
 
-    @Query("select * from meal_details_table WHERE date IS NOT NULL")
-    Flowable<List<MealDetails>> getAllPlannedMeals();
+    @Query("select * from meal_details_table WHERE date = :chosenDate")
+    Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate);
 }

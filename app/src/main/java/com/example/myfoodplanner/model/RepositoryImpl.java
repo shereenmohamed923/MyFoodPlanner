@@ -177,7 +177,7 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public Flowable<List<MealDetails>> getAllPlannedMeals() {
-        return mealDetailsLocalDataSource.getAllPlannedMeals();
+    public Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate) {
+        return mealDetailsLocalDataSource.getAllPlannedMeals(chosenDate);
     }
 }

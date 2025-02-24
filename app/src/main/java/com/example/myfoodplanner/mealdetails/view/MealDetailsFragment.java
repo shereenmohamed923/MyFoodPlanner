@@ -46,6 +46,7 @@ import com.example.myfoodplanner.plan.presenter.PlanPresenter;
 import com.example.myfoodplanner.plan.presenter.PlanPresenterImpl;
 import com.example.myfoodplanner.plan.view.OnPlanClickListener;
 import com.example.myfoodplanner.plan.view.PlanView;
+import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
@@ -142,9 +143,13 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
                     Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from plan", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from plan");
                 }else{
+                    CalendarConstraints constraints = new CalendarConstraints.Builder()
+                            .setStart(MaterialDatePicker.todayInUtcMilliseconds())
+                            .build();
                     MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
                             .setTitleText("Select Date")
                             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                            .setCalendarConstraints(constraints)
                             .build();
                     materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
                         @Override

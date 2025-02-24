@@ -63,7 +63,6 @@ public class FavouritesFragment extends Fragment implements FavouritesView, OnFa
         this.view = view;
         favouritesRecycler = view.findViewById(R.id.rv_favourites);
         favouritesAdapter = new FavouritesAdapter(view.getContext(), this);
-        favouritesRecycler.setAdapter(favouritesAdapter);
         setupPresenter();
         presenter.getFavMeals();
 
@@ -88,6 +87,7 @@ public class FavouritesFragment extends Fragment implements FavouritesView, OnFa
     public void showFavourites(List<MealDetails> mealDetailsList) {
         if(!mealDetailsList.isEmpty()){
             Log.i(TAG, "showFavourites: " +mealDetailsList.get(0).getStrMeal());
+            favouritesRecycler.setAdapter(favouritesAdapter);
             favouritesAdapter.setList(mealDetailsList);
         }
     }
@@ -99,7 +99,7 @@ public class FavouritesFragment extends Fragment implements FavouritesView, OnFa
     }
 
     @Override
-    public void onFavProductClick(MealDetails mealDetails) {
+    public void onFavMealClick(MealDetails mealDetails) {
         FavouritesFragmentDirections.ActionFavouritesFragmentToMealDetailsFragment action
                 = FavouritesFragmentDirections.actionFavouritesFragmentToMealDetailsFragment("", mealDetails);
         Navigation.findNavController(view).navigate(action);

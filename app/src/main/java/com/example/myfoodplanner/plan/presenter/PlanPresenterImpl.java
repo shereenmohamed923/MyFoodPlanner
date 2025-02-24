@@ -20,8 +20,8 @@ public class PlanPresenterImpl implements PlanPresenter{
 
     @SuppressLint("CheckResult")
     @Override
-    public void getPlannedMeals() {
-        repo.getAllPlannedMeals().subscribeOn(Schedulers.io())
+    public void getPlannedMeals(String chosenDate) {
+        repo.getAllPlannedMeals(chosenDate).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item -> view.showPlannedMeals(item));
     }

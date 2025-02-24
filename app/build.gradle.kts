@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.firebase.auth.v2310)
     implementation(libs.play.services.auth)
     implementation(libs.google.services)
+    implementation("com.google.firebase:firebase-firestore:25.1.2")
     //navigation
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)

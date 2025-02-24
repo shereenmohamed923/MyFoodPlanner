@@ -15,7 +15,7 @@
         android:icon="@drawable/heart_fill"
         android:title="@string/favourite" />
     <item android:title="Plan"
-        android:id="@+id/plan_nav"
+        android:id="@+id/planFragment"
         android:enabled="true"
         android:icon="@drawable/plan"/>
     <item android:title="Profile"

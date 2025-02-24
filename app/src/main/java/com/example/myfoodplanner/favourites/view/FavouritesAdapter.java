@@ -53,7 +53,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesHolder> {
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onFavProductClick(currentMeal);
+                    listener.onFavMealClick(currentMeal);
                 }
             });
 

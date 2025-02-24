@@ -33,5 +33,5 @@ public interface Repository {
     Single<Boolean> isMealPlanned(String mealId);
     Completable insertMealToPlan(MealDetails mealDetails);
     Completable deleteMealFromPlan(String id);
-    Flowable<List<MealDetails>> getAllPlannedMeals();
+    Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate);
 }
