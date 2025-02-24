@@ -18,12 +18,18 @@ public class PlanPresenterImpl implements PlanPresenter{
         this.view = view;
     }
 
+    @Override
+    public void removeMealFromPlan(String mealId) {
+        repo.removeMealFromPlan(mealId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
     @SuppressLint("CheckResult")
     @Override
-    public void getPlannedMeals(String chosenDate) {
+    public void getAllPlannedMeals(String chosenDate) {
         repo.getAllPlannedMeals(chosenDate).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item -> view.showPlannedMeals(item));
     }
-
 }

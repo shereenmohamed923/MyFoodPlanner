@@ -145,63 +145,78 @@ public class RepositoryImpl implements Repository {
     public void login(String email, String password, AuthCallback authCallback) {
         authService.login(email, password, authCallback);
     }
-
     @Override
-    public Completable insertFavouriteMealDetails(MealDetails mealDetails) {
-        return mealDetailsLocalDataSource.insertMealDetails(mealDetails);
+    public Completable addMealToFavourites(MealDetails meal) {
+        return mealDetailsLocalDataSource.isMealExists(meal.getIdMeal())
+                .flatMapCompletable(count -> {
+                    if (count > 0) {
+                        // If meal exists, update isFavourite
+                        return mealDetailsLocalDataSource.addMealToFavourites(meal.getIdMeal());
+                    } else {
+                        // If meal does not exist, insert it first
+                        meal.setFavourite(true);
+                        return mealDetailsLocalDataSource.insertMeal(meal);
+                    }
+                });
     }
 
     @Override
-    public Completable deleteFavouriteMealDetails(String id) {
-        return mealDetailsLocalDataSource.deleteMealDetails(id);
+    public Completable removeMealFromFavourites(String mealId) {
+        return mealDetailsLocalDataSource.removeMealFromFavourites(mealId)
+                .andThen(mealDetailsLocalDataSource.deleteMealIfNotPlannedOrFavourite(mealId));
     }
 
     @Override
-    public Flowable<List<MealDetails>> getFavouriteMealDetails() {
-        return mealDetailsLocalDataSource.getFavouriteMealDetails();
+    public Completable addMealToPlan(MealDetails meal, String chosenDate) {
+        return mealDetailsLocalDataSource.isMealExists(meal.getIdMeal())
+                .flatMapCompletable(count -> {
+                    if (count > 0) {
+                        return mealDetailsLocalDataSource.updateMealPlanDate(meal.getIdMeal(), chosenDate);
+                    } else {
+                        meal.setDate(chosenDate);
+                        return mealDetailsLocalDataSource.insertMeal(meal);
+                    }
+                });
     }
 
     @Override
-    public Single<Boolean> isMealFavourite(String mealId) {
-        return mealDetailsLocalDataSource.isMealFavourite(mealId)
-                .map(count -> count > 0);
+    public Completable removeMealFromPlan(String mealId) {
+        return mealDetailsLocalDataSource.removeMealFromPlanButKeepFavourite(mealId)
+                .andThen(mealDetailsLocalDataSource.deleteMealIfNotFavourite(mealId));
     }
 
     @Override
-    public Single<Boolean> isMealPlanned(String mealId) {
-        return mealDetailsLocalDataSource.isMealPlanned(mealId)
-                .map(count -> count > 0);
+    public Single<Boolean> checkIfMealIsFavourite(String mealId) {
+        return mealDetailsLocalDataSource.isMealFavourite(mealId);
     }
 
     @Override
-    public Completable insertMealToPlan(MealDetails mealDetails) {
-        backupService.addMealToFireStore(mealDetails);
-        return mealDetailsLocalDataSource.insertMealToPlan(mealDetails);
+    public Single<Boolean> checkIfMealIsPlanned(String mealId) {
+        return mealDetailsLocalDataSource.isMealPlanned(mealId);
     }
 
     @Override
-    public Completable deleteMealFromPlan(String id) {
-        backupService.deleteMealFromFireStore(id);
-        return mealDetailsLocalDataSource.deleteMealFromPlan(id);
+    public Flowable<List<MealDetails>> getAllFavouriteMeals() {
+        return mealDetailsLocalDataSource.getAllFavouriteMeals();
+    }
+
+    @Override
+    public void addMealToFireStore(MealDetails meal) {
+        backupService.addMealToFireStore(meal);
+    }
+
+    @Override
+    public void deleteMealFromFireStore(String mealId) {
+        backupService.deleteMealFromFireStore(mealId);
+    }
+
+    @Override
+    public void restoreMealsFromFireStore(BackupCallBack callback) {
+        backupService.restoreMealsFromFireStore(callback);
     }
 
     @Override
     public Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate) {
         return mealDetailsLocalDataSource.getAllPlannedMeals(chosenDate);
     }
-
-//    @Override
-//    public void addMealToFireStore(MealDetails meal) {
-//
-//    }
-//
-//    @Override
-//    public void deleteMealFromFireStore(String mealId) {
-//
-//    }
-//
-//    @Override
-//    public void restoreMealsFromFireStore(BackupCallBack callback) {
-//        backupService.restoreMealsFromFireStore(callback);
-//    }
 }

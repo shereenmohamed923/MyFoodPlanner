@@ -9,12 +9,16 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 
 public interface MealDetailsLocalDataSource {
-    Completable insertMealDetails(MealDetails mealDetails);
-    Completable deleteMealDetails(String id);
-    Flowable<List<MealDetails>> getFavouriteMealDetails();
-    Single<Integer> isMealFavourite(String mealId);
-    Single<Integer> isMealPlanned(String mealId);
-    Completable insertMealToPlan(MealDetails mealDetails);
-    Completable deleteMealFromPlan(String id);
+    Completable insertMeal(MealDetails mealDetails);
+    Single<Integer> isMealExists(String mealId);
+    Completable addMealToFavourites(String mealId);
+    Completable removeMealFromFavourites(String mealId);
+    Single<Boolean> isMealFavourite(String mealId);
+    Flowable<List<MealDetails>> getAllFavouriteMeals();
+    Completable deleteMealIfNotPlannedOrFavourite(String mealId);
+    Completable updateMealPlanDate(String mealId, String chosenDate);
+    Completable removeMealFromPlanButKeepFavourite(String mealId);
+    Completable deleteMealIfNotFavourite(String mealId);
+    Single<Boolean> isMealPlanned(String mealId);
     Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate);
 }

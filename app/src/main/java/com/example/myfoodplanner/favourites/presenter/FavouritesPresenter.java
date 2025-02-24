@@ -7,6 +7,6 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Flowable;
 
 public interface FavouritesPresenter {
-    void getFavMeals();
-    void removeFromFav(String id);
+    void removeMealFromFavourites(String mealId);
+    void getAllFavouriteMeals();
 }

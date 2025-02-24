@@ -51,16 +51,38 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter{
     }
 
     @Override
-    public void AddToFav(MealDetails mealDetails) {
-        repo.insertFavouriteMealDetails(mealDetails)
+    public void addMealToFavourites(MealDetails meal) {
+        repo.addMealToFavourites(meal)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
 
     @Override
+    public void removeMealFromFavourites(String mealId) {
+        repo.removeMealFromFavourites(mealId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
+    @Override
+    public void addMealToPlan(MealDetails meal, String chosenDate) {
+        repo.addMealToPlan(meal, chosenDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
+    @Override
+    public void removeMealFromPlan(String mealId) {
+        repo.removeMealFromPlan(mealId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
+    @Override
     public void checkIfMealIsFavourite(String mealId) {
-        compositeDisposable.add(repo.isMealFavourite(mealId)
+        compositeDisposable.add(repo.checkIfMealIsFavourite(mealId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -71,7 +93,7 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter{
 
     @Override
     public void checkIfMealIsPlanned(String mealId) {
-        compositeDisposable.add(repo.isMealPlanned(mealId)
+        compositeDisposable.add(repo.checkIfMealIsPlanned(mealId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -79,27 +101,4 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter{
                         throwable -> Log.i("isPlanned", "checkIfMealIsPlanned: " + throwable)
                 ));
     }
-
-    @Override
-    public void AddToPlan(MealDetails mealDetails) {
-        repo.insertMealToPlan(mealDetails)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
-    }
-
-    @Override
-    public void removeFromFav(String id) {
-        repo.deleteFavouriteMealDetails(id).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
-    }
-
-    @Override
-    public void removeFromPlan(String id) {
-        repo.deleteMealFromPlan(id).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
-    }
-
 }

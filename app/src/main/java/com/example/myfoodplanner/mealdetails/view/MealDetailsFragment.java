@@ -109,16 +109,14 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
             @Override
             public void onClick(View v) {
                 if (isFavourite) {
-                    presenter.removeFromFav(mealDetailsList.get(0).getIdMeal());
+                    presenter.removeMealFromFavourites(mealDetailsList.get(0).getIdMeal());
                     favouriteBtn.setImageResource(R.drawable.heart);
                     isFavourite = false;
                     Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from favourites", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from favourites");
                 } else {
                     mealDetailsList.get(0).setFavourite(true);
-                    mealDetailsList.get(0).setDate("");
-                   presenter.AddToFav(mealDetailsList.get(0));
-                   //mealDetailsList.get(0).setId();
+                   presenter.addMealToFavourites(mealDetailsList.get(0));
                     favouriteBtn.setImageResource(R.drawable.heart_fill);
                     isFavourite = true;
                     Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " added to favourites", Toast.LENGTH_SHORT).show();
@@ -131,7 +129,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
             @Override
             public void onClick(View v) {
                 if(isPlanned){
-                    presenter.removeFromPlan(mealDetailsList.get(0).getIdMeal());
+                    presenter.removeMealFromPlan(mealDetailsList.get(0).getIdMeal());
                     planBtn.setText(R.string.add_to_plan);
                     isPlanned = false;
                     Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from plan", Toast.LENGTH_SHORT).show();
@@ -149,9 +147,8 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
                         @Override
                         public void onPositiveButtonClick(Long selection) {
                             String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date(selection));
-                            mealDetailsList.get(0).setFavourite(false);
                             mealDetailsList.get(0).setDate(date);
-                            presenter.AddToPlan(mealDetailsList.get(0));
+                            presenter.addMealToPlan(mealDetailsList.get(0), date);
                             planBtn.setText("Remove From Plan");
                             isPlanned = true;
                             Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " added to plan", Toast.LENGTH_SHORT).show();

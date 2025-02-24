@@ -39,7 +39,7 @@ public class BackupServiceImpl implements BackupService {
             firestore.collection("users")
                     .document(getUserId())
                     .collection("meals")
-                    .document(String.valueOf(meal.getId()))
+                    .document(String.valueOf(meal.getIdMeal()))
                     .set(meal)
                     .addOnSuccessListener(aVoid -> Log.d("Firestore", "Meal added successfully"))
                     .addOnFailureListener(e -> Log.e("Firestore", "Error adding meal", e));

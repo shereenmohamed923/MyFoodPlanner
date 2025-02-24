@@ -64,7 +64,7 @@ public class FavouritesFragment extends Fragment implements FavouritesView, OnFa
         favouritesRecycler = view.findViewById(R.id.rv_favourites);
         favouritesAdapter = new FavouritesAdapter(view.getContext(), this);
         setupPresenter();
-        presenter.getFavMeals();
+        presenter.getAllFavouriteMeals();
 
     }
     public void setupPresenter() {

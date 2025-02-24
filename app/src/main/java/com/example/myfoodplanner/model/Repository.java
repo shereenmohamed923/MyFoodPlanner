@@ -27,15 +27,15 @@ public interface Repository {
     Observable<MealDetailsResponse> getMealById(String id);
     void signup(String email, String password, AuthCallback authCallback);
     void login(String email, String password, AuthCallback authCallback);
-    Completable insertFavouriteMealDetails(MealDetails mealDetails);
-    Completable deleteFavouriteMealDetails(String id);
-    Flowable<List<MealDetails>> getFavouriteMealDetails();
-    Single<Boolean> isMealFavourite(String mealId);
-    Single<Boolean> isMealPlanned(String mealId);
-    Completable insertMealToPlan(MealDetails mealDetails);
-    Completable deleteMealFromPlan(String id);
+    Completable addMealToFavourites(MealDetails meal);
+    Completable removeMealFromFavourites(String mealId);
+    Completable addMealToPlan(MealDetails meal, String chosenDate);
+    Completable removeMealFromPlan(String mealId);
+    Single<Boolean> checkIfMealIsFavourite(String mealId);
+    Single<Boolean> checkIfMealIsPlanned(String mealId);
     Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate);
-//    void addMealToFireStore(MealDetails meal);
-//    void deleteMealFromFireStore(String mealId);
-//    void restoreMealsFromFireStore(BackupCallBack callback);
+    Flowable<List<MealDetails>> getAllFavouriteMeals();
+    void addMealToFireStore(MealDetails meal);
+    void deleteMealFromFireStore(String mealId);
+    void restoreMealsFromFireStore(BackupCallBack callback);
 }

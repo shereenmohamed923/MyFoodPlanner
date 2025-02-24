@@ -78,7 +78,7 @@ public class PlanFragment extends Fragment implements PlanView, OnPlanClickListe
 
         calendarView.setDate(System.currentTimeMillis());
         String selectedDate = formatDate(calendar);
-        presenter.getPlannedMeals(selectedDate);
+        presenter.getAllPlannedMeals(selectedDate);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -87,7 +87,7 @@ public class PlanFragment extends Fragment implements PlanView, OnPlanClickListe
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 String newSelectedDate = formatDate(calendar);
-                presenter.getPlannedMeals(newSelectedDate);
+                presenter.getAllPlannedMeals(newSelectedDate);
                 //Toast.makeText(getContext(), selectedDate, Toast.LENGTH_SHORT).show();
             }
         });

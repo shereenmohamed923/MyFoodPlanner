@@ -22,18 +22,18 @@ public class FavouritesPresenterImpl implements FavouritesPresenter{
         this.view = view;
     }
 
-    @SuppressLint("CheckResult")
     @Override
-    public void getFavMeals() {
-        repo.getFavouriteMealDetails().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(item -> view.showFavourites(item));
-    }
-
-    @Override
-    public void removeFromFav(String id) {
-        repo.deleteFavouriteMealDetails(id).subscribeOn(Schedulers.io())
+    public void removeMealFromFavourites(String mealId) {
+        repo.removeMealFromFavourites(mealId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getAllFavouriteMeals() {
+        repo.getAllFavouriteMeals().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(item -> view.showFavourites(item));
     }
 }

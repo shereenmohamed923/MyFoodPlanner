@@ -25,42 +25,64 @@ public class MealDetailsLocalDataSourceImpl implements MealDetailsLocalDataSourc
      return localDataSource;
  }
     @Override
-    public Completable insertMealDetails(MealDetails mealDetails) {
-        return dao.insertMealToFavourite(mealDetails);
+    public Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate) {
+        return dao.getAllPlannedMeals(chosenDate);
     }
 
     @Override
-    public Completable deleteMealDetails(String id) {
-        return dao.deleteMealFromFavourite(id);
+    public Completable insertMeal(MealDetails mealDetails) {
+        return dao.insertMeal(mealDetails);
     }
 
     @Override
-    public Flowable<List<MealDetails>> getFavouriteMealDetails() {
-        return dao.getAllFavouriteMeals();
+    public Single<Integer> isMealExists(String mealId) {
+        return dao.isMealExists(mealId);
     }
 
     @Override
-    public Single<Integer> isMealFavourite(String mealId) {
+    public Completable addMealToFavourites(String mealId) {
+        return dao.addMealToFavourites(mealId);
+    }
+
+    @Override
+    public Completable removeMealFromFavourites(String mealId) {
+        return dao.removeMealFromFavourites(mealId);
+    }
+
+    @Override
+    public Single<Boolean> isMealFavourite(String mealId) {
         return dao.isMealFavourite(mealId);
     }
 
     @Override
-    public Single<Integer> isMealPlanned(String mealId) {
+    public Flowable<List<MealDetails>> getAllFavouriteMeals() {
+        return dao.getAllFavouriteMeals();
+    }
+
+    @Override
+    public Completable deleteMealIfNotPlannedOrFavourite(String mealId) {
+        return dao.deleteMealIfNotPlannedOrFavourite(mealId);
+    }
+
+    @Override
+    public Completable updateMealPlanDate(String mealId, String chosenDate) {
+        return dao.updateMealPlanDate(mealId, chosenDate);
+    }
+
+    @Override
+    public Completable removeMealFromPlanButKeepFavourite(String mealId) {
+        return dao.removeMealFromPlanButKeepFavourite(mealId);
+    }
+
+    @Override
+    public Completable deleteMealIfNotFavourite(String mealId) {
+        return dao.deleteMealIfNotFavourite(mealId);
+    }
+
+    @Override
+    public Single<Boolean> isMealPlanned(String mealId) {
         return dao.isMealPlanned(mealId);
     }
 
-    @Override
-    public Completable insertMealToPlan(MealDetails mealDetails) {
-        return dao.insertMealToPlan(mealDetails);
-    }
 
-    @Override
-    public Completable deleteMealFromPlan(String id) {
-        return dao.deleteMealFromPlan(id);
-    }
-
-    @Override
-    public Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate) {
-        return dao.getAllPlannedMeals(chosenDate);
-    }
 }

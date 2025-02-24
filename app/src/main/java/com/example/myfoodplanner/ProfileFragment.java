@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ProfileFragment extends Fragment {
     Button logoutBtn;
     FirebaseAuth mAuth;
+    Button backup;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -38,6 +39,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         logoutBtn = view.findViewById(R.id.btn_logout);
+        backup = view.findViewById(R.id.btn_backup);
         mAuth = FirebaseAuth.getInstance();
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
