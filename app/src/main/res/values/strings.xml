@@ -36,4 +36,5 @@
     <string name="search_hint">Search by Category, Ingredient or Area</string>
     <string name="add_to_plan">Add To Plan</string>
     <string name="remove_from_plan">Remove From Plan</string>
+    <string name="backup">Backup</string>
 </resources>

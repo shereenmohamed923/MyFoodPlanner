@@ -1,11 +1,11 @@
 package com.example.myfoodplanner.Authentication.login.presenter;
 
 import com.example.myfoodplanner.Authentication.login.view.LoginView;
-import com.example.myfoodplanner.Authentication.network.FirebaseCallback;
+import com.example.myfoodplanner.FireBase.Authentication.AuthCallback;
 import com.example.myfoodplanner.model.Repository;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginPresenterImpl implements LoginPresenter, FirebaseCallback {
+public class LoginPresenterImpl implements LoginPresenter, AuthCallback {
     Repository repo;
     LoginView view;
     public LoginPresenterImpl(LoginView view, Repository repo){

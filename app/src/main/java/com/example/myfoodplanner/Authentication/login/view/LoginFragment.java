@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import com.example.myfoodplanner.Authentication.login.presenter.LoginPresenter;
 import com.example.myfoodplanner.Authentication.login.presenter.LoginPresenterImpl;
-import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Backup.BackupService;
+import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
 import com.example.myfoodplanner.model.Repository;
@@ -100,7 +102,8 @@ public class LoginFragment extends Fragment implements LoginView {
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
                 AreaFilterRemoteDataSourceImpl.getInstance(),
                 MealDetailsRemoteDataSourceImpl.getInstance(),
-                MealDetailsLocalDataSourceImpl.getInstance(getContext())
+                MealDetailsLocalDataSourceImpl.getInstance(getContext()),
+                BackupServiceImpl.getInstance()
         );
         presenter = new LoginPresenterImpl(this, repository);
     }

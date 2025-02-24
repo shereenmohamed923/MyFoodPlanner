@@ -35,34 +35,6 @@ public class AreaRemoteDataSourceImpl implements AreaRemoteDataSource {
         }
         return client;
     }
-//    @Override
-//    public void makeNetworkCall(AreaNetworkCallBack areaNetworkCallBack) {
-//        if (mealService == null) {
-//            areaNetworkCallBack.onFailureResult("MealService not initialized");
-//            return;
-//        }
-//        //call and enqueue
-//        Call<AreaResponse> call = mealService.getAreas();
-//        call.enqueue(new Callback<AreaResponse>() {
-//            @Override
-//            public void onResponse(Call<AreaResponse> call, Response<AreaResponse> response) {
-//                //the presenter will implement what happens onSuccess
-//                if (response.isSuccessful() && response.body() != null) {
-//                    // Ensure response body is valid before accessing
-//                    Log.d("tag", "onResponsea area: "+response.body().getAreas().size());
-//                    areaNetworkCallBack.onRetrievedArea(response.body().getAreas());
-//                } else {
-//                    areaNetworkCallBack.onFailureResult("Response unsuccessful or empty");
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<AreaResponse> call, Throwable throwable) {
-//                //the presenter will implement what happens onFailure
-//                areaNetworkCallBack.onFailureResult(throwable.getMessage());
-//                throwable.printStackTrace();
-//            }
-//        });
-//    }
 
     @Override
     public Observable<AreaResponse> getAreas() {

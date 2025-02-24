@@ -1,6 +1,7 @@
 package com.example.myfoodplanner.model;
 
-import com.example.myfoodplanner.Authentication.network.FirebaseCallback;
+import com.example.myfoodplanner.FireBase.Authentication.AuthCallback;
+import com.example.myfoodplanner.FireBase.Backup.BackupCallBack;
 import com.example.myfoodplanner.model.area.AreaResponse;
 import com.example.myfoodplanner.model.category.CategoryResponse;
 import com.example.myfoodplanner.model.filter.MealResponse;
@@ -24,8 +25,8 @@ public interface Repository {
     Observable<MealResponse> getMealsByIngredient(String ingredient);
     Observable<MealResponse> getMealsByArea(String area);
     Observable<MealDetailsResponse> getMealById(String id);
-    void signup(String email, String password, FirebaseCallback firebaseCallback);
-    void login(String email, String password, FirebaseCallback firebaseCallback);
+    void signup(String email, String password, AuthCallback authCallback);
+    void login(String email, String password, AuthCallback authCallback);
     Completable insertFavouriteMealDetails(MealDetails mealDetails);
     Completable deleteFavouriteMealDetails(String id);
     Flowable<List<MealDetails>> getFavouriteMealDetails();
@@ -34,4 +35,7 @@ public interface Repository {
     Completable insertMealToPlan(MealDetails mealDetails);
     Completable deleteMealFromPlan(String id);
     Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate);
+//    void addMealToFireStore(MealDetails meal);
+//    void deleteMealFromFireStore(String mealId);
+//    void restoreMealsFromFireStore(BackupCallBack callback);
 }

@@ -16,11 +16,10 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
-import com.example.myfoodplanner.favourites.presenter.FavouritesPresenterImpl;
-import com.example.myfoodplanner.favourites.view.FavouritesFragmentDirections;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
@@ -105,7 +104,8 @@ public class PlanFragment extends Fragment implements PlanView, OnPlanClickListe
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
                 AreaFilterRemoteDataSourceImpl.getInstance(),
                 MealDetailsRemoteDataSourceImpl.getInstance(),
-                MealDetailsLocalDataSourceImpl.getInstance(getContext())
+                MealDetailsLocalDataSourceImpl.getInstance(getContext()),
+                BackupServiceImpl.getInstance()
         );
         presenter= new PlanPresenterImpl(repository, this);
     }

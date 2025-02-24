@@ -14,7 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
 import com.example.myfoodplanner.meals.presenter.MealPresenter;
@@ -90,7 +91,8 @@ public class MealsFragment extends Fragment implements OnMealClickListener, Meal
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
                 AreaFilterRemoteDataSourceImpl.getInstance(),
                 MealDetailsRemoteDataSourceImpl.getInstance(),
-                MealDetailsLocalDataSourceImpl.getInstance(getContext())
+                MealDetailsLocalDataSourceImpl.getInstance(getContext()),
+                BackupServiceImpl.getInstance()
         );
         presenter = new MealPresenterImpl(this, repository);
     }

@@ -1,6 +1,5 @@
 package com.example.myfoodplanner.home.view;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,18 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
 import com.example.myfoodplanner.home.presenter.HomePresenter;
 import com.example.myfoodplanner.home.presenter.HomePresenterImpl;
-import com.example.myfoodplanner.meals.view.MealsFragmentDirections;
-import com.example.myfoodplanner.meals.view.OnMealClickListener;
 import com.example.myfoodplanner.model.area.Area;
 import com.example.myfoodplanner.model.category.Category;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
-import com.example.myfoodplanner.model.filter.Meal;
 import com.example.myfoodplanner.model.ingredient.Ingredient;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
@@ -128,7 +125,8 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
                 AreaFilterRemoteDataSourceImpl.getInstance(),
                 MealDetailsRemoteDataSourceImpl.getInstance(),
-                MealDetailsLocalDataSourceImpl.getInstance(getContext())
+                MealDetailsLocalDataSourceImpl.getInstance(getContext()),
+                BackupServiceImpl.getInstance()
                 );
         presenter = new HomePresenterImpl(this, repository);
     }

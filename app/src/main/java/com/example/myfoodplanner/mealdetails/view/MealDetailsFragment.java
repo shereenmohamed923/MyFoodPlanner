@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,12 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
-import com.example.myfoodplanner.favourites.presenter.FavouritesPresenter;
-import com.example.myfoodplanner.favourites.presenter.FavouritesPresenterImpl;
-import com.example.myfoodplanner.favourites.view.FavouritesView;
 import com.example.myfoodplanner.mealdetails.presenter.MealDetailsPresenter;
 import com.example.myfoodplanner.mealdetails.presenter.MealDetailsPresenterImpl;
 import com.example.myfoodplanner.model.mealdetails.IngredientDetails;
@@ -42,10 +39,6 @@ import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSource
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceImpl;
-import com.example.myfoodplanner.plan.presenter.PlanPresenter;
-import com.example.myfoodplanner.plan.presenter.PlanPresenterImpl;
-import com.example.myfoodplanner.plan.view.OnPlanClickListener;
-import com.example.myfoodplanner.plan.view.PlanView;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -125,6 +118,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
                     mealDetailsList.get(0).setFavourite(true);
                     mealDetailsList.get(0).setDate("");
                    presenter.AddToFav(mealDetailsList.get(0));
+                   //mealDetailsList.get(0).setId();
                     favouriteBtn.setImageResource(R.drawable.heart_fill);
                     isFavourite = true;
                     Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " added to favourites", Toast.LENGTH_SHORT).show();
@@ -191,7 +185,8 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
                 AreaFilterRemoteDataSourceImpl.getInstance(),
                 MealDetailsRemoteDataSourceImpl.getInstance(),
-                MealDetailsLocalDataSourceImpl.getInstance(getContext())
+                MealDetailsLocalDataSourceImpl.getInstance(getContext()),
+                BackupServiceImpl.getInstance()
         );
         presenter = new MealDetailsPresenterImpl(this, repository);
     }

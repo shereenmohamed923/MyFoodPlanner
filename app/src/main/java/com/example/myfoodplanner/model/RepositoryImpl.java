@@ -1,7 +1,9 @@
 package com.example.myfoodplanner.model;
 
-import com.example.myfoodplanner.Authentication.network.AuthService;
-import com.example.myfoodplanner.Authentication.network.FirebaseCallback;
+import com.example.myfoodplanner.FireBase.Authentication.AuthService;
+import com.example.myfoodplanner.FireBase.Authentication.AuthCallback;
+import com.example.myfoodplanner.FireBase.Backup.BackupCallBack;
+import com.example.myfoodplanner.FireBase.Backup.BackupService;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSource;
 import com.example.myfoodplanner.model.area.AreaResponse;
 import com.example.myfoodplanner.model.category.CategoryResponse;
@@ -36,6 +38,7 @@ public class RepositoryImpl implements Repository {
     AreaFilterRemoteDataSource areaFilterRemoteDataSource;
     MealDetailsRemoteDataSource mealDetailsRemoteDataSource;
     MealDetailsLocalDataSource mealDetailsLocalDataSource;
+    BackupService backupService;
     private static RepositoryImpl repo = null;
     private RepositoryImpl(
             CategoriesRemoteDataSource categoriesRemoteDataSource,
@@ -47,7 +50,8 @@ public class RepositoryImpl implements Repository {
             IngredientFilterRemoteDataSource ingredientFilterRemoteDataSource,
             AreaFilterRemoteDataSource areaFilterRemoteDataSource,
             MealDetailsRemoteDataSource mealDetailsRemoteDataSource,
-            MealDetailsLocalDataSource mealDetailsLocalDataSource
+            MealDetailsLocalDataSource mealDetailsLocalDataSource,
+            BackupService backupService
     ) {
         this.categoriesRemoteDataSource = categoriesRemoteDataSource;
         this.authService = authService;
@@ -59,6 +63,7 @@ public class RepositoryImpl implements Repository {
         this.areaFilterRemoteDataSource = areaFilterRemoteDataSource;
         this.mealDetailsRemoteDataSource = mealDetailsRemoteDataSource;
         this.mealDetailsLocalDataSource = mealDetailsLocalDataSource;
+        this.backupService = backupService;
     }
     public static RepositoryImpl getInstance(
             CategoriesRemoteDataSource categoriesRemoteDataSource,
@@ -70,7 +75,8 @@ public class RepositoryImpl implements Repository {
             IngredientFilterRemoteDataSource ingredientFilterRemoteDataSource,
             AreaFilterRemoteDataSource areaFilterRemoteDataSource,
             MealDetailsRemoteDataSource mealDetailsRemoteDataSource,
-            MealDetailsLocalDataSource mealDetailsLocalDataSource
+            MealDetailsLocalDataSource mealDetailsLocalDataSource,
+            BackupService backupService
     ){
         if(repo == null){
             repo = new RepositoryImpl(
@@ -83,7 +89,8 @@ public class RepositoryImpl implements Repository {
                     ingredientFilterRemoteDataSource,
                     areaFilterRemoteDataSource,
                     mealDetailsRemoteDataSource,
-                    mealDetailsLocalDataSource
+                    mealDetailsLocalDataSource,
+                    backupService
             );
         }
         return repo;
@@ -130,13 +137,13 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public void signup(String email, String password, FirebaseCallback firebaseCallback) {
-        authService.signup(email, password, firebaseCallback);
+    public void signup(String email, String password, AuthCallback authCallback) {
+        authService.signup(email, password, authCallback);
     }
 
     @Override
-    public void login(String email, String password, FirebaseCallback firebaseCallback) {
-        authService.login(email, password, firebaseCallback);
+    public void login(String email, String password, AuthCallback authCallback) {
+        authService.login(email, password, authCallback);
     }
 
     @Override
@@ -168,11 +175,13 @@ public class RepositoryImpl implements Repository {
 
     @Override
     public Completable insertMealToPlan(MealDetails mealDetails) {
+        backupService.addMealToFireStore(mealDetails);
         return mealDetailsLocalDataSource.insertMealToPlan(mealDetails);
     }
 
     @Override
     public Completable deleteMealFromPlan(String id) {
+        backupService.deleteMealFromFireStore(id);
         return mealDetailsLocalDataSource.deleteMealFromPlan(id);
     }
 
@@ -180,4 +189,19 @@ public class RepositoryImpl implements Repository {
     public Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate) {
         return mealDetailsLocalDataSource.getAllPlannedMeals(chosenDate);
     }
+
+//    @Override
+//    public void addMealToFireStore(MealDetails meal) {
+//
+//    }
+//
+//    @Override
+//    public void deleteMealFromFireStore(String mealId) {
+//
+//    }
+//
+//    @Override
+//    public void restoreMealsFromFireStore(BackupCallBack callback) {
+//        backupService.restoreMealsFromFireStore(callback);
+//    }
 }

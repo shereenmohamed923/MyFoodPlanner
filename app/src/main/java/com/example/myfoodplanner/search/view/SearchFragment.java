@@ -18,13 +18,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.myfoodplanner.Authentication.network.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
-import com.example.myfoodplanner.home.presenter.HomePresenterImpl;
 import com.example.myfoodplanner.home.view.AreasAdapter;
 import com.example.myfoodplanner.home.view.CategoriesAdapter;
-import com.example.myfoodplanner.home.view.HomeFragmentDirections;
 import com.example.myfoodplanner.home.view.IngredientsAdapter;
 import com.example.myfoodplanner.home.view.OnListClickListener;
 import com.example.myfoodplanner.model.Repository;
@@ -44,13 +43,11 @@ import com.example.myfoodplanner.search.presenter.SearchPresenter;
 import com.example.myfoodplanner.search.presenter.SearchPresenterImpl;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -138,7 +135,8 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
                 IngredientFilterRemoteDataSourceImpl.getInstance(),
                 AreaFilterRemoteDataSourceImpl.getInstance(),
                 MealDetailsRemoteDataSourceImpl.getInstance(),
-                MealDetailsLocalDataSourceImpl.getInstance(getContext())
+                MealDetailsLocalDataSourceImpl.getInstance(getContext()),
+                BackupServiceImpl.getInstance()
         );
         presenter = new SearchPresenterImpl(this, repository);
     }
