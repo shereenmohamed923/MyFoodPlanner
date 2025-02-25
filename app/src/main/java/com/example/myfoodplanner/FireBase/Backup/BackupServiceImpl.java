@@ -34,34 +34,36 @@ public class BackupServiceImpl implements BackupService {
     }
 
     @Override
-    public void addMealToFireStore(MealDetails meal) {
+    public void addMealToFireStore(List<MealDetails> meals) {
         if (getUserId() != null) {
-            firestore.collection("users")
-                    .document(getUserId())
-                    .collection("meals")
-                    .document(String.valueOf(meal.getIdMeal()))
-                    .set(meal)
-                    .addOnSuccessListener(aVoid -> Log.d("Firestore", "Meal added successfully"))
-                    .addOnFailureListener(e -> Log.e("Firestore", "Error adding meal", e));
+            for (MealDetails meal : meals) {
+                firestore.collection("users")
+                        .document(getUserId())
+                        .collection("meals")
+                        .document(meal.getIdMeal())
+                        .set(meal)
+                        .addOnSuccessListener(aVoid -> Log.d("Firestore", "Meal added successfully: " + meal.getStrMeal()))
+                        .addOnFailureListener(e -> Log.e("Firestore", "Error adding meal: " + meal.getStrMeal(), e));
+            }
         } else {
-            Log.e("Firestore", "User not logged in, can't add meal");
+            Log.e("Firestore", "User not logged in, can't add meals");
         }
     }
 
-    @Override
-    public void deleteMealFromFireStore(String mealId) {
-        if (getUserId() != null) {
-            firestore.collection("users")
-                    .document(getUserId())
-                    .collection("meals")
-                    .document(mealId)
-                    .delete()
-                    .addOnSuccessListener(aVoid -> Log.d("Firestore", "Meal deleted successfully"))
-                    .addOnFailureListener(e -> Log.e("Firestore", "Error deleting meal", e));
-        } else {
-            Log.e("Firestore", "User not logged in, cannot delete meal");
-        }
-    }
+//    @Override
+//    public void deleteMealFromFireStore(String mealId) {
+//        if (getUserId() != null) {
+//            firestore.collection("users")
+//                    .document(getUserId())
+//                    .collection("meals")
+//                    .document(mealId)
+//                    .delete()
+//                    .addOnSuccessListener(aVoid -> Log.d("Firestore", "Meal deleted successfully"))
+//                    .addOnFailureListener(e -> Log.e("Firestore", "Error deleting meal", e));
+//        } else {
+//            Log.e("Firestore", "User not logged in, cannot delete meal");
+//        }
+//    }
 
     @Override
     public void restoreMealsFromFireStore(BackupCallBack callback) {

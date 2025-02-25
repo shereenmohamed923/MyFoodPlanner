@@ -67,4 +67,6 @@ dependencies {
     //room
     implementation (libs.room.runtime)
     annotationProcessor (libs.room.compiler)
+    //lottie
+    implementation (libs.lottie)
 }

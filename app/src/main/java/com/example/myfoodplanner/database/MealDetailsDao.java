@@ -19,7 +19,9 @@ public interface MealDetailsDao {
     // Insert meal (only if it doesn't exist)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     Completable insertMeal(MealDetails mealDetails);
-
+    //get all meals in database
+    @Query("SELECT * FROM meal_details_table")
+    Flowable<List<MealDetails>> getAllMeals();
     // Add meal to Favourites
     @Query("UPDATE meal_details_table SET isFavourite = 1 WHERE idMeal = :mealId")
     Completable addMealToFavourites(String mealId);

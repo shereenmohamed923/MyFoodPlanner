@@ -145,6 +145,12 @@ public class RepositoryImpl implements Repository {
     public void login(String email, String password, AuthCallback authCallback) {
         authService.login(email, password, authCallback);
     }
+
+//    @Override
+//    public void insertMeal(MealDetails mealDetails) {
+//        mealDetailsLocalDataSource.insertMeal(mealDetails);
+//    }
+
     @Override
     public Completable addMealToFavourites(MealDetails meal) {
         return mealDetailsLocalDataSource.isMealExists(meal.getIdMeal())
@@ -199,16 +205,20 @@ public class RepositoryImpl implements Repository {
     public Flowable<List<MealDetails>> getAllFavouriteMeals() {
         return mealDetailsLocalDataSource.getAllFavouriteMeals();
     }
-
     @Override
-    public void addMealToFireStore(MealDetails meal) {
-        backupService.addMealToFireStore(meal);
+    public Flowable<List<MealDetails>> getAllMeals(){
+        return mealDetailsLocalDataSource.getAllMeals();
     }
 
     @Override
-    public void deleteMealFromFireStore(String mealId) {
-        backupService.deleteMealFromFireStore(mealId);
+    public void addMealToFireStore(List<MealDetails> meals) {
+        backupService.addMealToFireStore(meals);
     }
+
+//    @Override
+//    public void deleteMealFromFireStore(String mealId) {
+//        backupService.deleteMealFromFireStore(mealId);
+//    }
 
     @Override
     public void restoreMealsFromFireStore(BackupCallBack callback) {

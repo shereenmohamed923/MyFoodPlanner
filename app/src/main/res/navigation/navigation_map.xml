@@ -73,7 +73,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.myfoodplanner.ProfileFragment"
+        android:name="com.example.myfoodplanner.profile.view.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action

@@ -35,7 +35,8 @@ public interface Repository {
     Single<Boolean> checkIfMealIsPlanned(String mealId);
     Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate);
     Flowable<List<MealDetails>> getAllFavouriteMeals();
-    void addMealToFireStore(MealDetails meal);
-    void deleteMealFromFireStore(String mealId);
+    Flowable<List<MealDetails>> getAllMeals();
+    void addMealToFireStore(List<MealDetails> meals);
+//    void deleteMealFromFireStore(String mealId);
     void restoreMealsFromFireStore(BackupCallBack callback);
 }

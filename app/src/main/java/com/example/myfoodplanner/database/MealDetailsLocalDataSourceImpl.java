@@ -84,5 +84,9 @@ public class MealDetailsLocalDataSourceImpl implements MealDetailsLocalDataSourc
         return dao.isMealPlanned(mealId);
     }
 
+    @Override
+    public Flowable<List<MealDetails>> getAllMeals(){
+     return dao.getAllMeals();
+    }
 
 }
