@@ -22,8 +22,8 @@
             android:layout_marginTop="56dp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/inspire"
-            android:textColor="@color/colorOnSurface"
             android:textSize="24sp"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,7 +65,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_random_meal"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="400dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:backgroundTint="@color/colorBackground"
@@ -80,7 +80,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_details_img"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="270dp"
                 android:layout_gravity="center|start|top"
                 android:foregroundGravity="fill_horizontal|fill_vertical"
                 android:scaleType="centerCrop"
@@ -90,13 +90,14 @@
             <TextView
                 android:id="@+id/tv_meal_name"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="15dp"
                 android:fontFamily="@font/poppins_regular"
+                android:gravity="center|left"
                 android:text="TextView"
                 android:textSize="20sp" />
 
@@ -133,6 +134,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="@string/ingredients"
             android:textSize="24sp"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cv_random_meal" />
 
@@ -145,6 +147,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="@string/categories"
             android:textSize="24sp"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_ingredients" />
 
@@ -157,6 +160,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="@string/cuisines"
             android:textSize="24sp"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_meal_categories" />
 

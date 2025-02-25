@@ -1,5 +1,7 @@
 package com.example.myfoodplanner.model;
 
+import android.content.Context;
+
 import com.example.myfoodplanner.FireBase.Authentication.AuthService;
 import com.example.myfoodplanner.FireBase.Authentication.AuthCallback;
 import com.example.myfoodplanner.FireBase.Backup.BackupCallBack;
@@ -137,29 +139,37 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
+    public boolean userExists() {
+        return authService.userExists();
+    }
+
+    @Override
     public void signup(String email, String password, AuthCallback authCallback) {
         authService.signup(email, password, authCallback);
     }
 
     @Override
-    public void login(String email, String password, AuthCallback authCallback) {
-        authService.login(email, password, authCallback);
+    public void login(String email, String password, AuthCallback authCallback, Context context) {
+        authService.login(email, password, authCallback, context);
     }
 
-//    @Override
-//    public void insertMeal(MealDetails mealDetails) {
-//        mealDetailsLocalDataSource.insertMeal(mealDetails);
-//    }
+    @Override
+    public void logout() {
+        authService.logout();
+    }
+
+    @Override
+    public Completable insertMeal(MealDetails mealDetails){
+        return mealDetailsLocalDataSource.insertMeal(mealDetails);
+    }
 
     @Override
     public Completable addMealToFavourites(MealDetails meal) {
         return mealDetailsLocalDataSource.isMealExists(meal.getIdMeal())
                 .flatMapCompletable(count -> {
                     if (count > 0) {
-                        // If meal exists, update isFavourite
                         return mealDetailsLocalDataSource.addMealToFavourites(meal.getIdMeal());
                     } else {
-                        // If meal does not exist, insert it first
                         meal.setFavourite(true);
                         return mealDetailsLocalDataSource.insertMeal(meal);
                     }
@@ -214,11 +224,6 @@ public class RepositoryImpl implements Repository {
     public void addMealToFireStore(List<MealDetails> meals) {
         backupService.addMealToFireStore(meals);
     }
-
-//    @Override
-//    public void deleteMealFromFireStore(String mealId) {
-//        backupService.deleteMealFromFireStore(mealId);
-//    }
 
     @Override
     public void restoreMealsFromFireStore(BackupCallBack callback) {

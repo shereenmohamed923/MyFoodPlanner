@@ -1,10 +1,13 @@
 package com.example.myfoodplanner.profile.view;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +44,7 @@ public class ProfileFragment extends Fragment implements ProfileView {
     Button logoutBtn;
     FirebaseAuth mAuth;
     Button backup;
+    Button restore;
     ProfilePresenter presenter;
     FavouritesPresenter favouritesPresenter;
     List<MealDetails> meals = new ArrayList<>();
@@ -67,13 +71,15 @@ public class ProfileFragment extends Fragment implements ProfileView {
         super.onViewCreated(view, savedInstanceState);
         logoutBtn = view.findViewById(R.id.btn_logout);
         backup = view.findViewById(R.id.btn_backup);
+        restore = view.findViewById(R.id.btn_restore);
         setupPresenter();
         mAuth = FirebaseAuth.getInstance();
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                requireActivity().finishAffinity();
+                presenter.logout();
+                clearUserData(getContext());
+                Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_welcomeFragment);
             }
         });
 
@@ -81,6 +87,12 @@ public class ProfileFragment extends Fragment implements ProfileView {
             @Override
             public void onClick(View v) {
                 presenter.addToFireStore();
+            }
+        });
+        restore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.restoreFromFireStore();
             }
         });
     }
@@ -109,5 +121,9 @@ public class ProfileFragment extends Fragment implements ProfileView {
     @Override
     public void showMessage(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+    private void clearUserData(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        preferences.edit().clear().apply();
     }
 }

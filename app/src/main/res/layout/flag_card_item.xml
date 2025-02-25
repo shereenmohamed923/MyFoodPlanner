@@ -9,20 +9,23 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_flag_card"
-        android:layout_width="140dp"
+        style="@style/FlagsCardView"
+        android:layout_width="130dp"
         android:layout_height="140dp"
         android:backgroundTint="@color/colorBackground"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_flag_img"
-            android:layout_width="140dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_gravity="center|top"
             android:scaleType="centerCrop"
+            app:shapeAppearance="@style/CornerRoundedShape"
             app:srcCompat="@drawable/egypt" />
 
         <TextView
@@ -33,7 +36,6 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_semibold"
             android:text="TextView"
-            android:textColor="@color/colorOnBackground"
             android:textSize="20sp" />
     </androidx.cardview.widget.CardView>
 

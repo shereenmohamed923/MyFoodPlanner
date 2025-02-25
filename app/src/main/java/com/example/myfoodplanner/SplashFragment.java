@@ -39,6 +39,6 @@ public class SplashFragment extends Fragment {
             public void run() {
                 Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_welcomeFragment);
             }
-        }, 3000);
+        }, 4000);
     }
 }

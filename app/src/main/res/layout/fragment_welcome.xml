@@ -16,7 +16,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:fontFamily="@font/poppins_light"
         android:text="@string/btn_login"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/tv_square_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_square_title"
         style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_continue_google"
         app:layout_constraintEnd_toEndOf="@+id/btn_welcome_register"
-        app:layout_constraintStart_toStartOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/tv_square_title" />
 
     <Button
         android:id="@+id/btn_continue_guest"
@@ -81,9 +81,9 @@
         android:padding="8dp"
         android:text="@string/registeration"
         android:textColor="#6F7ABD"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_square_title"
         app:layout_constraintEnd_toEndOf="@+id/btn_welcome_login"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/tv_square_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_square_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface ProfilePresenter {
     void addToFireStore();
-
-    //void deleteFromFireStore(String mealId);
-    void restoreFromFireStore(BackupCallBack callBack);
+    void logout();
+    void restoreFromFireStore();
 }

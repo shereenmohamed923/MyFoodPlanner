@@ -37,4 +37,7 @@
     <string name="add_to_plan">Add To Plan</string>
     <string name="remove_from_plan">Remove From Plan</string>
     <string name="backup">Backup</string>
+    <string name="recipes">Recipes</string>
+    <string name="saved_recipes">My Saved Recipes</string>
+    <string name="restore">Restore</string>
 </resources>

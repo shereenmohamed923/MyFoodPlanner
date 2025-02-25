@@ -24,28 +24,45 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/category" />
+            android:text="@string/category"
+            app:chipBackgroundColor="@color/colorTertiary"
+            app:checkedIconTint="@android:color/transparent"
+            app:chipStrokeWidth="1dp"
+            app:chipStrokeColor="@color/colorPrimary"
+            app:checkedIconVisible="false"
+            app:chipSurfaceColor="@color/colorPrimary" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/ingredient_chip"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ingredient" />
+            android:text="@string/ingredient"
+            app:chipBackgroundColor="@color/colorTertiary"
+            app:checkedIconTint="@android:color/transparent"
+            app:chipStrokeWidth="1dp"
+            app:chipStrokeColor="@color/colorPrimary"
+            app:checkedIconVisible="false"
+            app:chipSurfaceColor="@color/colorPrimary" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/area_chip"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/country" />
+            android:text="@string/country"
+            app:chipBackgroundColor="@color/colorTertiary"
+            app:checkedIconTint="@android:color/transparent"
+            app:chipStrokeWidth="1dp"
+            app:chipStrokeColor="@color/colorPrimary"
+            app:checkedIconVisible="false"
+            app:chipSurfaceColor="@color/colorPrimary" />
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -61,6 +78,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:autofillHints=""
+        android:drawableStart="@drawable/search"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/colorPrimary"
         android:ems="10"
         android:hint="@string/search_hint"
         android:inputType="text"

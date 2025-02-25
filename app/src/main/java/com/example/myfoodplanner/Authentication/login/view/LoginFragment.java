@@ -80,7 +80,7 @@ public class LoginFragment extends Fragment implements LoginView {
                     Toast.makeText(getContext(), "Enter Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                presenter.login(emailInput, passwordInput);
+                presenter.login(emailInput, passwordInput, getContext());
 
             }
         });

@@ -31,6 +31,7 @@ import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSource
 import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceImpl;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -65,7 +66,6 @@ public class FavouritesFragment extends Fragment implements FavouritesView, OnFa
         favouritesAdapter = new FavouritesAdapter(view.getContext(), this);
         setupPresenter();
         presenter.getAllFavouriteMeals();
-
     }
     public void setupPresenter() {
         Repository repository = RepositoryImpl.getInstance(

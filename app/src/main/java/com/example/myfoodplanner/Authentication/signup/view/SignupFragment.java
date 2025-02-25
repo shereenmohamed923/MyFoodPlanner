@@ -131,9 +131,8 @@ public class SignupFragment extends Fragment implements SignupView {
         Log.i(TAG, "createUserWithEmail:success");
         Toast.makeText(getContext(), "Authentication success.",
                 Toast.LENGTH_SHORT).show();
-        Navigation.findNavController(email).navigate(R.id.action_signupFragment_to_homeFragment);
+        Navigation.findNavController(email).navigate(R.id.action_signupFragment_to_loginFragment);
     }
-
     @Override
     public void showMessage(String msg) {
         Log.i(TAG, "createUserWithEmail:failure");

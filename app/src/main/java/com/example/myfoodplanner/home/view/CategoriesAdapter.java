@@ -1,6 +1,8 @@
 package com.example.myfoodplanner.home.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesHolder> {
         this.categories = categories;
         notifyDataSetChanged();
    }
+    private static final int[] COLORS = {
+            Color.parseColor("#8BAFBC"),
+            Color.parseColor("#BA7387"),
+            Color.parseColor("#FDB357"),
+            Color.parseColor("#B5A0BF"),
+            Color.parseColor("#FB6D6A"),
+            Color.parseColor("#ACC258")
+    };
 
     @NonNull
     @Override
@@ -46,6 +56,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesHolder> {
     public void onBindViewHolder(@NonNull CategoriesHolder holder, int position) {
         //populate data
         Category category = categories.get(position);
+        int color = COLORS[position % COLORS.length];
+        holder.mealCategoryCard.setBackgroundTintList(ColorStateList.valueOf(color));
         holder.title.setText(category.getStrCategory());
         String url = category.getStrCategoryThumb();
         Glide.with(context).load(url)

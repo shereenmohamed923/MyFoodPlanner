@@ -11,6 +11,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class BackupServiceImpl implements BackupService {
     FirebaseFirestore firestore;
     FirebaseAuth auth;

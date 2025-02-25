@@ -1,5 +1,7 @@
 package com.example.myfoodplanner.Authentication.login.presenter;
 
+import android.content.Context;
+
 import com.example.myfoodplanner.Authentication.login.view.LoginView;
 import com.example.myfoodplanner.FireBase.Authentication.AuthCallback;
 import com.example.myfoodplanner.model.Repository;
@@ -14,8 +16,8 @@ public class LoginPresenterImpl implements LoginPresenter, AuthCallback {
     }
 
     @Override
-    public void login(String email, String password) {
-        repo.login(email, password, this);
+    public void login(String email, String password, Context context) {
+        repo.login(email, password, this, context);
     }
     @Override
     public void onSuccessfulResult(FirebaseUser user) {
