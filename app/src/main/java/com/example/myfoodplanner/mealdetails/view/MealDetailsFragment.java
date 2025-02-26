@@ -5,8 +5,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
 import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
+import com.example.myfoodplanner.MainActivity;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
 import com.example.myfoodplanner.mealdetails.presenter.MealDetailsPresenter;
@@ -42,6 +45,7 @@ import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceIm
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,56 +112,70 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
         favouriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isFavourite) {
-                    presenter.removeMealFromFavourites(mealDetailsList.get(0).getIdMeal());
-                    favouriteBtn.setImageResource(R.drawable.heart);
-                    isFavourite = false;
-                    Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from favourites", Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from favourites");
-                } else {
-                    mealDetailsList.get(0).setFavourite(true);
-                   presenter.addMealToFavourites(mealDetailsList.get(0));
-                    favouriteBtn.setImageResource(R.drawable.heart_fill);
-                    isFavourite = true;
-                    Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " added to favourites", Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " added to favourites");
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                boolean exists = auth.getCurrentUser() != null;
+                if (!exists) {
+                    AlertDialog alertDialog = getAlertDialog();
+                    alertDialog.show();
+                }else{
+                    if (isFavourite) {
+                        presenter.removeMealFromFavourites(mealDetailsList.get(0).getIdMeal());
+                        favouriteBtn.setImageResource(R.drawable.heart);
+                        isFavourite = false;
+                        Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from favourites", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from favourites");
+                    } else {
+                        mealDetailsList.get(0).setFavourite(true);
+                        presenter.addMealToFavourites(mealDetailsList.get(0));
+                        favouriteBtn.setImageResource(R.drawable.heart_fill);
+                        isFavourite = true;
+                        Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " added to favourites", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " added to favourites");
+                    }
                 }
-
             }
         });
         planBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isPlanned){
-                    presenter.removeMealFromPlan(mealDetailsList.get(0).getIdMeal());
-                    planBtn.setText(R.string.add_to_plan);
-                    isPlanned = false;
-                    Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from plan", Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from plan");
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                boolean exists = auth.getCurrentUser() != null;
+                if (!exists) {
+                    AlertDialog alertDialog = getAlertDialog();
+                    alertDialog.show();
                 }else{
-                    CalendarConstraints constraints = new CalendarConstraints.Builder()
-                            .setStart(MaterialDatePicker.todayInUtcMilliseconds())
-                            .build();
-                    MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
-                            .setTitleText("Select Date")
-                            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                            .setCalendarConstraints(constraints)
-                            .build();
-                    materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-                        @Override
-                        public void onPositiveButtonClick(Long selection) {
-                            String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date(selection));
-                            mealDetailsList.get(0).setDate(date);
-                            presenter.addMealToPlan(mealDetailsList.get(0), date);
-                            planBtn.setText("Remove From Plan");
-                            isPlanned = true;
-                            Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " added to plan", Toast.LENGTH_SHORT).show();
-                            Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " added to plan");
-                        }
-                    });
-                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                    materialDatePicker.show(fragmentManager, "DATE_PICKER");
+                    if(isPlanned){
+                        presenter.removeMealFromPlan(mealDetailsList.get(0).getIdMeal());
+                        planBtn.setText(R.string.add_to_plan);
+                        isPlanned = false;
+                        Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from plan", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from plan");
+                    }else{
+                        CalendarConstraints constraints = new CalendarConstraints.Builder()
+                                .setStart(MaterialDatePicker.todayInUtcMilliseconds())
+                                .build();
+                        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
+                                .setTitleText("Select Date")
+                                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                                .setCalendarConstraints(constraints)
+                                .build();
+                        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+                            @Override
+                            public void onPositiveButtonClick(Long selection) {
+                                String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date(selection));
+                                mealDetailsList.get(0).setDate(date);
+                                presenter.addMealToPlan(mealDetailsList.get(0), date);
+                                planBtn.setText("Remove From Plan");
+                                isPlanned = true;
+                                Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " added to plan", Toast.LENGTH_SHORT).show();
+                                Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " added to plan");
+                            }
+                        });
+                        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                        materialDatePicker.show(fragmentManager, "DATE_PICKER");
+                    }
                 }
+
             }
         });
     }
@@ -249,11 +267,24 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
             planBtn.setText(R.string.add_to_plan);
         }
     }
-
     private String extractYouTubeVideoId(String url) {
         if (url != null && url.contains("v=")) {
             return url.substring(url.indexOf("v=") + 2);
         }
         return "";
+    }
+    private AlertDialog getAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("save your favourite recipes and plan your week meals!");
+        builder.setTitle("Sign Up for More Features");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Sign Up", (dialog, which) -> {
+            Navigation.findNavController(requireView()).navigate(R.id.action_mealDetailsFragment_to_welcomeFragment);
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            dialog.cancel();
+        });
+        AlertDialog alertDialog = builder.create();
+        return alertDialog;
     }
 }

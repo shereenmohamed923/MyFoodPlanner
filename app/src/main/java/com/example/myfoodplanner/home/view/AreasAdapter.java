@@ -29,7 +29,7 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasHolder> {
     }
 
     private void initializeThumbnails(){
-        thumbnails.add(R.drawable.america);
+        thumbnails.add(R.drawable.ic_launcher_foreground);
         thumbnails.add(R.drawable.britain);
         thumbnails.add(R.drawable.canada);
         thumbnails.add(R.drawable.china);
@@ -48,6 +48,7 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasHolder> {
         thumbnails.add(R.drawable.malaysia);
         thumbnails.add(R.drawable.mexico);
         thumbnails.add(R.drawable.morocco);
+        thumbnails.add(R.drawable.ic_launcher_foreground);
         thumbnails.add(R.drawable.poland);
         thumbnails.add(R.drawable.portugal);
         thumbnails.add(R.drawable.russia);
@@ -57,7 +58,7 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasHolder> {
         thumbnails.add(R.drawable.turkey);
         thumbnails.add(R.drawable.ukraine);
         thumbnails.add(R.drawable.uruguay);
-        thumbnails.add(R.drawable.vietnam);
+        thumbnails.add(R.drawable.ic_launcher_foreground);
     }
 
     public void setAreasList(List<Area> areas){

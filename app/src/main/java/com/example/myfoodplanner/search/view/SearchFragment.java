@@ -1,5 +1,6 @@
 package com.example.myfoodplanner.search.view;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -141,6 +142,7 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
         presenter = new SearchPresenterImpl(this, repository);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void showCategoriesList(List<Category> categories) {
         Log.i(TAG, "onSuccess: categories list Received " + categories.size());
@@ -173,6 +175,7 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
         }, throwable -> Log.e(TAG, "Error in categories search filtering", throwable));
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void showIngredientsList(List<Ingredient> ingredients) {
         Log.i(TAG, "onSuccess: ingredients list Received " + ingredients.size());
@@ -204,6 +207,7 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
                 }, throwable -> Log.e(TAG, "Error in ingredients search filtering", throwable));
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void showAreasList(List<Area> areas) {
         Log.i(TAG, "onSuccess: areas list Received " + areas.size());

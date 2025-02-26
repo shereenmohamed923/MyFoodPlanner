@@ -34,10 +34,14 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_mealsFragment"
-            app:destination="@id/mealsFragment" />
+            app:destination="@id/mealsFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_mealDetailsFragment"
-            app:destination="@id/mealDetailsFragment" />
+            app:destination="@id/mealDetailsFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -68,6 +72,9 @@
         <argument
             android:name="mealDetails"
             app:argType="com.example.myfoodplanner.model.mealdetails.MealDetails" />
+        <action
+            android:id="@+id/action_mealDetailsFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -77,7 +84,8 @@
         <action
             android:id="@+id/action_profileFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment"
-            app:popUpTo="@id/splashFragment" />
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_profileFragment_to_favouritesFragment"
             app:destination="@id/favouritesFragment" />

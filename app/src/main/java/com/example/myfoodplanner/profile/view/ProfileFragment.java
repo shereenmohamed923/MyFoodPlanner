@@ -115,7 +115,6 @@ public class ProfileFragment extends Fragment implements ProfileView {
 
     @Override
     public void showMessage(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
         presenter.signOut();
         if (isAdded() && getView() != null) {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView2);

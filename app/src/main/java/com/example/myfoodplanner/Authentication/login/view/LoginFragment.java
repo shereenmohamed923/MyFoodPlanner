@@ -114,7 +114,7 @@ public class LoginFragment extends Fragment implements LoginView {
     @Override
     public void navigateToHome() {
         Log.i(TAG, "signInWithEmail:success");
-        Toast.makeText(getContext(), "login success.",
+        Toast.makeText(getContext(), "Welcome to YumDay",
                 Toast.LENGTH_SHORT).show();
         FirebaseUser user = mAuth.getCurrentUser();
         presenter.restoreFromFireStore();
@@ -128,7 +128,6 @@ public class LoginFragment extends Fragment implements LoginView {
 
     @Override
     public void showMessage(String msg) {
-        Toast.makeText(getContext(), msg,
-                Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "showMessage: "+msg);
     }
 }
