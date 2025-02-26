@@ -3,6 +3,7 @@ package com.example.myfoodplanner.model;
 import android.content.Context;
 
 import com.example.myfoodplanner.FireBase.Authentication.AuthCallback;
+import com.example.myfoodplanner.FireBase.Backup.AddCallBack;
 import com.example.myfoodplanner.FireBase.Backup.BackupCallBack;
 import com.example.myfoodplanner.model.area.AreaResponse;
 import com.example.myfoodplanner.model.category.CategoryResponse;
@@ -30,7 +31,6 @@ public interface Repository {
     boolean userExists();
     void signup(String email, String password, AuthCallback authCallback);
     void login(String email, String password, AuthCallback authCallback, Context context);
-    void logout();
     Completable insertMeal(MealDetails mealDetails);
     Completable addMealToFavourites(MealDetails meal);
     Completable removeMealFromFavourites(String mealId);
@@ -41,6 +41,8 @@ public interface Repository {
     Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate);
     Flowable<List<MealDetails>> getAllFavouriteMeals();
     Flowable<List<MealDetails>> getAllMeals();
-    void addMealToFireStore(List<MealDetails> meals);
+    Completable ClearDataBase();
+    void addMealToFireStore(List<MealDetails> meals, AddCallBack addCallBack);
     void restoreMealsFromFireStore(BackupCallBack callback);
+    void signOut();
 }

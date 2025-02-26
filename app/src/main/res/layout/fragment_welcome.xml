@@ -10,67 +10,69 @@
     <Button
         android:id="@+id/btn_welcome_login"
         style="@style/Widget.Custom.ElevatedButton.Primary"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="64dp"
         android:backgroundTint="@color/colorPrimary"
         android:fontFamily="@font/poppins_light"
         android:text="@string/btn_login"
-        app:layout_constraintBottom_toTopOf="@+id/tv_square_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <Button
         android:id="@+id/btn_continue_google"
         style="@style/Widget.Custom.ElevatedButton.Primary"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/colorSecondary"
+        android:drawableStart="@drawable/googleg_standard_color_18"
+        android:drawableTint="@null"
         android:text="@string/btn_google_login"
-        app:layout_constraintBottom_toTopOf="@+id/btn_continue_guest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/tv_square_title"
         style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="16dp"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/do_not_have_account"
         android:textColor="@color/colorOnSurface"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView8"
-        app:layout_constraintEnd_toEndOf="@+id/btn_welcome_login" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_welcome_login"
+        app:layout_constraintTop_toBottomOf="@+id/btn_welcome_login" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="24dp"
         android:backgroundTint="@color/colorPrimary"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/or"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_continue_google"
         app:layout_constraintEnd_toEndOf="@+id/btn_welcome_register"
-        app:layout_constraintStart_toStartOf="@+id/tv_square_title" />
+        app:layout_constraintStart_toStartOf="@+id/tv_square_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_square_title" />
 
     <Button
         android:id="@+id/btn_continue_guest"
         style="@style/Widget.Custom.ElevatedButton.Primary"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="130dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/guest_continue"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_continue_google" />
 
     <Button
         android:id="@+id/btn_welcome_register"
@@ -85,5 +87,15 @@
         app:layout_constraintEnd_toEndOf="@+id/btn_welcome_login"
         app:layout_constraintStart_toEndOf="@+id/tv_square_title"
         app:layout_constraintTop_toTopOf="@+id/tv_square_title" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/yumday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

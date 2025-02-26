@@ -2,9 +2,10 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorBackground"
+    style="@style/CornerRoundedShape"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +16,8 @@
         <ImageView
             android:id="@+id/iv_meal_thumbnail"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_foreground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -24,12 +26,18 @@
 
         <TextView
             android:id="@+id/tv_meal_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
+            android:background="#000000"
+            android:backgroundTint="#80000000"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
             android:text="title"
+            android:textColor="@color/colorBackground"
             android:textSize="20sp"
+            android:translationY="-65dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_meal_thumbnail" />
 
@@ -37,12 +45,16 @@
             android:id="@+id/tv_meal_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="#000000"
+            android:backgroundTint="#80000000"
+            android:padding="5dp"
             android:text="area"
+            android:textColor="@color/colorBackground"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_meal_thumbnail" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_non_favourite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_non_favourite" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_ingredients_list"
@@ -61,7 +73,7 @@
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="24dp"
             android:text="@string/ingredients"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,19 +118,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="#90000000"
+            android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/iv_meal_thumbnail"
             app:srcCompat="@drawable/heart" />
 
         <Button
             android:id="@+id/iv_plan"
-            android:layout_width="wrap_content"
+            style="@style/Widget.Custom.ElevatedButton.Primary"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/add_to_plan"
-            app:layout_constraintEnd_toEndOf="@+id/tv_meal_area"
-            app:layout_constraintTop_toBottomOf="@+id/tv_meal_area" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_meal_thumbnail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

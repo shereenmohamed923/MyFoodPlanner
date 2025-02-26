@@ -15,6 +15,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.myfoodplanner.Authentication.login.presenter.LoginPresenter;
+import com.example.myfoodplanner.Authentication.login.presenter.LoginPresenterImpl;
+import com.example.myfoodplanner.Authentication.login.view.LoginView;
+import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
+import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
+import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
+import com.example.myfoodplanner.model.Repository;
+import com.example.myfoodplanner.model.RepositoryImpl;
+import com.example.myfoodplanner.model.mealdetails.MealDetails;
+import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.CategoryFilterRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.filter.IngredientFilterRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.ingredient.IngredientsRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSourceImpl;
+import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceImpl;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,7 +45,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class WelcomeFragment extends Fragment {
+import java.util.List;
+
+public class WelcomeFragment extends Fragment implements LoginView {
     private static final String TAG = "welcomeFragment";
     private static final int RC_SIGN_IN = 9001;
     Button login;
@@ -36,6 +55,7 @@ public class WelcomeFragment extends Fragment {
     Button continueUsingGoogle;
     Button continueAsGuest;
     FirebaseAuth mAuth;
+    LoginPresenter presenter;
     GoogleSignInClient mGoogleSignInClient;
 
     public WelcomeFragment() {
@@ -58,10 +78,9 @@ public class WelcomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setupPresenter();
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
         login = view.findViewById(R.id.btn_welcome_login);
         register = view.findViewById(R.id.btn_welcome_register);
         continueUsingGoogle = view.findViewById(R.id.btn_continue_google);
@@ -97,6 +116,22 @@ public class WelcomeFragment extends Fragment {
                 signIn();
             }
         });
+    }
+    public void setupPresenter(){
+        Repository repository = RepositoryImpl.getInstance(
+                CategoriesRemoteDataSourceImpl.getInstance(),
+                AuthServiceImpl.getInstance(),
+                IngredientsRemoteDataSourceImpl.getInstance(),
+                AreaRemoteDataSourceImpl.getInstance(),
+                RandomMealRemoteDataSourceImpl.getInstance(),
+                CategoryFilterRemoteDataSourceImpl.getInstance(),
+                IngredientFilterRemoteDataSourceImpl.getInstance(),
+                AreaFilterRemoteDataSourceImpl.getInstance(),
+                MealDetailsRemoteDataSourceImpl.getInstance(),
+                MealDetailsLocalDataSourceImpl.getInstance(getContext()),
+                BackupServiceImpl.getInstance()
+        );
+        presenter = new LoginPresenterImpl(this, repository);
     }
 
     @Override
@@ -148,7 +183,7 @@ public class WelcomeFragment extends Fragment {
                             // Sign in success, navigate to home fragment
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            presenter.restoreFromFireStore();
                             // Ensure the view is not null before navigating
                             View view = getView();
                             if (view != null) {
@@ -170,5 +205,26 @@ public class WelcomeFragment extends Fragment {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
+    }
+
+    @Override
+    public void navigateToHome() {
+        Log.i(TAG, "signInWithEmail:success");
+        Toast.makeText(getContext(), "login success.",
+                Toast.LENGTH_SHORT).show();
+        FirebaseUser user = mAuth.getCurrentUser();
+        presenter.restoreFromFireStore();
+        Navigation.findNavController(requireView()).navigate(R.id.action_welcomeFragment_to_homeFragment);
+    }
+
+    @Override
+    public void successfulRestore(List<MealDetails> meals) {
+        Log.d(TAG, "successfulRestore: Your meals are restored successfully");
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        Toast.makeText(getContext(), msg,
+                Toast.LENGTH_SHORT).show();
     }
 }

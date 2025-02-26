@@ -89,4 +89,9 @@ public class MealDetailsLocalDataSourceImpl implements MealDetailsLocalDataSourc
      return dao.getAllMeals();
     }
 
+    @Override
+    public Completable deleteAll() {
+        return dao.deleteAll();
+    }
+
 }

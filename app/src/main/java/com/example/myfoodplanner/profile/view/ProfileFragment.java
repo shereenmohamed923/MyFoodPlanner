@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -42,12 +43,12 @@ import java.util.List;
 
 public class ProfileFragment extends Fragment implements ProfileView {
     Button logoutBtn;
+    Button showFav;
+    Button showPlan;
     FirebaseAuth mAuth;
-    Button backup;
-    Button restore;
     ProfilePresenter presenter;
-    FavouritesPresenter favouritesPresenter;
     List<MealDetails> meals = new ArrayList<>();
+    View view;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -69,30 +70,29 @@ public class ProfileFragment extends Fragment implements ProfileView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.view = view;
         logoutBtn = view.findViewById(R.id.btn_logout);
-        backup = view.findViewById(R.id.btn_backup);
-        restore = view.findViewById(R.id.btn_restore);
+        showFav = view.findViewById(R.id.btn_show_fav);
+        showPlan = view.findViewById(R.id.btn_show_plan);
         setupPresenter();
         mAuth = FirebaseAuth.getInstance();
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.logout();
-                clearUserData(getContext());
-                Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_welcomeFragment);
-            }
-        });
-
-        backup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 presenter.addToFireStore();
+
             }
         });
-        restore.setOnClickListener(new View.OnClickListener() {
+        showFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.restoreFromFireStore();
+                Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_favouritesFragment);
+            }
+        });
+        showPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_planFragment);
             }
         });
     }
@@ -114,16 +114,21 @@ public class ProfileFragment extends Fragment implements ProfileView {
     }
 
     @Override
-    public void successfulRestore(List<MealDetails> meals) {
-        Toast.makeText(getContext(), "Your meals are restored successfully", Toast.LENGTH_SHORT).show();
+    public void showMessage(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        presenter.signOut();
+        if (isAdded() && getView() != null) {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView2);
+            navController.navigate(R.id.action_profileFragment_to_welcomeFragment);
+        }
     }
 
     @Override
-    public void showMessage(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-    }
-    private void clearUserData(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        preferences.edit().clear().apply();
+    public void showClearDataMessage(String msg) {
+        presenter.signOut();
+        if (isAdded() && getView() != null) {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView2);
+            navController.navigate(R.id.action_profileFragment_to_welcomeFragment);
+        }
     }
 }

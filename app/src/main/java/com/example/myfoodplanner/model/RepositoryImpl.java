@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.myfoodplanner.FireBase.Authentication.AuthService;
 import com.example.myfoodplanner.FireBase.Authentication.AuthCallback;
+import com.example.myfoodplanner.FireBase.Backup.AddCallBack;
 import com.example.myfoodplanner.FireBase.Backup.BackupCallBack;
 import com.example.myfoodplanner.FireBase.Backup.BackupService;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSource;
@@ -28,6 +29,7 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RepositoryImpl implements Repository {
     CategoriesRemoteDataSource categoriesRemoteDataSource;
@@ -154,11 +156,6 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public void logout() {
-        authService.logout();
-    }
-
-    @Override
     public Completable insertMeal(MealDetails mealDetails){
         return mealDetailsLocalDataSource.insertMeal(mealDetails);
     }
@@ -221,8 +218,13 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public void addMealToFireStore(List<MealDetails> meals) {
-        backupService.addMealToFireStore(meals);
+    public Completable ClearDataBase() {
+        return mealDetailsLocalDataSource.deleteAll();
+    }
+
+    @Override
+    public void addMealToFireStore(List<MealDetails> meals, AddCallBack addCallBack) {
+        backupService.addMealToFireStore(meals,addCallBack);
     }
 
     @Override
@@ -231,7 +233,13 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
+    public void signOut() {
+        backupService.signOut();
+    }
+
+    @Override
     public Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate) {
         return mealDetailsLocalDataSource.getAllPlannedMeals(chosenDate);
     }
+
 }

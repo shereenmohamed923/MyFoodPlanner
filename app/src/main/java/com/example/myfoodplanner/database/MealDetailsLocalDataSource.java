@@ -22,4 +22,5 @@ public interface MealDetailsLocalDataSource {
     Single<Boolean> isMealPlanned(String mealId);
     Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate);
     Flowable<List<MealDetails>> getAllMeals();
+    Completable deleteAll();
 }

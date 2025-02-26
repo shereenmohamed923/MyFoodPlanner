@@ -76,7 +76,14 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profileFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment" />
+            app:destination="@id/welcomeFragment"
+            app:popUpTo="@id/splashFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_planFragment"
+            app:destination="@id/planFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

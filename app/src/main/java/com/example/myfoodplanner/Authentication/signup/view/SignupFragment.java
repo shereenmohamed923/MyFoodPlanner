@@ -36,7 +36,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupFragment extends Fragment implements SignupView {
     private static final String TAG = "SignUpFragment";
-    EditText name;
     EditText email;
     EditText password;
     EditText confirmPassword;
@@ -69,15 +68,9 @@ public class SignupFragment extends Fragment implements SignupView {
             @Override
             public void onClick(View v) {
                 String nameInput, emailInput, passwordInput, confirmPasswordInput;
-                nameInput = name.getText().toString();
                 emailInput = email.getText().toString();
                 passwordInput = password.getText().toString();
                 confirmPasswordInput = confirmPassword.getText().toString();
-
-                if(TextUtils.isEmpty(nameInput)){
-                    Toast.makeText(getContext(), "Enter Name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 if(TextUtils.isEmpty(emailInput)){
                     Toast.makeText(getContext(), "Enter Email", Toast.LENGTH_SHORT).show();
@@ -103,7 +96,6 @@ public class SignupFragment extends Fragment implements SignupView {
     }
     public void initializeUI(View view){
         mAuth = FirebaseAuth.getInstance();
-        name = view.findViewById(R.id.et_name);
         email = view.findViewById(R.id.et_email);
         password = view.findViewById(R.id.signupPassword);
         confirmPassword = view.findViewById(R.id.confirmPassword);

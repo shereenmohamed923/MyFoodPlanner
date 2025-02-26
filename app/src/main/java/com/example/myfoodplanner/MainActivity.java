@@ -2,7 +2,10 @@ package com.example.myfoodplanner;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -32,7 +35,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
     NavController navController;
     BottomNavigationView bottomNavigationView;
-    FirebaseAuth mAuth;
     Repository repo;
     void setUpPresenter(){
         repo = RepositoryImpl.getInstance(
@@ -65,10 +67,6 @@ public class MainActivity extends AppCompatActivity {
         return alertDialog;
     }
 
-    //    private boolean isUserLoggedIn(Context context) {
-//        SharedPreferences preferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-//        return preferences.getBoolean("IS_LOGGED_IN", false);
-//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setUpPresenter();
         bottomNavigationView = findViewById(R.id.nav_bar);
+        bottomNavigationView.setItemActiveIndicatorColor(ColorStateList.valueOf(Color.parseColor("#679278")));
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView2);
         navController = navHostFragment.getNavController();
         NavHostFragment navHostFr = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView2);
@@ -83,6 +82,20 @@ public class MainActivity extends AppCompatActivity {
             navController = navHostFr.getNavController();
         }
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.homeFragment ||
+                    destination.getId() == R.id.searchFragment ||
+                    destination.getId() == R.id.favouritesFragment ||
+                    destination.getId() == R.id.planFragment ||
+                    destination.getId() == R.id.profileFragment) {
+                bottomNavigationView.setVisibility(View.VISIBLE);
+
+            } else {
+                bottomNavigationView.setVisibility(View.GONE);
+            }
+        });
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.homeFragment || itemId == R.id.searchFragment) {
@@ -98,6 +111,5 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(itemId);
             return true;
         });
-
     }
 }

@@ -5,26 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/iv_ingredient_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_circular_card"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="80dp"
+        app:cardElevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="1dp">
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintTop_toTopOf="parent"-->
+
+
+        <ImageView
+            android:id="@+id/iv_ingredient_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:paddingTop="10dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/tv_ingredient_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/iv_ingredient_img"
-        app:layout_constraintTop_toTopOf="@+id/iv_ingredient_img" />
+        app:layout_constraintStart_toEndOf="@+id/cv_circular_card"
+        app:layout_constraintTop_toTopOf="@+id/cv_circular_card" />
 
     <TextView
         android:id="@+id/tv_measurement"

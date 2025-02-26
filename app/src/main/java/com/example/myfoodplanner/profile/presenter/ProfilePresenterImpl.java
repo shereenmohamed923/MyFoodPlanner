@@ -1,5 +1,8 @@
 package com.example.myfoodplanner.profile.presenter;
 
+import android.annotation.SuppressLint;
+
+import com.example.myfoodplanner.FireBase.Backup.AddCallBack;
 import com.example.myfoodplanner.FireBase.Backup.BackupCallBack;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
@@ -12,7 +15,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class ProfilePresenterImpl implements ProfilePresenter, BackupCallBack{
+public class ProfilePresenterImpl implements ProfilePresenter, AddCallBack {
     private ProfileView view;
     private Repository repo;
     List<MealDetails> mealsList = new ArrayList<>();
@@ -24,7 +27,7 @@ public class ProfilePresenterImpl implements ProfilePresenter, BackupCallBack{
         loadAllMeals();
     }
     private void loadAllMeals() {
-        compositeDisposable.add( repo.getAllMeals()
+        compositeDisposable.add(repo.getAllMeals()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -33,41 +36,35 @@ public class ProfilePresenterImpl implements ProfilePresenter, BackupCallBack{
                 )
         );
     }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void ClearDataBase() {
+        repo.ClearDataBase()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> view.showClearDataMessage("Database deleted successfully"),
+                        throwable -> view.showMessage( "Error deleting rows")
+                );
+    }
+
     @Override
     public void addToFireStore() {
         if(!mealsList.isEmpty()){
-            repo.addMealToFireStore(mealsList);
-            view.showMessage("All meals backed up to FireStore!");
+            repo.addMealToFireStore(mealsList,this);
         }else {
             view.showMessage("No meals to back up.");
         }
     }
 
     @Override
-    public void logout() {
-        repo.logout();
-        view.showMessage("logged out successfully");
+    public void signOut() {
+        repo.signOut();
     }
 
     @Override
-    public void restoreFromFireStore() {
-        repo.restoreMealsFromFireStore(this);
-        view.showMessage("your data restored successfully");
-    }
-
-    @Override
-    public void onSuccessfulResult(List<MealDetails> meals) {
-        for (int i = 0; i < meals.size(); i++) {
-            repo.insertMeal(meals.get(i))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe();
-        }
-        view.successfulRestore(meals);
-    }
-
-    @Override
-    public void onFailureResult(String errMsg) {
-        view.showMessage("An error occurred "+errMsg);
+    public void onSuccess() {
+        ClearDataBase();
     }
 }

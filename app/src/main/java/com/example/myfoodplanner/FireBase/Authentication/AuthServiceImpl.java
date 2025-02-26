@@ -3,7 +3,6 @@ package com.example.myfoodplanner.FireBase.Authentication;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,18 +15,15 @@ public class AuthServiceImpl implements AuthService {
     private static final String TAG = "AuthServiceImpl";
     private static AuthServiceImpl auth = null;
     FirebaseAuth mAuth;
-
     private AuthServiceImpl() {
         mAuth = FirebaseAuth.getInstance();
     }
-
-    public static AuthServiceImpl getInstance() {
-        if (auth == null) {
+    public static AuthServiceImpl getInstance(){
+        if(auth == null){
             auth = new AuthServiceImpl();
         }
         return auth;
     }
-
     private void saveUserData(String userId, String userEmail, Context context) {
         SharedPreferences preferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -43,7 +39,6 @@ public class AuthServiceImpl implements AuthService {
     public boolean userExists() {
         return mAuth.getCurrentUser() != null;
     }
-
     @Override
     public void signup(String email, String password, AuthCallback authCallback) {
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -78,12 +73,6 @@ public class AuthServiceImpl implements AuthService {
                                 authCallback.onFailureResult(String.valueOf(task.getException()));
                             }
                         }
-                    }
-                });
-    }
-
-    @Override
-    public void logout() {
-        mAuth.signOut();
+                }});
     }
 }

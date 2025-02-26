@@ -34,7 +34,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanHolder> {
     @Override
     public PlanHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.square_card_item, parent, false);
+        View view = inflater.inflate(R.layout.big_square_card, parent, false);
         PlanHolder holder = new PlanHolder(view);
         return holder;
     }
@@ -70,8 +70,8 @@ class PlanHolder extends RecyclerView.ViewHolder{
     public PlanHolder(@NonNull View itemView) {
         super(itemView);
         convertView = itemView;
-        card = itemView.findViewById(R.id.cv_square_card);
-        mealImg = itemView.findViewById(R.id.iv_square_img);
-        mealName = itemView.findViewById(R.id.tv_square_title);
+        card = itemView.findViewById(R.id.cv_big_square_card);
+        mealImg = itemView.findViewById(R.id.iv_big_square_card);
+        mealName = itemView.findViewById(R.id.tv_big_square_card);
     }
 }

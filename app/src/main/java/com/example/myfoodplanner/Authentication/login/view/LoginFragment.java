@@ -25,6 +25,7 @@ import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
+import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.network.area.AreaRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.category.CategoriesRemoteDataSourceImpl;
 import com.example.myfoodplanner.network.filter.AreaFilterRemoteDataSourceImpl;
@@ -35,6 +36,8 @@ import com.example.myfoodplanner.network.mealdetails.MealDetailsRemoteDataSource
 import com.example.myfoodplanner.network.randommeal.RandomMealRemoteDataSourceImpl;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.List;
 
 public class LoginFragment extends Fragment implements LoginView {
     private static final String TAG = "LoginFragment";
@@ -113,13 +116,18 @@ public class LoginFragment extends Fragment implements LoginView {
         Log.i(TAG, "signInWithEmail:success");
         Toast.makeText(getContext(), "login success.",
                 Toast.LENGTH_SHORT).show();
-        Navigation.findNavController(email).navigate(R.id.action_loginFragment_to_homeFragment);
         FirebaseUser user = mAuth.getCurrentUser();
+        presenter.restoreFromFireStore();
+        Navigation.findNavController(email).navigate(R.id.action_loginFragment_to_homeFragment);
+    }
+
+    @Override
+    public void successfulRestore(List<MealDetails> meals) {
+        Log.d(TAG, "successfulRestore: Your meals are restored successfully");
     }
 
     @Override
     public void showMessage(String msg) {
-        Log.i(TAG, "signInWithEmail:failure");
         Toast.makeText(getContext(), msg,
                 Toast.LENGTH_SHORT).show();
     }

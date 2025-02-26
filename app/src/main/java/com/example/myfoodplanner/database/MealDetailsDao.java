@@ -65,4 +65,7 @@ public interface MealDetailsDao {
     // Get all Planned meals by date
     @Query("SELECT * FROM meal_details_table WHERE date = :chosenDate")
     Flowable<List<MealDetails>> getAllPlannedMeals(String chosenDate);
+    //delete all the database rows
+    @Query("DELETE FROM meal_details_table")
+    Completable deleteAll();
 }
