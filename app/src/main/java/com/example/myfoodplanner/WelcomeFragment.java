@@ -50,6 +50,7 @@ import java.util.List;
 public class WelcomeFragment extends Fragment implements LoginView {
     private static final String TAG = "welcomeFragment";
     private static final int RC_SIGN_IN = 9001;
+    LoginView view;
     Button login;
     Button register;
     Button continueUsingGoogle;
@@ -180,16 +181,8 @@ public class WelcomeFragment extends Fragment implements LoginView {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, navigate to home fragment
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            presenter.restoreFromFireStore();
-                            // Ensure the view is not null before navigating
-                            View view = getView();
-                            if (view != null) {
-                                Navigation.findNavController(view)
-                                        .navigate(R.id.action_welcomeFragment_to_homeFragment);
-                            }
+                            presenter.googleLogin();
                         } else {
                             // If sign-in fails, log the error and show a message
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

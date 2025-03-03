@@ -42,4 +42,6 @@
     <string name="restore">Restore</string>
     <string name="show_favourites">Show All Favourites</string>
     <string name="view_your_plan">View Your Plan</string>
+    <string name="ing">choose Recipe based on your preferred ingredient</string>
+    <string name="cat">Various categories to choose from</string>
 </resources>

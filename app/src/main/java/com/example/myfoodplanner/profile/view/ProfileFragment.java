@@ -1,11 +1,10 @@
 package com.example.myfoodplanner.profile.view;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -14,15 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
 import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
 import com.example.myfoodplanner.R;
 import com.example.myfoodplanner.database.MealDetailsLocalDataSourceImpl;
-import com.example.myfoodplanner.favourites.presenter.FavouritesPresenter;
-import com.example.myfoodplanner.meals.presenter.MealPresenterImpl;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.RepositoryImpl;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
@@ -79,8 +74,8 @@ public class ProfileFragment extends Fragment implements ProfileView {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.addToFireStore();
-
+                AlertDialog alertDialog = logoutDialog();
+                alertDialog.show();
             }
         });
         showFav.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +110,6 @@ public class ProfileFragment extends Fragment implements ProfileView {
 
     @Override
     public void showMessage(String msg) {
-        presenter.signOut();
         if (isAdded() && getView() != null) {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView2);
             navController.navigate(R.id.action_profileFragment_to_welcomeFragment);
@@ -129,5 +123,18 @@ public class ProfileFragment extends Fragment implements ProfileView {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView2);
             navController.navigate(R.id.action_profileFragment_to_welcomeFragment);
         }
+    }
+    private AlertDialog logoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Are you sure you want to Logout?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Logout", (dialog, which) -> {
+            presenter.addToFireStore();
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            dialog.cancel();
+        });
+        AlertDialog alertDialog = builder.create();
+        return alertDialog;
     }
 }

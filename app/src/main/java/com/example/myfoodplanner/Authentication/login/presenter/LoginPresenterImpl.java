@@ -26,6 +26,12 @@ public class LoginPresenterImpl implements LoginPresenter, AuthCallback, BackupC
     public void login(String email, String password, Context context) {
         repo.login(email, password, this, context);
     }
+
+    @Override
+    public void googleLogin() {
+        view.navigateToHome();
+    }
+
     @Override
     public void restoreFromFireStore() {
         repo.restoreMealsFromFireStore(this);
@@ -44,7 +50,6 @@ public class LoginPresenterImpl implements LoginPresenter, AuthCallback, BackupC
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe();
         }
-        //view.successfulRestore(meals);
     }
 
 

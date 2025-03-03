@@ -1,9 +1,9 @@
 package com.example.myfoodplanner.profile.presenter;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import com.example.myfoodplanner.FireBase.Backup.AddCallBack;
-import com.example.myfoodplanner.FireBase.Backup.BackupCallBack;
 import com.example.myfoodplanner.model.Repository;
 import com.example.myfoodplanner.model.mealdetails.MealDetails;
 import com.example.myfoodplanner.profile.view.ProfileView;
@@ -26,6 +26,7 @@ public class ProfilePresenterImpl implements ProfilePresenter, AddCallBack {
         this.repo = repo;
         loadAllMeals();
     }
+
     private void loadAllMeals() {
         compositeDisposable.add(repo.getAllMeals()
                 .subscribeOn(Schedulers.io())
@@ -51,11 +52,7 @@ public class ProfilePresenterImpl implements ProfilePresenter, AddCallBack {
 
     @Override
     public void addToFireStore() {
-        if(!mealsList.isEmpty()){
-            repo.addMealToFireStore(mealsList,this);
-        }else {
-            view.showMessage("No meals to back up.");
-        }
+        repo.addMealToFireStore(mealsList, this);
     }
 
     @Override
@@ -67,4 +64,11 @@ public class ProfilePresenterImpl implements ProfilePresenter, AddCallBack {
     public void onSuccess() {
         ClearDataBase();
     }
+
+    @Override
+    public void onDeleteSuccess() {
+        addToFireStore();
+        Log.i("firestore", "onDeleteSuccess: data on fireStore deleted successfully");
+    }
+
 }

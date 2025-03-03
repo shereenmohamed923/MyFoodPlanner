@@ -228,6 +228,10 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
+    public void deleteMealFromFireStore(String mealId) {
+        backupService.deleteMealFromFireStore(mealId);
+    }
+    @Override
     public void restoreMealsFromFireStore(BackupCallBack callback) {
         backupService.restoreMealsFromFireStore(callback);
     }

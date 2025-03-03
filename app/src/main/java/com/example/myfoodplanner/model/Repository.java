@@ -43,6 +43,7 @@ public interface Repository {
     Flowable<List<MealDetails>> getAllMeals();
     Completable ClearDataBase();
     void addMealToFireStore(List<MealDetails> meals, AddCallBack addCallBack);
+    void deleteMealFromFireStore(String mealId);
     void restoreMealsFromFireStore(BackupCallBack callback);
     void signOut();
 }

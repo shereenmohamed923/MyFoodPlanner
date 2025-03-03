@@ -27,7 +27,7 @@
         <TextView
             android:id="@+id/tv_meal_title"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_marginTop="16dp"
             android:background="#000000"
             android:backgroundTint="#80000000"
@@ -35,26 +35,48 @@
             android:gravity="center"
             android:text="title"
             android:textColor="@color/colorBackground"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:translationY="-65dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_meal_thumbnail" />
 
-        <TextView
-            android:id="@+id/tv_meal_area"
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="#90000000"
             android:layout_marginStart="16dp"
-            android:background="#000000"
-            android:backgroundTint="#80000000"
-            android:padding="5dp"
-            android:text="area"
-            android:textColor="@color/colorBackground"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_non_favourite"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_non_favourite" />
+            app:layout_constraintTop_toTopOf="@+id/cardView">
+
+            <TextView
+                android:id="@+id/tv_meal_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#90000000"
+                android:backgroundTint="#90000000"
+                android:padding="8dp"
+                android:text="area"
+                android:textColor="@color/colorBackground"
+                android:textSize="16sp" />
+        </androidx.cardview.widget.CardView>
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_meal_area"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:background="#000000"-->
+<!--            android:backgroundTint="#80000000"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="area"-->
+<!--            android:textColor="@color/colorBackground"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/cardView"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/cardView" />-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_ingredients_list"
@@ -113,25 +135,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_instructions" />
 
-        <ImageView
-            android:id="@+id/iv_non_favourite"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="#90000000"
+            app:cardElevation="0dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:background="#90000000"
-            android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_meal_thumbnail"
-            app:srcCompat="@drawable/heart" />
+            app:layout_constraintTop_toTopOf="@+id/iv_meal_thumbnail">
+
+            <ImageView
+                android:id="@+id/iv_non_favourite"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="5dp"
+                app:srcCompat="@drawable/heart" />
+        </androidx.cardview.widget.CardView>
+
 
         <Button
             android:id="@+id/iv_plan"
             style="@style/Widget.Custom.ElevatedButton.Primary"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:padding="12dp"
             android:text="@string/add_to_plan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_meal_thumbnail" />

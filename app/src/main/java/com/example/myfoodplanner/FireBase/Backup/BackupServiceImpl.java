@@ -22,8 +22,9 @@ public class BackupServiceImpl implements BackupService {
         }
         return firebase;
     }
+
     @Override
-    public void signOut(){
+    public void signOut() {
         auth2.signOut();
         Log.i("signout", "logout: user logged out");
     }
@@ -39,7 +40,7 @@ public class BackupServiceImpl implements BackupService {
     }
 
     @Override
-    public void addMealToFireStore(List<MealDetails> meals,AddCallBack addCallBack) {
+    public void addMealToFireStore(List<MealDetails> meals, AddCallBack addCallBack) {
         if (getUserId() != null) {
             for (MealDetails meal : meals) {
                 firestore2.collection("users")
@@ -47,13 +48,33 @@ public class BackupServiceImpl implements BackupService {
                         .collection("meals")
                         .document(meal.getIdMeal())
                         .set(meal)
-                        .addOnSuccessListener(aVoid ->addCallBack.onSuccess())
+                        .addOnSuccessListener(
+                                aVoid -> {
+                                    addCallBack.onSuccess();
+                                    Log.i("firestore", "meals added to firestore successfully: ");
+                                }
+                        )
                         .addOnFailureListener(e -> Log.e("Firestore", "Error adding meal: " + meal.getStrMeal(), e));
             }
         } else {
             Log.e("Firestore", "User not logged in, can't add meals");
         }
 
+    }
+    @Override
+    public void deleteMealFromFireStore(String mealId) {
+        String userId = getUserId();
+        if (userId != null) {
+            firestore2.collection("users")
+                    .document(userId)
+                    .collection("meals")
+                    .document(mealId)
+                    .delete()
+                    .addOnSuccessListener(aVoid -> Log.d("Firestore", "Meal deleted successfully"))
+                    .addOnFailureListener(e -> Log.e("Firestore", "Error deleting meal", e));
+        } else {
+            Log.e("Firestore", "User not logged in, cannot delete meal");
+        }
     }
 
     @Override

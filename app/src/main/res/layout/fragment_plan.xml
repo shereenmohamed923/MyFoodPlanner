@@ -16,10 +16,14 @@
 
         <CalendarView
             android:id="@+id/calendarView"
+            style="@android:style/Widget.DeviceDefault.Light.CalendarView"
             android:layout_width="0dp"
             android:layout_height="300dp"
             android:layout_marginTop="32dp"
-            android:selectedWeekBackgroundColor="#512DA8"
+            android:elevation="4dp"
+            android:minDate="3/2/2025"
+            android:selectedWeekBackgroundColor="@color/colorPrimary"
+            android:theme="@style/Base.Theme.MyFoodPlanner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,8 +32,8 @@
             android:id="@+id/rv_planned_meals"
             android:layout_width="425dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/colorBackground"
             android:backgroundTint="@color/colorBackground"
             android:orientation="vertical"
@@ -39,16 +43,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
-        <ImageView
-            android:id="@+id/iv_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/eggs"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/la_empty"
+            android:layout_width="350dp"
+            android:layout_height="400dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rv_planned_meals" />
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/ghost" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

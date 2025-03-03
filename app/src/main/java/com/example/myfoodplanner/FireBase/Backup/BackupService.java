@@ -8,6 +8,7 @@ import io.reactivex.rxjava3.core.Completable;
 
 public interface BackupService {
     void addMealToFireStore(List<MealDetails> meals,AddCallBack addCallBack);
+    void deleteMealFromFireStore(String mealId);
     void restoreMealsFromFireStore(BackupCallBack callback);
     void signOut();
 }

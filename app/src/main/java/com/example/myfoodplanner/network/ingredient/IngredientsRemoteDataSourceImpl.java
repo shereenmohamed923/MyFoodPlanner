@@ -33,36 +33,6 @@ public class IngredientsRemoteDataSourceImpl implements IngredientsRemoteDataSou
         }
         return client;
     }
-//    @Override
-//    public void makeNetworkCall(IngredientNetworkCallBack ingredientNetworkCallBack) {
-//        if (mealService == null) {
-//            ingredientNetworkCallBack.onFailureResult("MealService not initialized");
-//            return;
-//        }
-        //call and enqueue
-//        Call<IngredientResponse> call = mealService.getIngredients();
-//        call.enqueue(new Callback<IngredientResponse>() {
-//            @Override
-//            public void onResponse(Call<IngredientResponse> call, Response<IngredientResponse> response) {
-//                //the presenter will implement what happens onSuccess
-//                if (response.isSuccessful() && response.body() != null) {
-//                    // Ensure response body is valid before accessing
-//                    Log.d("jj", "onResponse: "+response.body().getMeals().size());
-//                    ingredientNetworkCallBack.onRetrievedIngredients(response.body().getMeals());
-//                } else {
-//                    Log.d("jj", "onResponse: "+response.body().getMeals().size());
-//                    ingredientNetworkCallBack.onFailureResult("Response unsuccessful or empty");
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<IngredientResponse> call, Throwable throwable) {
-//                Log.d("jj", "onResponse: "+throwable.getMessage());
-//                //the presenter will implement what happens onFailure
-//                ingredientNetworkCallBack.onFailureResult(throwable.getMessage());
-//                throwable.printStackTrace();
-//            }
-//        });
-//    }
 
     @Override
     public Observable<IngredientResponse> getIngredients() {

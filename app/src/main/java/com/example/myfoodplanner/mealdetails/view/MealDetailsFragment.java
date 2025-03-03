@@ -119,11 +119,8 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
                     alertDialog.show();
                 }else{
                     if (isFavourite) {
-                        presenter.removeMealFromFavourites(mealDetailsList.get(0).getIdMeal());
-                        favouriteBtn.setImageResource(R.drawable.heart);
-                        isFavourite = false;
-                        Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from favourites", Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from favourites");
+                        AlertDialog alertDialog = DeleteFromFavDialog();
+                        alertDialog.show();
                     } else {
                         mealDetailsList.get(0).setFavourite(true);
                         presenter.addMealToFavourites(mealDetailsList.get(0));
@@ -145,11 +142,8 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
                     alertDialog.show();
                 }else{
                     if(isPlanned){
-                        presenter.removeMealFromPlan(mealDetailsList.get(0).getIdMeal());
-                        planBtn.setText(R.string.add_to_plan);
-                        isPlanned = false;
-                        Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from plan", Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from plan");
+                        AlertDialog alertDialog = DeleteFromPlanDialog();
+                        alertDialog.show();
                     }else{
                         CalendarConstraints constraints = new CalendarConstraints.Builder()
                                 .setStart(MaterialDatePicker.todayInUtcMilliseconds())
@@ -272,6 +266,44 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView{
             return url.substring(url.indexOf("v=") + 2);
         }
         return "";
+    }
+
+    private AlertDialog DeleteFromPlanDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Are you sure you want to remove this meal from your Plan?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Delete", (dialog, which) -> {
+            presenter.removeMealFromPlan(mealDetailsList.get(0).getIdMeal());
+            presenter.deleteFromFireStore(mealDetailsList.get(0).getIdMeal());
+            planBtn.setText(R.string.add_to_plan);
+            isPlanned = false;
+            Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from plan", Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from plan");
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            dialog.cancel();
+        });
+        AlertDialog alertDialog = builder.create();
+        return alertDialog;
+    }
+
+    private AlertDialog DeleteFromFavDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Are you sure you want to remove this meal from Favourites?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Delete", (dialog, which) -> {
+            presenter.removeMealFromFavourites(mealDetailsList.get(0).getIdMeal());
+            presenter.deleteFromFireStore(mealDetailsList.get(0).getIdMeal());
+            favouriteBtn.setImageResource(R.drawable.heart);
+            isFavourite = false;
+            Toast.makeText(getContext(), mealDetailsList.get(0).getStrMeal() + " removed from favourites", Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "onClick: " + mealDetailsList.get(0).getStrMeal() + " removed from favourites");
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            dialog.cancel();
+        });
+        AlertDialog alertDialog = builder.create();
+        return alertDialog;
     }
     private AlertDialog getAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

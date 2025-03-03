@@ -9,6 +9,7 @@ public interface MealDetailsPresenter {
     void removeMealFromFavourites(String mealId);
     void addMealToPlan(MealDetails meal, String chosenDate);
     void removeMealFromPlan(String mealId);
+    void deleteFromFireStore(String mealId);
     void checkIfMealIsFavourite(String mealId);
     void checkIfMealIsPlanned(String mealId);
 }

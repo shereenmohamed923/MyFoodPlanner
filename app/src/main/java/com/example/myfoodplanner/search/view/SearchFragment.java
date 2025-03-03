@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
 import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
 import com.example.myfoodplanner.R;
@@ -63,6 +64,7 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
     AreasAdapter areasAdapter;
     SearchPresenter presenter;
     EditText searchBar;
+    LottieAnimationView empty;
     List<Category> categoryList = new ArrayList<>();
     List<Ingredient> ingredientList = new ArrayList<>();
     List<Area> areaList = new ArrayList<>();
@@ -124,6 +126,7 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
         searchRecycler = view.findViewById(R.id.rv_search);
         chipGroup.clearCheck();
         searchBar = view.findViewById(R.id.et_search);
+        empty = view.findViewById(R.id.la_empty_search);
     }
     public void setupPresenter() {
         Repository repository = RepositoryImpl.getInstance(
@@ -149,6 +152,8 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
         categoryList = categories;
         Log.i(TAG, "onSuccess: categoryList " + categoryList.size());
 
+        empty.setVisibility(View.INVISIBLE);
+        searchRecycler.setVisibility(View.VISIBLE);
         categoriesAdapter.setCategoriesList(categoryList);
         searchRecycler.setAdapter(categoriesAdapter);
 
@@ -170,8 +175,16 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
            List<Category> filteredList = categoryList.stream()
                            .filter(category -> category.getStrCategory().toLowerCase().contains(query))
                                    .collect(Collectors.toList());
-            categoriesAdapter.setCategoriesList(filteredList);
-            categoriesAdapter.notifyDataSetChanged();
+           if(!filteredList.isEmpty()){
+               empty.setVisibility(View.INVISIBLE);
+               searchRecycler.setVisibility(View.VISIBLE);
+               categoriesAdapter.setCategoriesList(filteredList);
+               categoriesAdapter.notifyDataSetChanged();
+           }else{
+               empty.setVisibility(View.VISIBLE);
+               searchRecycler.setVisibility(View.INVISIBLE);
+           }
+
         }, throwable -> Log.e(TAG, "Error in categories search filtering", throwable));
     }
 
@@ -202,8 +215,16 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
                     List<Ingredient> filteredList = ingredientList.stream()
                             .filter(ingredient -> ingredient.getStrIngredient().toLowerCase().contains(query))
                             .collect(Collectors.toList());
-                    ingredientsAdapter.setIngredientsList(filteredList);
-                    ingredientsAdapter.notifyDataSetChanged();
+                    if(!filteredList.isEmpty()){
+                        empty.setVisibility(View.INVISIBLE);
+                        searchRecycler.setVisibility(View.VISIBLE);
+                        ingredientsAdapter.setIngredientsList(filteredList);
+                        ingredientsAdapter.notifyDataSetChanged();
+                    }else{
+                        empty.setVisibility(View.VISIBLE);
+                        searchRecycler.setVisibility(View.INVISIBLE);
+                    }
+
                 }, throwable -> Log.e(TAG, "Error in ingredients search filtering", throwable));
     }
 
@@ -234,8 +255,15 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
                     List<Area> filteredList = areaList.stream()
                             .filter(area -> area.getStrArea().toLowerCase().contains(query))
                             .collect(Collectors.toList());
-                    areasAdapter.setAreasList(filteredList);
-                    areasAdapter.notifyDataSetChanged();
+                    if(!filteredList.isEmpty()){
+                        empty.setVisibility(View.INVISIBLE);
+                        searchRecycler.setVisibility(View.VISIBLE);
+                        areasAdapter.setAreasList(filteredList);
+                        areasAdapter.notifyDataSetChanged();
+                    }else{
+                        empty.setVisibility(View.VISIBLE);
+                        searchRecycler.setVisibility(View.INVISIBLE);
+                    }
                 }, throwable -> Log.e(TAG, "Error in areas search filtering", throwable));
     }
 

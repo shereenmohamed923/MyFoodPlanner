@@ -45,7 +45,6 @@ import java.util.List;
 public class HomeFragment extends Fragment implements OnListClickListener, HomeView {
     private static final String TAG = "HomeFragment";
     FirebaseAuth mAuth;
-//    FirebaseUser user;
     TextView tv_meal_name;
     ImageView iv_meal_image;
     TextView tv_meal_area;
@@ -192,17 +191,3 @@ public class HomeFragment extends Fragment implements OnListClickListener, HomeV
         Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
     }
 }
-
-
-
-
-//user = mAuth.getCurrentUser();
-
-//        if(user == null){
-//            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }else {
-//            //Toast.makeText(this, user.getEmail(), Toast.LENGTH_SHORT).show();
-//            //userEmail.setText(user.getEmail());
-//        }

@@ -81,6 +81,11 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter{
     }
 
     @Override
+    public void deleteFromFireStore(String mealId) {
+        repo.deleteMealFromFireStore(mealId);
+    }
+
+    @Override
     public void checkIfMealIsFavourite(String mealId) {
         compositeDisposable.add(repo.checkIfMealIsFavourite(mealId)
                 .subscribeOn(Schedulers.io())

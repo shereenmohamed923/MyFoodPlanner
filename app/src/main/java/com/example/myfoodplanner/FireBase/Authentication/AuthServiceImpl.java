@@ -1,7 +1,6 @@
 package com.example.myfoodplanner.FireBase.Authentication;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
 
@@ -24,17 +23,6 @@ public class AuthServiceImpl implements AuthService {
         }
         return auth;
     }
-    private void saveUserData(String userId, String userEmail, Context context) {
-        SharedPreferences preferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        editor.putString("USER_ID", userId);
-        editor.putString("USER_EMAIL", userEmail);
-        editor.putBoolean("IS_LOGGED_IN", true);
-
-        editor.apply();
-    }
-
     @Override
     public boolean userExists() {
         return mAuth.getCurrentUser() != null;
@@ -66,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
                             Log.i(TAG, "signup with email: success ");
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                saveUserData(user.getUid(), user.getEmail(), context);
+                                //saveUserData(user.getUid(), user.getEmail(), context);
                                 authCallback.onSuccessfulResult(user);
                             } else {
                                 Log.i(TAG, "signup with email: failure " + task.getException());

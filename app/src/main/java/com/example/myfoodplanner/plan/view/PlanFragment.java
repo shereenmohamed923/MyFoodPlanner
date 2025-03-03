@@ -16,6 +16,7 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.myfoodplanner.FireBase.Authentication.AuthServiceImpl;
 import com.example.myfoodplanner.FireBase.Backup.BackupServiceImpl;
 import com.example.myfoodplanner.R;
@@ -47,7 +48,7 @@ public class PlanFragment extends Fragment implements PlanView, OnPlanClickListe
    RecyclerView plannedMealsRecycler;
    PlanAdapter planAdapter;
    PlanPresenter presenter;
-   ImageView empty;
+   LottieAnimationView empty;
    View view;
     public PlanFragment() {
         // Required empty public constructor
@@ -69,7 +70,7 @@ public class PlanFragment extends Fragment implements PlanView, OnPlanClickListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        empty = view.findViewById(R.id.iv_empty);
+        empty = view.findViewById(R.id.la_empty);
         plannedMealsRecycler = view.findViewById(R.id.rv_planned_meals);
         setupPresenter();
 
