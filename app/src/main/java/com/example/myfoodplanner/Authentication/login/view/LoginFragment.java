@@ -76,15 +76,40 @@ public class LoginFragment extends Fragment implements LoginView {
                 passwordInput = password.getText().toString();
 
                 if (TextUtils.isEmpty(emailInput)) {
-                    Toast.makeText(getContext(), "Enter Email", Toast.LENGTH_SHORT).show();
+                    email.setError("Enter Email");
+                    email.requestFocus(); // Moves focus to the email field
                     return;
                 }
                 if (TextUtils.isEmpty(passwordInput)) {
-                    Toast.makeText(getContext(), "Enter Password", Toast.LENGTH_SHORT).show();
+                    password.setError("Enter Password");
+                    password.requestFocus(); // Moves focus to the password field
                     return;
                 }
                 presenter.login(emailInput, passwordInput, getContext());
 
+            }
+        });
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) { // If focus is lost
+                    String emailInput = email.getText().toString().trim();
+                    if (TextUtils.isEmpty(emailInput)) {
+                        email.setError("Enter Email");
+                    }
+                }
+            }
+        });
+
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) { // If focus is lost
+                    String passwordInput = password.getText().toString().trim();
+                    if (TextUtils.isEmpty(passwordInput)) {
+                        password.setError("Enter Password");
+                    }
+                }
             }
         });
     }

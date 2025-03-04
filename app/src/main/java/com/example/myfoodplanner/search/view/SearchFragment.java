@@ -95,6 +95,13 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
         ingredientsAdapter = new IngredientsAdapter(view.getContext(), this);
         areasAdapter = new AreasAdapter(view.getContext(), this);
         setupPresenter();
+        searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                empty.setVisibility(View.INVISIBLE);
+                searchRecycler.setVisibility(View.VISIBLE);
+            }
+        });
         chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
             if (!checkedIds.isEmpty()) {
                 int checkedId = checkedIds.get(0);
@@ -159,10 +166,15 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
 
         Observable<String> categoryObservable = Observable.create(emitter -> searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                empty.setVisibility(View.INVISIBLE);
+                searchRecycler.setVisibility(View.VISIBLE);
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                empty.setVisibility(View.INVISIBLE);
+                searchRecycler.setVisibility(View.VISIBLE);
                 emitter.onNext(s.toString());
             }
             @Override
@@ -199,7 +211,10 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
 
         Observable<String> ingredientObservable = Observable.create(emitter -> searchBar.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        empty.setVisibility(View.INVISIBLE);
+                        searchRecycler.setVisibility(View.VISIBLE);
+                    }
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -239,7 +254,10 @@ public class SearchFragment extends Fragment implements SearchView, OnListClickL
 
         Observable<String> AreaObservable = Observable.create(emitter -> searchBar.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        empty.setVisibility(View.INVISIBLE);
+                        searchRecycler.setVisibility(View.VISIBLE);
+                    }
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {

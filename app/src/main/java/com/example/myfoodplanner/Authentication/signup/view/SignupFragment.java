@@ -72,26 +72,34 @@ public class SignupFragment extends Fragment implements SignupView {
                 passwordInput = password.getText().toString();
                 confirmPasswordInput = confirmPassword.getText().toString();
 
-                if(TextUtils.isEmpty(emailInput)){
-                    Toast.makeText(getContext(), "Enter Email", Toast.LENGTH_SHORT).show();
+
+                if (TextUtils.isEmpty(emailInput)) {
+                    email.setError("Enter Email");
+                    email.requestFocus(); // Move focus to the field
                     return;
                 }
-                if(TextUtils.isEmpty(passwordInput)){
-                    Toast.makeText(getContext(), "Enter Password", Toast.LENGTH_SHORT).show();
+
+                if (TextUtils.isEmpty(passwordInput)) {
+                    password.setError("Enter Password");
+                    password.requestFocus();
                     return;
                 }
-                if(TextUtils.isEmpty(confirmPasswordInput)){
-                    Toast.makeText(getContext(), "Confirm Password", Toast.LENGTH_SHORT).show();
+
+                if (TextUtils.isEmpty(confirmPasswordInput)) {
+                    confirmPassword.setError("Confirm Password");
+                    confirmPassword.requestFocus();
                     return;
                 }
-                if(!passwordInput.equals(confirmPasswordInput)){
-                    Toast.makeText(getContext(), "Your passwords didn't match", Toast.LENGTH_SHORT).show();
+
+                if (!passwordInput.equals(confirmPasswordInput)) {
+                    confirmPassword.setError("Passwords do not match");
+                    confirmPassword.requestFocus();
                     return;
                 }
+
                 presenter.signup(emailInput, passwordInput);
             }
         });
-
 
     }
     public void initializeUI(View view){
